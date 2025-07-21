@@ -205,3 +205,25 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Project-specific files
+# Environment variables
+.env
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Log files
+logs/*.log
+
+# Exports and generated files
+exports/*.json
+exports/*.csv
+exports/visualizations/*.png
+exports/visualizations/*.svg
+
+# Temporary data processing files
+data/temp/
+data/*.tmp

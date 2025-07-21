@@ -1,0 +1,11 @@
+requests==2.31.0
+pandas==2.0.3
+matplotlib==3.7.2
+seaborn==0.12.2
+python-dotenv==1.0.0
+PyGithub==1.59.1
+tqdm==4.66.1
+schedule==1.2.0
+click==8.1.7
+sqlalchemy==2.0.20
+alembic==1.12.0
