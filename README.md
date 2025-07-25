@@ -1,14 +1,6 @@
 # Swift Package Support Data Processing
 
-This repository contains tools for # Priority list for Android migration work
-python analyze.py priorities --limit 25
-```
-
-### ⏱️ Time Estimates
-- **Setup**: 5 minutes
-- **First 50 repositories**: ~1 hour (with API rate limiting)
-- **All 847 repositories**: ~17 hours (spread over multiple days recommended)
-- **Analysis generation**: 2-5 minutes (once data is collected)lyzing Swift Packages that currently support Linux but not Android, helping prioritize work for the Swift Android Working Group.
+This repository contains tools for analyzing Swift Packages that currently support Linux but not Android, helping prioritize work for the Swift Android Working Group.
 
 ## About This Project
 
@@ -22,6 +14,17 @@ The goal is to build a comprehensive database of Swift packages to:
 - 📈 Track migration progress and dependency relationships
 - 🎯 Prioritize efforts based on data-driven insights from real usage metrics
 
+## ✨ New Features (Refactored Version)
+
+- **🚀 Enhanced CLI**: Replaced Click with native argparse for simpler dependencies
+- **📊 Rich Reports**: Generate HTML, JSON, and interactive visualizations
+- **⚡ Better Performance**: Improved error handling and progress tracking
+- **📈 Interactive Charts**: Plotly-based visualizations with hover data
+- **🔄 Comprehensive Logging**: Detailed processing statistics and error tracking
+- **📋 Multiple Formats**: Export data in CSV, JSON, and HTML formats
+- **🕸️ Dependency Analysis**: Network graphs and tree visualizations of package dependencies
+- **🎯 Impact Analysis**: Identify which packages unlock the most others when migrated
+
 ## Features
 
 - **Swift Package Index Integration**: Processes URLs from Swift Package Index format
@@ -31,16 +34,13 @@ The goal is to build a comprehensive database of Swift packages to:
 - **Priority Scoring**: Multi-factor algorithm to rank repositories by migration value
 - **Rich Visualizations**: Generate charts and reports for actionable insights
 - **Batch Processing**: Respect GitHub API limits while processing hundreds of repositories
+- **Progress Tracking**: Real-time progress bars and comprehensive statistics
 
 ## Quick Start
 
 ### 1. Setup Environment
 
 ```bash
-# Run the automated setup script
-./setup.sh
-
-# OR manual setup:
 # Install dependencies
 pip install -r requirements.txt
 
@@ -76,77 +76,33 @@ python main.py fetch-data
 # Quick overview statistics
 python analyze.py stats
 
-# Generate comprehensive analysis report
-python analyze.py report
+# Generate comprehensive report with HTML, JSON, and interactive charts
+python analyze.py comprehensive --output-dir exports
 
-# Create visualizations (charts and graphs)
-python analyze.py visualize
+# NEW: Analyze package dependencies and generate network visualizations
+python analyze.py dependencies --output-dir exports/dependencies
 
-# Get priority list for Android migration work
-python analyze.py priorities --limit 25
+# Generate specific analysis types
+python analyze.py report --output exports/analysis_report.json
+python analyze.py visualize --output-dir exports/visualizations
+python analyze.py priorities --limit 25 --output exports/priority_list.json
 ```
 
-## Project Structure
-
-```
-├── main.py                 # Main CLI interface
-├── analyze.py              # Analysis and visualization CLI
-├── config.py               # Configuration management
-├── models.py               # Database models (SQLAlchemy)
-├── fetcher.py              # GitHub API data fetching
-├── analyzer.py             # Data analysis and visualization
-├── requirements.txt        # Python dependencies
-├── .env.example           # Environment template
-├── logs/                  # Application logs
-├── data/                  # Raw data files
-└── exports/               # Generated reports and visualizations
-```
-
-## Database Schema
-
-### Repositories Table
-- **Metadata**: URL, owner, name, description
-- **Popularity**: stars, forks, watchers, issues
-- **Activity**: creation date, last update, last push
-- **Technical**: language, license, Swift tools version
-- **Dependencies**: count and detailed JSON
-- **Support Status**: Linux compatible (true), Android compatible (false)
-
-### Processing Logs Table
-- **Tracking**: repository, action, status, duration
-- **Debugging**: error messages, timestamps
-
-## Analysis Features
-
-### Priority Scoring Algorithm
-Repositories are scored based on:
-- **Popularity (40%)**: GitHub stars (normalized)
-- **Community (30%)**: Forks + watchers (engagement)
-- **Recency (20%)**: Recent activity (maintenance)
-- **Complexity (10%)**: Lower dependencies = easier migration
-
-### Generated Visualizations
-- Repository popularity distribution
-- Top starred repositories
-- Programming language breakdown
-- Dependency complexity analysis
-- Timeline of package creation
-- Swift tools version distribution
-
-## CLI Commands
+## New CLI Structure
 
 ### Main Commands (`main.py`)
+
 ```bash
 # Initialize database
 python main.py init-db
 
-# Fetch repository data
+# Fetch repository data with enhanced progress tracking
 python main.py fetch-data [--batch-size N] [--max-batches N]
 
-# Show processing status
+# Show detailed processing status
 python main.py status
 
-# Export data
+# Export data in multiple formats
 python main.py export [--format csv|json] [--output path]
 
 # Run scheduled processing
@@ -154,19 +110,122 @@ python main.py schedule-runner
 ```
 
 ### Analysis Commands (`analyze.py`)
+
 ```bash
-# Quick statistics
+# Quick statistics overview
 python analyze.py stats
 
-# Generate full report
-python analyze.py report [--output path]
+# Generate comprehensive report (HTML + JSON + Interactive Charts)
+python analyze.py comprehensive [--output-dir path] [--csv-limit N]
 
-# Create visualizations
-python analyze.py visualize [--output-dir path]
-
-# Priority analysis
-python analyze.py priorities [--limit N] [--output path]
+# Generate specific report types
+python analyze.py report [--output path]              # JSON analysis report
+python analyze.py visualize [--output-dir path]       # Static visualizations
+python analyze.py priorities [--limit N] [--output path]  # Priority analysis
+python analyze.py dependencies [--output-dir path]    # NEW: Dependency analysis
 ```
+
+### Enhanced Report Generation (`reports.py`)
+
+```bash
+# Generate comprehensive reports directly
+python reports.py [--output-dir exports] [--csv-limit 50]
+```
+
+## Project Structure
+
+```
+├── main.py                 # Main CLI interface (refactored with argparse)
+├── analyze.py              # Analysis and visualization CLI (enhanced)
+├── reports.py              # NEW: Comprehensive report generation
+├── dependency_analyzer.py  # NEW: Dependency tree analysis and visualization
+├── config.py               # Configuration management
+├── models.py               # Database models (SQLAlchemy)
+├── fetcher.py              # GitHub API data fetching (enhanced error handling)
+├── analyzer.py             # Data analysis and visualization
+├── requirements.txt        # Python dependencies (Click removed, Plotly+NetworkX added)
+├── .env.example           # Environment template
+├── logs/                  # Application logs
+├── data/                  # Raw data files
+└── exports/               # Generated reports and visualizations
+    ├── comprehensive_report.html     # NEW: Rich HTML report
+    ├── comprehensive_report.json     # Enhanced JSON report
+    ├── priority_analysis.csv        # NEW: Detailed CSV export
+    ├── interactive_charts/           # NEW: Interactive Plotly charts
+    │   ├── stars_vs_forks.html
+    │   ├── language_distribution.html
+    │   ├── priority_repositories.html
+    │   └── dependencies_histogram.html
+    └── dependency_visualizations/    # NEW: Dependency analysis outputs
+        ├── dependency_network.html   # Interactive network graph
+        ├── dependency_impact.json    # Impact analysis data
+        └── dependency_tree_[package].html  # Individual tree visualizations
+```
+
+## New Output Formats
+
+### 1. HTML Reports
+Rich, styled HTML reports with:
+- Executive summary with key metrics
+- Visual metric cards
+- Top priority repositories with detailed information
+- Language distribution grid
+- Professional styling and responsive design
+
+### 2. Interactive Visualizations
+Plotly-based charts with:
+- **Stars vs Forks Scatter Plot**: Interactive exploration of repository popularity
+- **Language Distribution Pie Chart**: Hover data showing exact counts
+- **Priority Repositories Bar Chart**: Top repositories ranked by migration priority
+- **Dependencies Histogram**: Distribution of package complexity
+
+### 3. Enhanced CSV Export
+Detailed CSV files with:
+- Priority scores and rationale
+- Direct GitHub and Package Index URLs
+- Comprehensive metadata for spreadsheet analysis
+
+### 4. JSON Reports
+Structured JSON data with:
+- Executive summary and recommendations
+- Complete analysis datasets
+- Metadata and generation timestamps
+- Easy integration with other tools
+
+### 5. 🆕 Dependency Analysis Visualizations
+Advanced dependency relationship analysis:
+
+#### Interactive Network Graphs
+- **Package Dependency Networks**: Interactive network showing how packages depend on each other
+- **Node Sizing**: Proportional to GitHub stars (popularity indicator)
+- **Color Coding**: Green (Android-compatible), Orange (Linux-only), Red (Neither)
+- **Hover Information**: Detailed package metadata and impact metrics
+- **Zoom & Pan**: Explore large dependency networks interactively
+
+#### Dependency Tree Visualizations
+- **Hierarchical Trees**: Visual representation of dependency hierarchies
+- **Depth Analysis**: Maximum dependency depth for each package
+- **Impact Metrics**: Shows how many packages would be unlocked by migration
+- **Compatibility Status**: Visual indicators for platform support
+
+#### Impact Analysis Reports
+- **Direct Dependents**: Packages that directly depend on each package
+- **Indirect Impact**: Total packages that would benefit from migration
+- **Foundational Packages**: High-impact packages that unlock many others
+- **Migration Priority**: Data-driven prioritization based on dependency relationships
+
+## Enhanced Error Handling & Logging
+
+### Improved GitHub API Integration
+- **Retry Logic**: Automatic retry for transient errors (502, 503, 504)
+- **Rate Limit Monitoring**: Real-time rate limit status checking
+- **Graceful Degradation**: Continues processing even with partial failures
+- **Detailed Error Logging**: Specific error codes and messages
+
+### Progress Tracking
+- **Real-time Progress Bars**: Visual feedback during batch processing
+- **Processing Statistics**: Success rates, timing, and throughput metrics
+- **Comprehensive Logging**: File and console logging with multiple levels
 
 ## Configuration
 
@@ -183,94 +242,130 @@ Key settings in `config.py` and `.env`:
 - **Unauthenticated**: 60 requests/hour
 - **Batch Processing**: Process N repositories, wait M minutes
 - **Automatic Delays**: Built-in delays between individual requests
-
-## Data Sources & Processing
-
-### Input Data
-- **Primary Source**: `linux-compatible-android-incompatible.csv` (847 Swift Package Index URLs)
-- **URL Format**: `https://swiftpackageindex.com/owner/repo.git`
-- **Scope**: Packages verified to work on Linux but lacking Android support
-
-### GitHub API Integration
-- **Repository Metadata**: Stars, forks, issues, activity timestamps
-- **Package.swift Analysis**: Dependencies, Swift tools versions, build configurations  
-- **Rate Limiting**: Respects GitHub's 5,000 requests/hour limit (authenticated)
-- **Error Handling**: Comprehensive logging and retry mechanisms
-
-### Processing Strategy
-- **Batch Size**: 10 repositories per batch (configurable)
-- **Timing**: 12-minute delays between batches to stay under API limits
-- **Caching**: 24-hour cache to avoid re-processing recent data
-- **Progress Tracking**: Database logging of all processing activities
+- **Rate Limit Recovery**: Automatic handling of rate limit exceeded scenarios
 
 ## Example Outputs
 
-### Priority Analysis Sample
+### Comprehensive HTML Report
 ```
-1. vapor/vapor
-   ⭐ 23,500 stars | 🍴 1,400 forks | 📦 8 deps
-   Priority Score: 0.891 | High popularity; Active community
-   Package.swift: ✅ | Swift: 5.8
+📊 Swift Package Android Compatibility Analysis
+Total Repositories: 847 | Average Stars: 1,247 | Package.swift Coverage: 89.2%
 
-2. Alamofire/Alamofire
-   ⭐ 40,000 stars | 🍴 7,500 forks | 📦 0 deps
-   Priority Score: 0.876 | High popularity; Active community; Low complexity
-   Package.swift: ✅ | Swift: 5.7
+🎯 Top Priority Repositories:
+1. vapor/vapor - ⭐ 23,500 stars | 🍴 1,400 forks | Priority: 0.891
+2. Alamofire/Alamofire - ⭐ 40,000 stars | 🍴 7,500 forks | Priority: 0.876
 ```
 
-### Real Data Sample (From Your CSV)
-```
-📊 Total Repositories: 847 (from linux-compatible-android-incompatible.csv)
-📝 Sample Packages:
-  • pusher/pusher-http-swift
-  • mongodb/mongo-swift-driver  
-  • vapor/fluent-postgres-driver
-  • apple/swift-nio-imap
-  • realm/SwiftLint
+### 🆕 Dependency Analysis Output
+```bash
+python analyze.py dependencies --output-dir exports/dependencies
 
-🎯 Expected Analysis Output:
-📊 Total Repositories: 847
-⭐ Average Stars: ~1,200 (estimated)
-📦 Package.swift Coverage: ~80% (estimated)
-🔗 Average Dependencies: ~5 (estimated)
+🔍 Building dependency tree...
+📊 Generating impact analysis...
+✅ Impact analysis saved to exports/dependencies/impact_analysis.json
+🕸️ Generating network visualization...
+✅ Dependency network visualization saved to exports/dependencies/dependency_network.html
+
+🎯 Top 10 Packages by Dependency Impact:
+ 1. apple/swift-nio - Impact: 45 packages
+     ⭐ 7,234 stars | 👥 32 direct dependents
+ 2. vapor/vapor - Impact: 28 packages  
+     ⭐ 23,500 stars | 👥 18 direct dependents
+ 3. Alamofire/Alamofire - Impact: 22 packages
+     ⭐ 40,000 stars | 👥 15 direct dependents
 ```
+
+### Interactive Charts
+- **Hover Data**: Detailed repository information on mouse hover
+- **Zoom & Pan**: Interactive exploration of large datasets
+- **Responsive Design**: Works on desktop and mobile devices
+
+### Priority CSV Export
+```csv
+owner,name,priority_score,stars,forks,rationale,github_url,package_index_url
+vapor,vapor,0.891,23500,1400,"High popularity; Active community",https://github.com/vapor/vapor,https://swiftpackageindex.com/vapor/vapor
+```
+
+## Performance Improvements
+
+### Processing Speed
+- **Parallel Operations**: Where possible, operations run concurrently
+- **Optimized Database Queries**: Reduced database round trips
+- **Smart Caching**: 24-hour cache for recently processed repositories
+- **Progress Indicators**: Real-time feedback on processing status
+
+### Error Recovery
+- **Graceful Handling**: Continues processing despite individual failures
+- **Detailed Logging**: Complete audit trail of all operations
+- **Retry Mechanisms**: Automatic retry for transient network issues
 
 ## Development Roadmap
 
-### Phase 1: Data Collection ✅
-- [x] CSV parsing
-- [x] GitHub API integration
-- [x] Database setup
-- [x] Rate limiting
+### Phase 1: Core Refactoring ✅
+- [x] Replace Click with argparse
+- [x] Enhanced error handling and logging
+- [x] Multiple output formats (HTML, JSON, CSV)
+- [x] Interactive visualizations with Plotly
+- [x] Progress tracking and statistics
 
-### Phase 2: Analysis 🚧
-- [x] Priority scoring
-- [x] Visualization generation
-- [x] Dependency analysis
+### Phase 2: Analysis Enhancement 🚧
+- [x] Priority scoring algorithm improvements
+- [x] Comprehensive report generation
+- [x] Interactive data exploration tools
 - [ ] Migration difficulty estimation
+- [ ] Dependency graph analysis
 
-### Phase 3: Monitoring 📋
-- [ ] Progress tracking
-- [ ] Automated updates
-- [ ] Notification system
-- [ ] Web dashboard
+### Phase 3: Monitoring & Automation 📋
+- [ ] Automated progress tracking
+- [ ] Web dashboard interface
+- [ ] Notification system for updates
+- [ ] CI/CD integration for regular updates
+
+## Migration from Old Version
+
+The refactored version maintains backward compatibility while adding new features:
+
+### Command Changes
+```bash
+# Old Click-based commands still work, but use new argparse versions:
+# Old: python main.py fetch-data --batch-size 10
+# New: python main.py fetch-data --batch-size 10  (same syntax!)
+
+# New comprehensive report generation:
+python analyze.py comprehensive --output-dir exports
+
+# New dependency analysis:
+python analyze.py dependencies --output-dir exports/dependencies
+python analyze.py dependencies --package vapor/vapor --max-depth 4
+```
+
+### Dependencies
+- **Removed**: click (no longer needed)
+- **Added**: plotly (interactive charts), jinja2 (HTML templating), networkx (dependency graphs)
+- **Enhanced**: Better error handling, progress tracking, dependency analysis
 
 ## Contributing
 
-This project supports the **Swift Android Working Group** initiative. The goal is to accelerate Swift's adoption on Android by identifying and prioritizing high-impact packages for migration.
+This project supports the **Swift Android Working Group** initiative. The enhanced version provides:
 
-**How the data helps:**
-- **Popularity metrics** identify packages with large user bases
-- **Dependency analysis** reveals foundational packages that unlock many others
-- **Activity tracking** shows which packages are actively maintained
-- **Complexity scoring** helps focus on achievable migration targets
+**Improved Data Analysis:**
+- Interactive visualizations for better insight discovery
+- Multiple export formats for different use cases
+- Enhanced error handling for more reliable data collection
+- Progress tracking for long-running operations
+
+**Better Developer Experience:**
+- Simplified CLI without external dependencies
+- Comprehensive logging and debugging information
+- Rich HTML reports for easy sharing
+- Detailed CSV exports for spreadsheet analysis
 
 Contributions welcome for:
-- Enhanced Package.swift parsing (handling complex dependency declarations)
-- Better priority algorithms (incorporating download metrics, etc.)
-- Additional visualizations (dependency graphs, migration roadmaps)
-- Migration tracking features (monitoring progress over time)
-- Performance optimizations (faster processing of large datasets)
+- Additional interactive visualizations
+- Enhanced Package.swift parsing capabilities
+- Performance optimizations for large datasets
+- Web dashboard development
+- Migration tracking features
 
 ## License
 
@@ -278,4 +373,6 @@ See LICENSE file for details.
 
 ---
 
-**Goal**: Accelerate Swift's Android ecosystem by prioritizing high-impact package migrations through data-driven insights! 🚀
+**Goal**: Accelerate Swift's Android ecosystem by prioritizing high-impact package migrations through enhanced data-driven insights! 🚀
+
+**New in This Version**: Comprehensive reporting, interactive visualizations, enhanced error handling, and simplified CLI interface for better developer experience.

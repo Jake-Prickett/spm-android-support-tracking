@@ -2,9 +2,11 @@
 """
 Main CLI script for Swift Package support data processing.
 """
+import argparse
+import sys
 import time
+from pathlib import Path
 
-import click
 import schedule
 
 from config import config
@@ -12,43 +14,32 @@ from fetcher import DataProcessor
 from models import ProcessingLog, Repository, SessionLocal, create_tables
 
 
-@click.group()
-def cli():
-    """Swift Package Support Data Processing CLI."""
-    pass
-
-
-@cli.command()
-def init_db():
+def init_database(args):
     """Initialize the database with required tables."""
-    click.echo("Initializing database...")
+    print("Initializing database...")
     create_tables()
-    click.echo("Database initialized successfully!")
+    print("Database initialized successfully!")
 
 
-@cli.command()
-@click.option(
-    "--batch-size", default=10, help="Number of repositories to process in each batch"
-)
-@click.option(
-    "--max-batches", default=None, type=int, help="Maximum number of batches to process"
-)
-def fetch_data(batch_size, max_batches):
+def fetch_data(args):
     """Fetch repository data from GitHub API."""
-    click.echo(f"Starting data fetch with batch size: {batch_size}")
+    batch_size = args.batch_size
+    max_batches = args.max_batches
+    
+    print(f"Starting data fetch with batch size: {batch_size}")
 
     processor = DataProcessor()
     urls = processor.load_csv_repositories()
 
     if not urls:
-        click.echo("No URLs found in CSV file!")
+        print("No URLs found in CSV file!")
         return
 
     total_urls = len(urls)
     processed_count = 0
     batch_count = 0
 
-    click.echo(f"Found {total_urls} repositories to process")
+    print(f"Found {total_urls} repositories to process")
 
     # Process in batches
     for i in range(0, total_urls, batch_size):
@@ -58,33 +49,32 @@ def fetch_data(batch_size, max_batches):
         batch = urls[i : i + batch_size]
         batch_count += 1
 
-        click.echo(f"\nProcessing batch {batch_count} ({len(batch)} repositories)...")
+        print(f"\nProcessing batch {batch_count} ({len(batch)} repositories)...")
 
         results = processor.process_batch(batch)
         processed_count += len(batch)
 
-        click.echo(
+        print(
             f"Batch {batch_count} complete: {results['success']} success, {results['error']} errors"
         )
-        click.echo(f"Progress: {processed_count}/{total_urls} repositories processed")
+        print(f"Progress: {processed_count}/{total_urls} repositories processed")
 
         # Wait between batches (except for the last batch)
         if i + batch_size < total_urls and (
             not max_batches or batch_count < max_batches
         ):
-            click.echo(
+            print(
                 f"Waiting {config.batch_delay_minutes} minutes before next batch..."
             )
             time.sleep(config.batch_delay_minutes * 60)
 
     processor.close()
-    click.echo(
+    print(
         f"\nData fetch complete! Processed {processed_count} repositories in {batch_count} batches."
     )
 
 
-@cli.command()
-def status():
+def show_status(args):
     """Show processing status and statistics."""
     db = SessionLocal()
 
@@ -100,11 +90,11 @@ def status():
         db.query(Repository).filter(Repository.processing_status == "pending").count()
     )
 
-    click.echo("Repository Processing Status:")
-    click.echo(f"  Total repositories: {total_repos}")
-    click.echo(f"  Completed: {completed_repos}")
-    click.echo(f"  Errors: {error_repos}")
-    click.echo(f"  Pending: {pending_repos}")
+    print("Repository Processing Status:")
+    print(f"  Total repositories: {total_repos}")
+    print(f"  Completed: {completed_repos}")
+    print(f"  Errors: {error_repos}")
+    print(f"  Pending: {pending_repos}")
 
     if completed_repos > 0:
         # Repository insights
@@ -127,10 +117,10 @@ def status():
             .count()
         )
 
-        click.echo("\nRepository Insights:")
-        click.echo(f"  Average stars: {avg_stars:.1f}")
-        click.echo(f"  Repositories with Package.swift: {has_package_swift}")
-        click.echo(
+        print("\nRepository Insights:")
+        print(f"  Average stars: {avg_stars:.1f}")
+        print(f"  Repositories with Package.swift: {has_package_swift}")
+        print(
             f"  Package.swift coverage: {(has_package_swift/completed_repos)*100:.1f}%"
         )
 
@@ -140,23 +130,17 @@ def status():
     )
 
     if recent_logs:
-        click.echo("\nRecent Processing Activity:")
+        print("\nRecent Processing Activity:")
         for log in recent_logs:
             timestamp = log.created_at.strftime("%Y-%m-%d %H:%M:%S")
-            click.echo(f"  {timestamp} - {log.action}: {log.status}")
+            print(f"  {timestamp} - {log.action}: {log.status}")
 
     db.close()
 
 
-@cli.command()
-@click.option(
-    "--format", type=click.Choice(["csv", "json"]), default="csv", help="Export format"
-)
-@click.option("--output", default="exports/repositories.csv", help="Output file path")
-def export(format, output):
+def export_data(args):
     """Export repository data."""
     import json
-    from pathlib import Path
 
     import pandas as pd
 
@@ -168,7 +152,7 @@ def export(format, output):
     )
 
     if not repos:
-        click.echo("No completed repositories found to export!")
+        print("No completed repositories found to export!")
         return
 
     # Convert to dictionary format
@@ -198,25 +182,24 @@ def export(format, output):
         data.append(repo_data)
 
     # Create output directory
-    Path(output).parent.mkdir(parents=True, exist_ok=True)
+    Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
     # Export data
-    if format == "csv":
+    if args.format == "csv":
         df = pd.DataFrame(data)
-        df.to_csv(output, index=False)
-    elif format == "json":
-        with open(output, "w") as f:
+        df.to_csv(args.output, index=False)
+    elif args.format == "json":
+        with open(args.output, "w") as f:
             json.dump(data, f, indent=2, default=str)
 
-    click.echo(f"Exported {len(data)} repositories to {output}")
+    print(f"Exported {len(data)} repositories to {args.output}")
     db.close()
 
 
-@cli.command()
-def schedule_runner():
+def schedule_runner(args):
     """Run the scheduled batch processing."""
-    click.echo("Starting scheduled runner...")
-    click.echo(
+    print("Starting scheduled runner...")
+    print(
         f"Will process {config.repositories_per_batch} repositories every {config.batch_delay_minutes} minutes"
     )
 
@@ -232,13 +215,13 @@ def schedule_runner():
 
         if pending_urls:
             batch = pending_urls[: config.repositories_per_batch]
-            click.echo(f"Processing batch of {len(batch)} repositories...")
+            print(f"Processing batch of {len(batch)} repositories...")
             results = processor.process_batch(batch)
-            click.echo(
+            print(
                 f"Batch complete: {results['success']} success, {results['error']} errors"
             )
         else:
-            click.echo("No pending repositories to process")
+            print("No pending repositories to process")
 
         processor.close()
 
@@ -251,5 +234,52 @@ def schedule_runner():
         time.sleep(60)  # Check every minute
 
 
+def main():
+    """Main CLI entry point with argparse."""
+    parser = argparse.ArgumentParser(
+        description="Swift Package Support Data Processing CLI",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    subparsers = parser.add_subparsers(dest='command', help='Available commands')
+    
+    # Init database command
+    init_parser = subparsers.add_parser('init-db', help='Initialize the database')
+    init_parser.set_defaults(func=init_database)
+    
+    # Fetch data command
+    fetch_parser = subparsers.add_parser('fetch-data', help='Fetch repository data from GitHub API')
+    fetch_parser.add_argument('--batch-size', type=int, default=10, 
+                             help='Number of repositories to process in each batch')
+    fetch_parser.add_argument('--max-batches', type=int, default=None,
+                             help='Maximum number of batches to process')
+    fetch_parser.set_defaults(func=fetch_data)
+    
+    # Status command
+    status_parser = subparsers.add_parser('status', help='Show processing status and statistics')
+    status_parser.set_defaults(func=show_status)
+    
+    # Export command
+    export_parser = subparsers.add_parser('export', help='Export repository data')
+    export_parser.add_argument('--format', choices=['csv', 'json'], default='csv',
+                              help='Export format')
+    export_parser.add_argument('--output', default='exports/repositories.csv',
+                              help='Output file path')
+    export_parser.set_defaults(func=export_data)
+    
+    # Schedule runner command
+    schedule_parser = subparsers.add_parser('schedule-runner', help='Run scheduled batch processing')
+    schedule_parser.set_defaults(func=schedule_runner)
+    
+    # Parse arguments and run appropriate function
+    args = parser.parse_args()
+    
+    if args.command is None:
+        parser.print_help()
+        sys.exit(1)
+    
+    args.func(args)
+
+
 if __name__ == "__main__":
-    cli()
+    main()
