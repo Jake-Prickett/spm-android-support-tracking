@@ -66,7 +66,6 @@ class ReportGenerator:
             "statistics": {
                 "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),
                 "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
-                "package_swift_coverage": dependencies.get("package_swift_coverage", {}).get("coverage_percentage", 0),
                 "primary_language": self._get_primary_language(languages),
                 "total_analyzed": popularity.get("total_repositories", 0),
                 "api_usage": self._get_api_usage_stats()
@@ -105,7 +104,6 @@ class ReportGenerator:
         """Generate executive summary for the report."""
         total_repos = popularity.get("total_repositories", 0)
         avg_stars = popularity.get("star_statistics", {}).get("mean", 0)
-        package_coverage = dependencies.get("package_swift_coverage", {}).get("coverage_percentage", 0)
         
         # Identify key insights
         top_repo = popularity.get("star_statistics", {}).get("top_10", [{}])[0]
@@ -115,7 +113,6 @@ class ReportGenerator:
             "overview": f"Analysis of {total_repos} Swift packages that support Linux but lack Android compatibility",
             "key_metrics": {
                 "average_popularity": f"{avg_stars:.0f} stars per repository",
-                "package_swift_availability": f"{package_coverage:.1f}% have Package.swift files",
                 "primary_language": primary_lang,
                 "most_popular": f"{top_repo.get('owner', 'N/A')}/{top_repo.get('name', 'N/A')}" if top_repo else "N/A"
             },
@@ -270,9 +267,6 @@ class ReportGenerator:
             <div>Average Stars per Repository</div>
         </div>
         <div class="summary-card">
-            <div class="metric-value">{{ "%.1f"|format(report_data.statistics.package_swift_coverage) }}%</div>
-            <div>Package.swift Coverage</div>
-        </div>
         <div class="summary-card">
             <div class="metric-value">{{ report_data.statistics.primary_language }}</div>
             <div>Primary Programming Language</div>
@@ -294,7 +288,6 @@ class ReportGenerator:
         <h3>Key Metrics</h3>
         <ul>
             <li><strong>Average Popularity:</strong> {{ report_data.executive_summary.key_metrics.average_popularity }}</li>
-            <li><strong>Package.swift Availability:</strong> {{ report_data.executive_summary.key_metrics.package_swift_availability }}</li>
             <li><strong>Most Popular Repository:</strong> {{ report_data.executive_summary.key_metrics.most_popular }}</li>
         </ul>
 
@@ -517,7 +510,6 @@ class ReportGenerator:
             "statistics": {
                 "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),
                 "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
-                "package_swift_coverage": dependencies.get("package_swift_coverage", {}).get("coverage_percentage", 0),
                 "primary_language": self._get_primary_language(languages),
                 "total_analyzed": popularity.get("total_repositories", 0),
                 "api_usage": self._get_api_usage_stats()

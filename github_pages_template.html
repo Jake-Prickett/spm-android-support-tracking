@@ -692,7 +692,6 @@
             const cards = [
                 { title: 'Total Repositories', value: stats.total_analyzed || 0, icon: '📊' },
                 { title: 'Average Stars', value: Math.round(stats.avg_stars || 0), icon: '⭐' },
-                { title: 'Package.swift Coverage', value: `${(stats.package_swift_coverage || 0).toFixed(1)}%`, icon: '📦' },
                 { title: 'Primary Language', value: stats.primary_language || 'Unknown', icon: '💻' }
             ];
             
@@ -865,8 +864,6 @@
                         <span class="font-semibold">${stats.packages_with_dependencies || 0}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Package.swift Coverage:</span>
-                        <span class="font-semibold">${(deps.package_swift_coverage?.coverage_percentage || 0).toFixed(1)}%</span>
                     </div>
                 </div>
             `;

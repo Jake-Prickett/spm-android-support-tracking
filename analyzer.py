@@ -88,17 +88,7 @@ class PackageAnalyzer:
         if df.empty:
             return {"error": "No data available"}
 
-        has_package_swift = df["has_package_swift"].sum()
-        total_repos = len(df)
-
         analysis = {
-            "package_swift_coverage": {
-                "total_repositories": total_repos,
-                "with_package_swift": has_package_swift,
-                "coverage_percentage": (
-                    (has_package_swift / total_repos) * 100 if total_repos > 0 else 0
-                ),
-            },
             "dependency_statistics": {
                 "mean_dependencies": df["dependencies_count"].mean(),
                 "median_dependencies": df["dependencies_count"].median(),

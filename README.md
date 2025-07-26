@@ -175,6 +175,40 @@ python main.py export --format json --output data.json
 python main.py status
 ```
 
+### GitHub Pages Generation
+```bash
+# Generate GitHub Pages compatible site
+python analyze.py github-pages --output-dir exports
+
+# Alternative: Generate via reports.py
+python reports.py --github-pages --output-dir exports
+
+# Generate comprehensive reports and GitHub Pages in one command
+python analyze.py comprehensive --output-dir exports
+python analyze.py github-pages --output-dir exports
+```
+
+## GitHub Pages Deployment
+
+Generate a complete analysis website for public sharing:
+
+```bash
+# Generate GitHub Pages site
+python analyze.py github-pages --output-dir exports
+
+# Deploy to repository root
+python analyze.py github-pages --output-dir .
+git add index.html
+git commit -m "Add analysis site"
+git push origin main
+```
+
+**Enable GitHub Pages**: Repository Settings → Pages → Deploy from branch → main/root
+
+Your site will be available at: `https://username.github.io/repository-name/`
+
+The generated `index.html` includes all visualizations, data exports, and interactive charts in a single self-contained file.
+
 ## Command Reference
 
 ### Main Commands (`main.py`)
@@ -195,11 +229,13 @@ python main.py status
 | `visualize` | Generate charts | `python analyze.py visualize --output-dir charts` |
 | `priorities` | Priority ranking analysis | `python analyze.py priorities --limit 25` |
 | `dependencies` | Dependency network analysis | `python analyze.py dependencies` |
+| `github-pages` | Generate GitHub Pages site | `python analyze.py github-pages --output-dir exports` |
 
 ### Report Generation (`reports.py`)
 | Command | Description | Example |
 |---------|-------------|---------|
 | `reports.py` | Direct comprehensive reports | `python reports.py --output-dir exports` |
+| `reports.py --github-pages` | Generate GitHub Pages site | `python reports.py --github-pages --output-dir exports` |
 
 ## Project Structure
 
@@ -290,7 +326,6 @@ Total Repositories: 156
 Average Stars: 1,247
 Most Popular: Alamofire/Alamofire (40K stars)
 Primary Language: Swift (89.2%)
-Package.swift Coverage: 92.3%
 API Success Rate: 94.7%
 ```
 

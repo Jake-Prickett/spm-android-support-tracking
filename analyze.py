@@ -36,9 +36,6 @@ def generate_report(args):
         "summary": {
             "total_repositories_analyzed": popularity.get("total_repositories", 0),
             "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),
-            "package_swift_coverage": dependencies.get(
-                "package_swift_coverage", {}
-            ).get("coverage_percentage", 0),
             "primary_language": (
                 max(
                     languages.get("language_distribution", {}).items(),
@@ -63,9 +60,6 @@ def generate_report(args):
         f"Total repositories: {report_data['summary']['total_repositories_analyzed']}"
     )
     print(f"Average stars: {report_data['summary']['avg_stars']}")
-    print(
-        f"Package.swift coverage: {report_data['summary']['package_swift_coverage']:.1f}%"
-    )
     print(f"Primary language: {report_data['summary']['primary_language']}")
 
     analyzer.close()
@@ -133,9 +127,6 @@ def show_stats(args):
     print("=== QUICK STATISTICS ===")
     print(f"📊 Total Repositories: {popularity['total_repositories']}")
     print(f"⭐ Average Stars: {popularity['star_statistics']['mean']:.1f}")
-    print(
-        f"📦 Package.swift Coverage: {dependencies['package_swift_coverage']['coverage_percentage']:.1f}%"
-    )
     print(
         f"🔗 Average Dependencies: {dependencies['dependency_statistics']['mean_dependencies']:.1f}"
     )
