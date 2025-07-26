@@ -11,6 +11,46 @@ This project processes 1000+ Swift packages from the Swift Package Index to:
 - 🎯 Generate priority rankings based on data-driven insights
 - 📈 Create comprehensive reports and interactive visualizations
 
+## Data Flow Overview
+
+```mermaid
+graph TD
+    A[Input Data<br/>linux-compatible-android-incompatible.csv<br/>847 Swift packages] --> B[Database Setup<br/>SQLite initialization]
+    
+    B --> C[GitHub Data Collection<br/>Repository metadata<br/>Stars, forks, language info]
+    C --> D[Package Analysis<br/>Parse Package.swift files<br/>Extract dependencies]
+    
+    C --> E[Local Storage<br/>SQLite database<br/>Batch processing with rate limits]
+    D --> E
+    
+    E --> F[Analysis Engine<br/>Priority scoring algorithm<br/>Dependency network mapping]
+    
+    F --> G[Report Generation<br/>Multiple output formats]
+    
+    G --> H[HTML Reports<br/>Executive summaries<br/>Interactive charts]
+    G --> I[Data Exports<br/>JSON, CSV formats<br/>Priority rankings]
+    G --> J[Visualizations<br/>Network graphs<br/>Statistical charts]
+    
+    subgraph "Key Features"
+        K[Rate Limiting<br/>5000 requests/hour with token]
+        L[Error Handling<br/>Retry logic & graceful degradation]
+        M[Priority Scoring<br/>Stars + Forks + Dependencies]
+    end
+    
+    C -.-> K
+    F -.-> L
+    F -.-> M
+    
+    style A fill:#d4edd6,stroke:#2d5a3d,stroke-width:2px,color:#000
+    style B fill:#f0f4f8,stroke:#2c3e50,stroke-width:2px,color:#000
+    style E fill:#e8f4fd,stroke:#1565c0,stroke-width:2px,color:#000
+    style F fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    style G fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style H fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    style I fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    style J fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+```
+
 ## Features
 
 - **GitHub API Integration**: Fetch repository metadata with intelligent rate limiting
@@ -246,6 +286,94 @@ python main.py init-db
 - Check logs in `logs/` directory for detailed error information
 - Use `python main.py status` to verify database state
 - Test with small batches first: `--batch-size 5 --max-batches 1`
+
+## Technical Details
+
+### Detailed Data Pipeline
+
+```mermaid
+graph TD
+    A[CSV Input<br/>linux-compatible-android-incompatible.csv<br/>847 packages] --> B[Database Initialization<br/>SQLite + SQLAlchemy]
+    
+    B --> C[Data Fetching Pipeline]
+    C --> D{GitHub API Integration<br/>Rate Limited<br/>5000/hour with token}
+    
+    D --> E[Batch Processing<br/>Default: 10 repos/batch<br/>12 min delays]
+    E --> F[Repository Metadata<br/>Stars, Forks, Language<br/>Created/Updated dates]
+    E --> G[Package.swift Analysis<br/>Dependencies extraction<br/>Swift version requirements]
+    
+    F --> H[SQLite Database<br/>repositories table<br/>processing_logs table]
+    G --> H
+    
+    H --> I[Analysis Engine]
+    I --> J[Priority Scoring Algorithm<br/>Stars + Forks + Activity<br/>+ Dependency Impact]
+    I --> K[Dependency Network Analysis<br/>Direct & Transitive<br/>Impact calculations]
+    I --> L[Statistical Analysis<br/>Language distribution<br/>Popularity metrics]
+    
+    J --> M[Report Generation]
+    K --> M
+    L --> M
+    
+    M --> N[HTML Reports<br/>Executive summary<br/>Interactive charts]
+    M --> O[JSON Exports<br/>Structured data<br/>API-friendly format]
+    M --> P[CSV Exports<br/>Spreadsheet compatible<br/>Priority rankings]
+    M --> Q[Interactive Visualizations<br/>Plotly charts<br/>Network graphs]
+    
+    N --> R[exports/ Directory]
+    O --> R
+    P --> R
+    Q --> R
+    
+    subgraph "Rate Limiting Strategy"
+        S[GitHub Token<br/>Authentication] --> T[5000 requests/hour<br/>vs 60 without token]
+        T --> U[Batch delays<br/>Error retry logic<br/>Graceful degradation]
+    end
+    
+    subgraph "Analysis Outputs"
+        V[Priority Rankings<br/>Migration candidates]
+        W[Dependency Impact<br/>Unlock potential]
+        X[Community Metrics<br/>Stars, forks, activity]
+        Y[Network Visualizations<br/>Package relationships]
+    end
+    
+    subgraph "Error Handling"
+        Z[Network timeouts<br/>→ Retry with backoff]
+        AA[Rate limits<br/>→ Automatic delays]
+        BB[Invalid repos<br/>→ Skip and log]
+        CC[Processing failures<br/>→ Continue with others]
+    end
+    
+    D -.-> S
+    E -.-> Z
+    E -.-> AA
+    F -.-> BB
+    G -.-> CC
+    
+    J --> V
+    K --> W
+    L --> X
+    Q --> Y
+    
+    style A fill:#d4edd6,stroke:#2d5a3d,stroke-width:2px,color:#000
+    style B fill:#f0f4f8,stroke:#2c3e50,stroke-width:2px,color:#000
+    style H fill:#e8f4fd,stroke:#1565c0,stroke-width:2px,color:#000
+    style D fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    style M fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style R fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
+    style I fill:#f0f4f8,stroke:#2c3e50,stroke-width:2px,color:#000
+    style J fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    style K fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    style L fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+```
+
+### Architecture Components
+
+- **Data Ingestion**: CSV parsing and URL extraction
+- **API Integration**: GitHub REST API with intelligent rate limiting
+- **Storage Layer**: SQLite database with SQLAlchemy ORM
+- **Analysis Engine**: Multi-factor priority scoring and dependency mapping
+- **Export System**: Multiple output formats for different use cases
+- **Error Recovery**: Comprehensive retry logic and graceful degradation
 
 ## Contributing
 
