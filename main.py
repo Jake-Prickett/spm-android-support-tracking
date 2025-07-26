@@ -14,6 +14,19 @@ from fetcher import DataProcessor
 from models import ProcessingLog, Repository, SessionLocal, create_tables
 
 
+def _countdown_timer(total_seconds):
+    """Display a countdown timer for the specified number of seconds."""
+    print(f"Waiting {total_seconds // 60} minutes before next batch...")
+    
+    for remaining in range(total_seconds, 0, -1):
+        minutes, seconds = divmod(remaining, 60)
+        timer_display = f"\rTime remaining: {minutes:02d}:{seconds:02d}"
+        print(timer_display, end="", flush=True)
+        time.sleep(1)
+    
+    print("\rContinuing with next batch...                    ")  # Clear the timer line
+
+
 def init_database(args):
     """Initialize the database with required tables."""
     print("Initializing database...")
@@ -59,14 +72,15 @@ def fetch_data(args):
         )
         print(f"Progress: {processed_count}/{total_urls} repositories processed")
 
-        # Wait between batches (except for the last batch)
-        if i + batch_size < total_urls and (
-            not max_batches or batch_count < max_batches
-        ):
-            print(
-                f"Waiting {config.batch_delay_minutes} minutes before next batch..."
-            )
-            time.sleep(config.batch_delay_minutes * 60)
+        # Only wait between batches if we actually fetched data from remote (not all skipped)
+        # and we're not on the last batch
+        fetched_count = results['success'] + results['error']
+        if (i + batch_size < total_urls and 
+            (not max_batches or batch_count < max_batches) and
+            fetched_count > 0):
+            _countdown_timer(config.batch_delay_minutes * 60)
+        elif fetched_count == 0:
+            print("All repositories in batch were skipped - continuing immediately to next batch")
 
     # Get final statistics before closing
     final_stats = processor.get_processing_stats()
