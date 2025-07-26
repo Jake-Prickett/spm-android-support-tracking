@@ -19,7 +19,7 @@ from plotly.offline import plot
 import networkx as nx
 from jinja2 import Template
 
-from models import Repository, SessionLocal
+from swift_package_analyzer.core.models import Repository, SessionLocal
 
 logger = logging.getLogger(__name__)
 

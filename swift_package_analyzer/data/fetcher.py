@@ -13,8 +13,8 @@ import requests
 from github import Github, RateLimitExceededException, GithubException
 from tqdm import tqdm
 
-from config import config
-from models import ProcessingLog, Repository, SessionLocal
+from swift_package_analyzer.core.config import config
+from swift_package_analyzer.core.models import ProcessingLog, Repository, SessionLocal
 
 # Configure logging
 logging.basicConfig(

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-from models import Repository, SessionLocal
+from swift_package_analyzer.core.models import Repository, SessionLocal
 
 
 class PackageAnalyzer:

@@ -239,22 +239,40 @@ The generated `index.html` includes all visualizations, data exports, and intera
 
 ## Project Structure
 
+The project follows a standard Python package structure for improved maintainability and modularity:
+
 ```
-├── main.py                      # Main CLI interface
-├── analyze.py                   # Analysis and visualization CLI  
-├── reports.py                   # Comprehensive report generation
-├── dependency_analyzer.py       # Dependency network analysis
-├── config.py                    # Configuration management
-├── models.py                    # Database models (SQLAlchemy)
-├── fetcher.py                   # GitHub API integration
-├── analyzer.py                  # Core data analysis
+├── main.py                      # Main CLI entry point
+├── analyze.py                   # Analysis CLI entry point  
+├── reports.py                   # Reports CLI entry point
+├── swift_package_analyzer/      # Core package
+│   ├── __init__.py
+│   ├── cli/                     # Command-line interfaces
+│   │   ├── __init__.py
+│   │   ├── main.py              # Main CLI commands
+│   │   └── analyze.py           # Analysis CLI commands
+│   ├── core/                    # Core configuration and models
+│   │   ├── __init__.py
+│   │   ├── config.py            # Configuration management
+│   │   └── models.py            # Database models (SQLAlchemy)
+│   ├── data/                    # Data fetching and processing
+│   │   ├── __init__.py
+│   │   └── fetcher.py           # GitHub API integration
+│   ├── analysis/                # Analysis logic
+│   │   ├── __init__.py
+│   │   ├── analyzer.py          # Core data analysis
+│   │   └── dependencies.py     # Dependency network analysis
+│   ├── output/                  # Report generation and visualization
+│   │   ├── __init__.py
+│   │   └── reports.py           # Comprehensive report generation
+│   └── templates/               # HTML templates
+│       └── github_pages_template.html
 ├── requirements.txt             # Python dependencies
 ├── .env.example                # Environment template
 ├── setup.sh                    # Automated setup script
 ├── linux-compatible-android-incompatible.csv  # Input data
 ├── swift_packages.db           # SQLite database
 ├── logs/                       # Application logs
-├── data/                       # Raw data files
 └── exports/                    # Generated outputs
     ├── comprehensive_report.html
     ├── comprehensive_report.json
@@ -262,6 +280,13 @@ The generated `index.html` includes all visualizations, data exports, and intera
     ├── interactive_charts/
     └── dependency_visualizations/
 ```
+
+### Architecture Benefits
+
+- **Modular Design**: Clear separation of concerns with dedicated modules for CLI, data processing, analysis, and output
+- **Standard Python Structure**: Follows Python packaging conventions for better maintainability
+- **Import Clarity**: Explicit imports reduce dependency confusion and improve code navigation
+- **Scalability**: Easy to extend with new analysis features or output formats
 
 ## Output Formats
 

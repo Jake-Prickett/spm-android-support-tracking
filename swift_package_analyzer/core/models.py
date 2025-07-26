@@ -9,7 +9,7 @@ from sqlalchemy import (Boolean, Column, DateTime, Float, Integer, String,
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from config import config
+from swift_package_analyzer.core.config import config
 
 Base = declarative_base()
 
