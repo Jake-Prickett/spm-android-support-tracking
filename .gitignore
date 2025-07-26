@@ -210,10 +210,13 @@ __marimo__/
 # Environment variables
 .env
 
-# Database files
-*.db
-*.sqlite
-*.sqlite3
+# Database files (except main database for CI/CD persistence)
+# *.db
+# *.sqlite
+# *.sqlite3
+*.db.backup*
+*.sqlite.backup*
+*.sqlite3.backup*
 
 # Log files
 logs/*.log

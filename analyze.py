@@ -139,6 +139,34 @@ def show_stats(args):
     print(
         f"🔗 Average Dependencies: {dependencies['dependency_statistics']['mean_dependencies']:.1f}"
     )
+    
+    # API Usage statistics
+    from models import ProcessingLog, SessionLocal
+    db = SessionLocal()
+    total_api_calls = db.query(ProcessingLog).filter(
+        ProcessingLog.action == "fetch_metadata"
+    ).count()
+    successful_fetches = db.query(ProcessingLog).filter(
+        ProcessingLog.action == "fetch_metadata", 
+        ProcessingLog.status == "success"
+    ).count()
+    failed_fetches = db.query(ProcessingLog).filter(
+        ProcessingLog.action == "fetch_metadata", 
+        ProcessingLog.status == "error"
+    ).count()
+    
+    if total_api_calls > 0:
+        print(f"\n🌐 API Usage Summary:")
+        print(f"   Total API calls made: {total_api_calls}")
+        print(f"   Successful fetches: {successful_fetches}")
+        print(f"   Failed fetches: {failed_fetches}")
+        success_rate = (successful_fetches / total_api_calls) * 100
+        print(f"   Success rate: {success_rate:.1f}%")
+        if popularity['total_repositories'] > 0:
+            avg_calls = total_api_calls / popularity['total_repositories']
+            print(f"   Average calls per package: {avg_calls:.1f}")
+    
+    db.close()
 
     # Top repositories
     print("\n🏆 Most Popular Repositories:")
