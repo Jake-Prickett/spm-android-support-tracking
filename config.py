@@ -26,8 +26,8 @@ class Config:
 
     # Rate limiting settings
     requests_per_hour: int = 5000  # GitHub API limit
-    repositories_per_batch: int = 10
-    batch_delay_minutes: int = 12  # 60 minutes / 5 batches = 12 minutes between batches
+    repositories_per_batch: int = 40  # ~3 requests per repo = 120 requests per batch
+    batch_delay_minutes: int = 2  # 60 minutes / 29 batches = ~2.1 minutes (70% utilization)
 
     # Data processing settings
     csv_file_path: str = "linux-compatible-android-incompatible.csv"

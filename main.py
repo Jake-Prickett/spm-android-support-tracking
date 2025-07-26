@@ -325,7 +325,7 @@ def main():
     
     # Fetch data command
     fetch_parser = subparsers.add_parser('fetch-data', help='Fetch repository data from GitHub API')
-    fetch_parser.add_argument('--batch-size', type=int, default=10, 
+    fetch_parser.add_argument('--batch-size', type=int, default=config.repositories_per_batch, 
                              help='Number of repositories to process in each batch')
     fetch_parser.add_argument('--max-batches', type=int, default=None,
                              help='Maximum number of batches to process')
