@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swift Package Android Compatibility Analysis</title>
+    <meta name="description" content="Analysis of Swift packages that support Linux but lack Android compatibility - prioritizing migration efforts">
+    
+    <!-- Plotly.js for charts -->
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom styles -->
+    <style>
+        .chart-container { min-height: 400px; }
+        .repo-card { transition: all 0.2s ease; }
+        .repo-card:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); }
+        .search-highlight { background-color: #fef08a; }
+        .loading { opacity: 0.6; pointer-events: none; }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .dark-auto { background-color: #1f2937; color: #f9fafb; }
+            .dark-auto .bg-white { background-color: #374151; }
+            .dark-auto .text-gray-900 { color: #f9fafb; }
+            .dark-auto .text-gray-600 { color: #d1d5db; }
+            .dark-auto .border-gray-200 { border-color: #4b5563; }
+        }
+        
+        /* Lazy loading animation */
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-50 dark-auto">
+    <!-- Navigation -->
+    <nav class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <h1 class="text-xl font-bold text-gray-900">Swift Package Android Analysis</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100">
+                        🌙
+                    </button>
+                    <span class="text-sm text-gray-500" id="last-updated">Loading...</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        
+        <!-- Summary Cards -->
+        <div id="summary-section" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="border-b border-gray-200 mb-6">
+            <nav class="-mb-px flex space-x-8">
+                <button class="tab-button active py-2 px-1 border-b-2 font-medium text-sm" data-tab="overview">
+                    📊 Overview
+                </button>
+                <button class="tab-button py-2 px-1 border-b-2 font-medium text-sm" data-tab="priorities">
+                    🎯 Priorities
+                </button>
+                <button class="tab-button py-2 px-1 border-b-2 font-medium text-sm" data-tab="dependencies">
+                    🔗 Dependencies
+                </button>
+                <button class="tab-button py-2 px-1 border-b-2 font-medium text-sm" data-tab="charts">
+                    📈 Charts
+                </button>
+            </nav>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="tab-content">
+            
+            <!-- Overview Tab -->
+            <div id="overview-tab" class="tab-panel">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Executive Summary -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">📋 Executive Summary</h2>
+                        <div id="executive-summary">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">📊 Quick Statistics</h2>
+                        <div id="quick-stats">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Language Distribution Chart -->
+                <div class="mt-6 bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-bold mb-4">💻 Language Distribution</h2>
+                    <div id="language-chart" class="chart-container"></div>
+                </div>
+            </div>
+
+            <!-- Priorities Tab -->
+            <div id="priorities-tab" class="tab-panel hidden">
+                <div class="bg-white rounded-lg shadow">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                            <h2 class="text-xl font-bold">🎯 Priority Repositories</h2>
+                            <div class="mt-4 sm:mt-0 flex space-x-2">
+                                <input type="text" id="search-repos" placeholder="Search repositories..." 
+                                       class="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                <select id="filter-language" class="px-3 py-2 border border-gray-300 rounded-md text-sm">
+                                    <option value="">All Languages</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="priority-repositories" class="divide-y divide-gray-200">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dependencies Tab -->
+            <div id="dependencies-tab" class="tab-panel hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">🔗 Dependency Analysis</h2>
+                        <div id="dependency-stats">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">🎯 High-Impact Packages</h2>
+                        <div id="high-impact-packages">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dependency Network Visualization -->
+                <div class="mt-6 bg-white rounded-lg shadow p-6">
+                    <h2 class="text-xl font-bold mb-4">🕸️ Dependency Network</h2>
+                    <div id="dependency-network" class="chart-container"></div>
+                </div>
+            </div>
+
+            <!-- Charts Tab -->
+            <div id="charts-tab" class="tab-panel hidden">
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+                    <!-- Stars vs Forks -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">⭐ Stars vs Forks</h2>
+                        <div id="stars-forks-chart" class="chart-container"></div>
+                    </div>
+                    
+                    <!-- Priority Distribution -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">📊 Priority Score Distribution</h2>
+                        <div id="priority-histogram" class="chart-container"></div>
+                    </div>
+                    
+                    <!-- Dependencies Distribution -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">📦 Dependencies Distribution</h2>
+                        <div id="dependencies-histogram" class="chart-container"></div>
+                    </div>
+                    
+                    <!-- Activity Timeline -->
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <h2 class="text-xl font-bold mb-4">📅 Repository Activity</h2>
+                        <div id="activity-timeline" class="chart-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 text-center text-sm text-gray-500">
+            <p>Generated by Swift Package Android Compatibility Analyzer</p>
+            <p class="mt-1">Data sourced from Swift Package Index and GitHub API</p>
+            <p class="mt-1">
+                <a href="https://github.com/your-repo" class="text-blue-600 hover:text-blue-800">View on GitHub</a> | 
+                <a href="#" onclick="downloadData()" class="text-blue-600 hover:text-blue-800">Download Data</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Embedded Data (populated by Python) -->
+    <script type="application/json" id="embedded-data">
+        {{ EMBEDDED_DATA }}
+    </script>
+
+    <!-- Main JavaScript Application -->
+    <script>
+        // Global app state
+        let appData = {};
+        let currentTab = 'overview';
+        let filteredRepos = [];
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadEmbeddedData();
+            initializeInterface();
+            renderCurrentTab();
+        });
+        
+        // Load and parse embedded data
+        function loadEmbeddedData() {
+            try {
+                const dataElement = document.getElementById('embedded-data');
+                appData = JSON.parse(dataElement.textContent);
+                console.log('Loaded data for', appData.metadata?.total_repositories, 'repositories');
+            } catch (error) {
+                console.error('Failed to load embedded data:', error);
+                appData = { error: 'Failed to load data' };
+            }
+        }
+        
+        // Initialize UI components
+        function initializeInterface() {
+            // Set last updated
+            if (appData.metadata?.generated_at) {
+                const date = new Date(appData.metadata.generated_at);
+                document.getElementById('last-updated').textContent = 
+                    `Updated ${date.toLocaleDateString()}`;
+            }
+            
+            // Tab switching
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', () => switchTab(button.dataset.tab));
+            });
+            
+            // Search and filter
+            document.getElementById('search-repos')?.addEventListener('input', filterRepositories);
+            document.getElementById('filter-language')?.addEventListener('change', filterRepositories);
+            
+            // Theme toggle
+            document.getElementById('theme-toggle')?.addEventListener('click', toggleTheme);
+            
+            // Initialize filters
+            populateLanguageFilter();
+            filterRepositories();
+        }
+        
+        // Tab switching
+        function switchTab(tabName) {
+            currentTab = tabName;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active', 'border-blue-500', 'text-blue-600');
+                btn.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active', 'border-blue-500', 'text-blue-600');
+            document.querySelector(`[data-tab="${tabName}"]`).classList.remove('border-transparent', 'text-gray-500');
+            
+            // Show/hide tab panels
+            document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.add('hidden'));
+            document.getElementById(`${tabName}-tab`).classList.remove('hidden');
+            
+            renderCurrentTab();
+        }
+        
+        // Render content for current tab
+        function renderCurrentTab() {
+            if (appData.error) {
+                document.getElementById('tab-content').innerHTML = 
+                    `<div class="text-center py-12 text-red-600">Error: ${appData.error}</div>`;
+                return;
+            }
+            
+            switch(currentTab) {
+                case 'overview':
+                    renderOverview();
+                    break;
+                case 'priorities':
+                    renderPriorities();
+                    break;
+                case 'dependencies':
+                    renderDependencies();
+                    break;
+                case 'charts':
+                    renderCharts();
+                    break;
+            }
+        }
+        
+        // Render overview tab
+        function renderOverview() {
+            renderSummaryCards();
+            renderExecutiveSummary();
+            renderQuickStats();
+            renderLanguageChart();
+        }
+        
+        // Render summary cards
+        function renderSummaryCards() {
+            const stats = appData.statistics || {};
+            const cards = [
+                { title: 'Total Repositories', value: stats.total_analyzed || 0, icon: '📊' },
+                { title: 'Average Stars', value: Math.round(stats.avg_stars || 0), icon: '⭐' },
+                { title: 'Package.swift Coverage', value: `${(stats.package_swift_coverage || 0).toFixed(1)}%`, icon: '📦' },
+                { title: 'Primary Language', value: stats.primary_language || 'Unknown', icon: '💻' }
+            ];
+            
+            const html = cards.map(card => `
+                <div class="bg-white rounded-lg shadow p-6">
+                    <div class="flex items-center">
+                        <div class="text-3xl mr-4">${card.icon}</div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500">${card.title}</p>
+                            <p class="text-2xl font-bold text-gray-900">${card.value}</p>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('summary-section').innerHTML = html;
+        }
+        
+        // Render executive summary
+        function renderExecutiveSummary() {
+            const summary = appData.executive_summary || {};
+            const html = `
+                <p class="text-gray-700 mb-4">${summary.overview || 'No summary available'}</p>
+                <h3 class="font-semibold mb-2">Key Metrics:</h3>
+                <ul class="list-disc list-inside text-sm text-gray-600 mb-4">
+                    ${Object.entries(summary.key_metrics || {}).map(([key, value]) => 
+                        `<li><strong>${key.replace(/_/g, ' ')}:</strong> ${value}</li>`
+                    ).join('')}
+                </ul>
+                <h3 class="font-semibold mb-2">Recommendations:</h3>
+                <div class="space-y-2">
+                    ${(summary.recommendations || []).map(rec => 
+                        `<div class="bg-blue-50 border-l-4 border-blue-400 p-3 text-sm">${rec}</div>`
+                    ).join('')}
+                </div>
+            `;
+            document.getElementById('executive-summary').innerHTML = html;
+        }
+        
+        // Render quick stats
+        function renderQuickStats() {
+            const pop = appData.popularity_analysis || {};
+            const deps = appData.dependency_analysis || {};
+            
+            const html = `
+                <div class="space-y-3 text-sm">
+                    <div class="flex justify-between">
+                        <span>Median Stars:</span>
+                        <span class="font-semibold">${(pop.star_statistics?.median || 0).toFixed(0)}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Most Popular:</span>
+                        <span class="font-semibold">${pop.star_statistics?.top_10?.[0]?.owner || 'N/A'}/${pop.star_statistics?.top_10?.[0]?.name || 'N/A'}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Avg Dependencies:</span>
+                        <span class="font-semibold">${(deps.dependency_statistics?.mean_dependencies || 0).toFixed(1)}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>API Success Rate:</span>
+                        <span class="font-semibold">${(appData.statistics?.api_usage?.success_rate || 0).toFixed(1)}%</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('quick-stats').innerHTML = html;
+        }
+        
+        // Render language distribution chart
+        function renderLanguageChart() {
+            const langData = appData.language_analysis?.language_distribution || {};
+            const labels = Object.keys(langData).slice(0, 8);
+            const values = Object.values(langData).slice(0, 8);
+            
+            const data = [{
+                type: 'pie',
+                labels: labels,
+                values: values,
+                hovertemplate: '%{label}: %{value} packages<br>%{percent}<extra></extra>',
+                textinfo: 'label+percent',
+                textposition: 'auto'
+            }];
+            
+            const layout = {
+                showlegend: true,
+                margin: { t: 0, b: 0, l: 0, r: 0 },
+                height: 400
+            };
+            
+            Plotly.newPlot('language-chart', data, layout, {responsive: true});
+        }
+        
+        // Render priorities tab
+        function renderPriorities() {
+            const repos = filteredRepos.length > 0 ? filteredRepos : (appData.priority_repositories || []);
+            
+            const html = repos.slice(0, 50).map((repo, index) => `
+                <div class="repo-card p-6 hover:bg-gray-50">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    ${index + 1}. ${repo.owner}/${repo.name}
+                                </h3>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                    repo.has_package_swift ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                }">
+                                    ${repo.has_package_swift ? '✅ Package.swift' : '❌ No Package.swift'}
+                                </span>
+                            </div>
+                            
+                            <div class="mt-2 flex items-center space-x-4 text-sm text-gray-500">
+                                <span>⭐ ${repo.stars}</span>
+                                <span>🍴 ${repo.forks}</span>
+                                <span>📦 ${repo.dependencies_count || 0} deps</span>
+                                <span>🏷️ ${repo.language || 'Unknown'}</span>
+                            </div>
+                            
+                            <p class="mt-2 text-sm text-gray-600">${repo.rationale || 'No rationale provided'}</p>
+                            
+                            <div class="mt-3 flex items-center space-x-4">
+                                <a href="https://github.com/${repo.owner}/${repo.name}" 
+                                   class="text-blue-600 hover:text-blue-800 text-sm" target="_blank">
+                                    View on GitHub →
+                                </a>
+                                <a href="https://swiftpackageindex.com/${repo.owner}/${repo.name}" 
+                                   class="text-blue-600 hover:text-blue-800 text-sm" target="_blank">
+                                    Package Index →
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="ml-4 text-right">
+                            <div class="text-lg font-bold text-blue-600">
+                                ${(repo.priority_score || 0).toFixed(3)}
+                            </div>
+                            <div class="text-xs text-gray-500">Priority Score</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('priority-repositories').innerHTML = html || 
+                '<div class="p-6 text-center text-gray-500">No repositories match your criteria</div>';
+        }
+        
+        // Render dependencies tab
+        function renderDependencies() {
+            renderDependencyStats();
+            renderHighImpactPackages();
+            renderDependencyNetwork();
+        }
+        
+        // Render dependency statistics
+        function renderDependencyStats() {
+            const deps = appData.dependency_analysis || {};
+            const stats = deps.dependency_statistics || {};
+            
+            const html = `
+                <div class="space-y-4">
+                    <div class="flex justify-between">
+                        <span>Average Dependencies:</span>
+                        <span class="font-semibold">${(stats.mean_dependencies || 0).toFixed(1)}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Max Dependencies:</span>
+                        <span class="font-semibold">${stats.max_dependencies || 0}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Packages with Dependencies:</span>
+                        <span class="font-semibold">${stats.packages_with_dependencies || 0}</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span>Package.swift Coverage:</span>
+                        <span class="font-semibold">${(deps.package_swift_coverage?.coverage_percentage || 0).toFixed(1)}%</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('dependency-stats').innerHTML = html;
+        }
+        
+        // Render high-impact packages
+        function renderHighImpactPackages() {
+            const impact = appData.dependency_impact_analysis?.packages || [];
+            
+            const html = impact.slice(0, 10).map((pkg, index) => `
+                <div class="border-b border-gray-200 pb-3 mb-3 last:border-b-0">
+                    <div class="font-semibold text-sm">${index + 1}. ${pkg.package_id}</div>
+                    <div class="text-xs text-gray-500 mt-1">
+                        Impact: ${pkg.total_impact} packages | ⭐ ${pkg.stars} | 👥 ${pkg.direct_dependents} dependents
+                    </div>
+                </div>
+            `).join('');
+            
+            document.getElementById('high-impact-packages').innerHTML = html || 
+                '<div class="text-gray-500 text-sm">No dependency impact data available</div>';
+        }
+        
+        // Render dependency network (placeholder for now)
+        function renderDependencyNetwork() {
+            document.getElementById('dependency-network').innerHTML = 
+                '<div class="flex items-center justify-center h-64 text-gray-500">Dependency network visualization would be rendered here</div>';
+        }
+        
+        // Render charts tab
+        function renderCharts() {
+            renderStarsForksChart();
+            renderPriorityHistogram();
+            renderDependenciesHistogram();
+            renderActivityTimeline();
+        }
+        
+        // Render stars vs forks scatter plot
+        function renderStarsForksChart() {
+            const repos = appData.priority_repositories?.slice(0, 100) || [];
+            
+            const data = [{
+                x: repos.map(r => r.stars),
+                y: repos.map(r => r.forks),
+                mode: 'markers',
+                type: 'scatter',
+                text: repos.map(r => `${r.owner}/${r.name}`),
+                hovertemplate: '%{text}<br>⭐ %{x} stars<br>🍴 %{y} forks<extra></extra>',
+                marker: {
+                    size: 8,
+                    color: repos.map(r => r.has_package_swift ? 'green' : 'red'),
+                    opacity: 0.7
+                }
+            }];
+            
+            const layout = {
+                xaxis: { title: 'GitHub Stars' },
+                yaxis: { title: 'GitHub Forks' },
+                margin: { t: 20, b: 40, l: 60, r: 20 },
+                height: 400
+            };
+            
+            Plotly.newPlot('stars-forks-chart', data, layout, {responsive: true});
+        }
+        
+        // Render priority histogram
+        function renderPriorityHistogram() {
+            const repos = appData.priority_repositories || [];
+            const scores = repos.map(r => r.priority_score).filter(s => s != null);
+            
+            const data = [{
+                x: scores,
+                type: 'histogram',
+                nbinsx: 20,
+                hovertemplate: 'Score: %{x}<br>Count: %{y}<extra></extra>'
+            }];
+            
+            const layout = {
+                xaxis: { title: 'Priority Score' },
+                yaxis: { title: 'Number of Repositories' },
+                margin: { t: 20, b: 40, l: 60, r: 20 },
+                height: 400
+            };
+            
+            Plotly.newPlot('priority-histogram', data, layout, {responsive: true});
+        }
+        
+        // Render dependencies histogram
+        function renderDependenciesHistogram() {
+            const repos = appData.priority_repositories || [];
+            const depCounts = repos.map(r => r.dependencies_count || 0);
+            
+            const data = [{
+                x: depCounts,
+                type: 'histogram',
+                nbinsx: 15,
+                hovertemplate: 'Dependencies: %{x}<br>Count: %{y}<extra></extra>'
+            }];
+            
+            const layout = {
+                xaxis: { title: 'Number of Dependencies' },
+                yaxis: { title: 'Number of Repositories' },
+                margin: { t: 20, b: 40, l: 60, r: 20 },
+                height: 400
+            };
+            
+            Plotly.newPlot('dependencies-histogram', data, layout, {responsive: true});
+        }
+        
+        // Render activity timeline (placeholder)
+        function renderActivityTimeline() {
+            document.getElementById('activity-timeline').innerHTML = 
+                '<div class="flex items-center justify-center h-64 text-gray-500">Activity timeline chart would be rendered here</div>';
+        }
+        
+        // Filter and search functionality
+        function populateLanguageFilter() {
+            const languages = new Set();
+            (appData.priority_repositories || []).forEach(repo => {
+                if (repo.language) languages.add(repo.language);
+            });
+            
+            const select = document.getElementById('filter-language');
+            if (select) {
+                languages.forEach(lang => {
+                    const option = document.createElement('option');
+                    option.value = lang;
+                    option.textContent = lang;
+                    select.appendChild(option);
+                });
+            }
+        }
+        
+        function filterRepositories() {
+            const searchTerm = document.getElementById('search-repos')?.value.toLowerCase() || '';
+            const selectedLanguage = document.getElementById('filter-language')?.value || '';
+            
+            filteredRepos = (appData.priority_repositories || []).filter(repo => {
+                const matchesSearch = !searchTerm || 
+                    repo.name.toLowerCase().includes(searchTerm) ||
+                    repo.owner.toLowerCase().includes(searchTerm) ||
+                    (repo.rationale && repo.rationale.toLowerCase().includes(searchTerm));
+                
+                const matchesLanguage = !selectedLanguage || repo.language === selectedLanguage;
+                
+                return matchesSearch && matchesLanguage;
+            });
+            
+            if (currentTab === 'priorities') {
+                renderPriorities();
+            }
+        }
+        
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            const button = document.getElementById('theme-toggle');
+            button.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+        }
+        
+        // Download functionality
+        function downloadData() {
+            const dataStr = JSON.stringify(appData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'swift-package-analysis-data.json';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Performance optimization: Lazy load charts only when visible
+        function setupLazyLoading() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('fade-in');
+                    }
+                });
+            });
+            
+            document.querySelectorAll('.chart-container').forEach(chart => {
+                observer.observe(chart);
+            });
+        }
+        
+        // Error handling
+        window.addEventListener('error', function(e) {
+            console.error('JavaScript error:', e.error);
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (window.Plotly) {
+                document.querySelectorAll('[id$="-chart"]').forEach(element => {
+                    Plotly.purge(element);
+                });
+            }
+        });
+        
+    </script>
+</body>
+</html>

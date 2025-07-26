@@ -252,6 +252,32 @@ def analyze_dependencies(args):
         analyzer.close()
 
 
+def generate_github_pages(args):
+    """Generate GitHub Pages compatible site."""
+    generator = ReportGenerator()
+    
+    try:
+        github_pages_path = generator.generate_github_pages_site(
+            f"{args.output_dir}/index.html"
+        )
+        
+        print(f"\n🌐 GitHub Pages site ready: {github_pages_path}")
+        print("\n🚀 Deployment Instructions:")
+        print("1. Commit the index.html file to your repository")
+        print("2. Go to repository Settings > Pages")
+        print("3. Set source to 'Deploy from a branch'")
+        print("4. Select 'main' branch and '/ (root)' folder")
+        print("5. Your site will be available at: https://username.github.io/repository-name/")
+        print("\n📱 The site is optimized for:")
+        print("  • Desktop and mobile viewing")
+        print("  • Fast loading with embedded data")
+        print("  • Interactive charts and filtering")
+        print("  • Dark/light theme support")
+        
+    finally:
+        generator.close()
+
+
 def main():
     """Main analysis CLI entry point with argparse."""
     parser = argparse.ArgumentParser(
@@ -303,6 +329,12 @@ def main():
     deps_parser.add_argument('--max-depth', type=int, default=3,
                             help='Maximum depth for tree analysis')
     deps_parser.set_defaults(func=analyze_dependencies)
+    
+    # GitHub Pages command
+    pages_parser = subparsers.add_parser('github-pages', help='Generate GitHub Pages compatible site')
+    pages_parser.add_argument('--output-dir', default='exports',
+                             help='Output directory for GitHub Pages site')
+    pages_parser.set_defaults(func=generate_github_pages)
     
     # Parse arguments and run appropriate function
     args = parser.parse_args()

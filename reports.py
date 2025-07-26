@@ -475,6 +475,90 @@ class ReportGenerator:
         print(f"✅ Priority analysis CSV saved to {output_path}")
         return output_path
     
+    def generate_github_pages_site(self, output_path: str = "exports/index.html") -> str:
+        """Generate a single-file GitHub Pages compatible site."""
+        from pathlib import Path
+        import json
+        
+        print("🌐 Generating GitHub Pages site...")
+        
+        # Generate all analyses
+        popularity = self.analyzer.generate_popularity_analysis()
+        dependencies = self.analyzer.generate_dependency_analysis()
+        languages = self.analyzer.generate_language_analysis()
+        priorities = self.analyzer.generate_priority_analysis()
+        
+        # Generate dependency tree analysis
+        print("🔍 Building dependency tree analysis...")
+        self.dependency_analyzer.build_dependency_tree()
+        impact_analysis = self.dependency_analyzer.get_impact_analysis()
+        
+        if "error" in popularity:
+            print("No data available for analysis!")
+            return ""
+        
+        # Prepare comprehensive data optimized for web
+        web_data = {
+            "metadata": {
+                "generated_at": datetime.now().isoformat(),
+                "total_repositories": popularity.get("total_repositories", 0),
+                "generation_tool": "Swift Package Android Compatibility Analyzer",
+                "data_size_kb": 0  # Will be calculated
+            },
+            "executive_summary": self._generate_executive_summary(popularity, dependencies, languages),
+            "popularity_analysis": popularity,
+            "dependency_analysis": dependencies,
+            "language_analysis": languages,
+            "priority_repositories": priorities[:100],  # Limit for web performance
+            "dependency_impact_analysis": {
+                "packages": impact_analysis.get("packages", [])[:50],  # Top 50 for web
+                "summary": impact_analysis.get("summary", {})
+            },
+            "statistics": {
+                "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),
+                "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
+                "package_swift_coverage": dependencies.get("package_swift_coverage", {}).get("coverage_percentage", 0),
+                "primary_language": self._get_primary_language(languages),
+                "total_analyzed": popularity.get("total_repositories", 0),
+                "api_usage": self._get_api_usage_stats()
+            }
+        }
+        
+        # Calculate data size
+        data_json = json.dumps(web_data, default=str)
+        data_size_kb = len(data_json.encode('utf-8')) / 1024
+        web_data["metadata"]["data_size_kb"] = round(data_size_kb, 1)
+        
+        print(f"📊 Embedded data size: {data_size_kb:.1f} KB")
+        
+        # Load template
+        template_path = Path(__file__).parent / "github_pages_template.html"
+        if not template_path.exists():
+            raise FileNotFoundError(f"Template not found: {template_path}")
+        
+        with open(template_path, 'r', encoding='utf-8') as f:
+            template_content = f.read()
+        
+        # Embed data in template
+        html_content = template_content.replace(
+            '{{ EMBEDDED_DATA }}', 
+            json.dumps(web_data, default=str)
+        )
+        
+        # Save the final file
+        output_file = Path(output_path)
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        
+        final_size_kb = output_file.stat().st_size / 1024
+        print(f"✅ GitHub Pages site generated: {output_path}")
+        print(f"📄 Final file size: {final_size_kb:.1f} KB")
+        print(f"🚀 Ready for GitHub Pages deployment!")
+        
+        return str(output_path)
+
     def close(self):
         """Close database connections."""
         self.analyzer.close()
@@ -489,26 +573,38 @@ def main():
     parser = argparse.ArgumentParser(description="Generate comprehensive Swift Package analysis reports")
     parser.add_argument('--output-dir', default='exports', help='Output directory for reports')
     parser.add_argument('--csv-limit', type=int, default=50, help='Number of repositories in priority CSV')
+    parser.add_argument('--github-pages', action='store_true', help='Generate GitHub Pages compatible site')
     
     args = parser.parse_args()
     
     generator = ReportGenerator()
     
     try:
-        # Generate comprehensive reports
-        files = generator.generate_comprehensive_report(args.output_dir)
-        
-        # Generate priority CSV
-        csv_path = generator.generate_priority_csv(
-            f"{args.output_dir}/priority_analysis.csv", 
-            args.csv_limit
-        )
-        files['priority_csv'] = csv_path
-        
-        print("\n🎉 Report generation complete!")
-        print("Generated files:")
-        for report_type, file_path in files.items():
-            print(f"  • {report_type}: {file_path}")
+        if args.github_pages:
+            # Generate GitHub Pages site
+            github_pages_path = generator.generate_github_pages_site(
+                f"{args.output_dir}/index.html"
+            )
+            print(f"\n🌐 GitHub Pages site ready: {github_pages_path}")
+            print("To deploy:")
+            print("1. Commit the index.html file to your repository")
+            print("2. Enable GitHub Pages in repository settings")
+            print("3. Set source to main branch / root")
+        else:
+            # Generate comprehensive reports
+            files = generator.generate_comprehensive_report(args.output_dir)
+            
+            # Generate priority CSV
+            csv_path = generator.generate_priority_csv(
+                f"{args.output_dir}/priority_analysis.csv", 
+                args.csv_limit
+            )
+            files['priority_csv'] = csv_path
+            
+            print("\n🎉 Report generation complete!")
+            print("Generated files:")
+            for report_type, file_path in files.items():
+                print(f"  • {report_type}: {file_path}")
             
     finally:
         generator.close()
