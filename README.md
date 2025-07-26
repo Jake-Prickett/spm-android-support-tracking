@@ -43,7 +43,7 @@ This project processes 1000+ Swift packages from the Swift Package Index to:
    ```bash
    # Create virtual environment
    python3 -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   source venv/bin/activate 
    
    # Install dependencies
    pip install -r requirements.txt

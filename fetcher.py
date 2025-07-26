@@ -73,7 +73,7 @@ class GitHubFetcher:
             # Extract from Swift Package Index URL format
             path_parts = (
                 url.replace("https://swiftpackageindex.com/", "")
-                .rstrip(".git")
+                .replace(".git", "")
                 .split("/")
             )
             if len(path_parts) >= 2:
@@ -82,7 +82,7 @@ class GitHubFetcher:
         # Handle direct GitHub URLs
         parsed = urlparse(url)
         if "github.com" in parsed.netloc:
-            path_parts = parsed.path.strip("/").rstrip(".git").split("/")
+            path_parts = parsed.path.strip("/").replace(".git", "").split("/")
             if len(path_parts) >= 2:
                 return path_parts[0], path_parts[1]
 

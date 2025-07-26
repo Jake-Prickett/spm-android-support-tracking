@@ -68,10 +68,22 @@ def fetch_data(args):
             )
             time.sleep(config.batch_delay_minutes * 60)
 
+    # Get final statistics before closing
+    final_stats = processor.get_processing_stats()
     processor.close()
-    print(
-        f"\nData fetch complete! Processed {processed_count} repositories in {batch_count} batches."
-    )
+    
+    # Display comprehensive completion summary
+    print(f"\nData fetch complete! Processed {processed_count} repositories in {batch_count} batches.")
+    print(f"\nAPI Usage Summary:")
+    print(f"  Total GitHub API calls: {final_stats['fetcher_stats']['request_count']}")
+    print(f"  Successful fetches: {final_stats['fetcher_stats']['success_count']}")
+    print(f"  Failed fetches: {final_stats['fetcher_stats']['error_count']}")
+    print(f"  Success rate: {final_stats['success_rate']:.1f}%")
+    if processed_count > 0:
+        avg_calls = final_stats['fetcher_stats']['request_count'] / processed_count
+        print(f"  Average API calls per package: {avg_calls:.1f}")
+    print(f"  Processing time: {final_stats['elapsed_time']:.1f} seconds")
+    print(f"  Rate: {final_stats['repos_per_minute']:.1f} repos/minute")
 
 
 def show_status(args):
@@ -234,6 +246,56 @@ def schedule_runner(args):
         time.sleep(60)  # Check every minute
 
 
+def show_database_info(args=None):
+    """Show database information useful for CI/CD workflows."""
+    db_path = Path(config.database_url.replace("sqlite:///", ""))
+    
+    print("Database Information:")
+    print(f"  Database file: {db_path}")
+    print(f"  Exists: {db_path.exists()}")
+    
+    if db_path.exists():
+        size_mb = db_path.stat().st_size / (1024 * 1024)
+        print(f"  Size: {size_mb:.2f} MB")
+        
+        db = SessionLocal()
+        try:
+            total_repos = db.query(Repository).count()
+            completed_repos = db.query(Repository).filter(
+                Repository.processing_status == "completed"
+            ).count()
+            pending_repos = db.query(Repository).filter(
+                Repository.processing_status == "pending"
+            ).count()
+            error_repos = db.query(Repository).filter(
+                Repository.processing_status == "error"
+            ).count()
+            
+            print(f"  Total repositories: {total_repos}")
+            print(f"  Completed: {completed_repos}")
+            print(f"  Pending: {pending_repos}")
+            print(f"  Errors: {error_repos}")
+            
+            if total_repos > 0:
+                completion_rate = (completed_repos / total_repos) * 100
+                print(f"  Completion rate: {completion_rate:.1f}%")
+                
+                # Check if database is suitable for CI/CD
+                if completion_rate > 50:
+                    print("  ✅ Database has significant data - good for CI/CD persistence")
+                elif completion_rate > 10:
+                    print("  ⚠️  Database has some data - may be worth persisting")
+                else:
+                    print("  ❌ Database has minimal data - consider fresh start in CI")
+                    
+        except Exception as e:
+            print(f"  Error reading database: {e}")
+        finally:
+            db.close()
+    else:
+        print("  ❌ Database does not exist - run 'python main.py init-db' first")
+
+
 def main():
     """Main CLI entry point with argparse."""
     parser = argparse.ArgumentParser(
@@ -258,6 +320,10 @@ def main():
     # Status command
     status_parser = subparsers.add_parser('status', help='Show processing status and statistics')
     status_parser.set_defaults(func=show_status)
+    
+    # Database info command
+    db_info_parser = subparsers.add_parser('db-info', help='Show database information for CI/CD')
+    db_info_parser.set_defaults(func=show_database_info)
     
     # Export command
     export_parser = subparsers.add_parser('export', help='Export repository data')
