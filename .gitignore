@@ -230,3 +230,6 @@ exports/visualizations/*.svg
 # Temporary data processing files
 data/temp/
 data/*.tmp
+
+# Local Claude.md file (avoid committing personal instructions)
+CLAUDE.md

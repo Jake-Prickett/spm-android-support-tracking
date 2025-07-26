@@ -1,15 +1,25 @@
-# Swift Package Support Data Processing
+# Swift Package Android Migration Analysis
 
-A data analysis tool for the Swift Android Working Group that analyzes Swift packages currently supporting Linux but lacking Android support. This tool helps prioritize migration efforts by analyzing repository popularity, dependencies, and community engagement.
+A comprehensive data analysis tool supporting the [Swift Android Working Group](https://github.com/swift-android/swift-android-working-group) initiative to prioritize Swift package migrations for Android compatibility. This tool analyzes 847 Swift packages that currently support Linux but lack Android support, providing data-driven insights to guide migration efforts.
+
+## Project Goals
+
+The Swift Android Working Group aims to accelerate Swift's adoption on Android by enabling existing Swift packages to work seamlessly across platforms. This tool contributes by:
+
+- **Identifying High-Impact Packages**: Analyze popularity metrics, dependency relationships, and community engagement to prioritize which packages would unlock the most value when migrated
+- **Mapping Package Dependencies**: Build comprehensive dependency graphs to understand migration cascades and identify foundational packages
+- **Providing Data-Driven Insights**: Generate detailed reports with priority rankings, impact analysis, and migration recommendations
+- **Supporting Community Efforts**: Create accessible visualizations and reports that help maintainers and contributors understand migration opportunities
 
 ## Overview
 
-This project processes 1000+ Swift packages from the Swift Package Index to:
-- 📊 Analyze repository popularity and community metrics from GitHub
-- 🔍 Identify high-impact packages for Android compatibility migration
-- 🕸️ Map dependency relationships between packages
-- 🎯 Generate priority rankings based on data-driven insights
-- 📈 Create comprehensive reports and interactive visualizations
+This analysis tool processes 847 Swift packages from the Swift Package Index that support Linux but not Android, providing:
+
+- Repository popularity analysis from GitHub metadata
+- Dependency network mapping and impact analysis  
+- Multi-factor priority scoring for migration efforts
+- Interactive reports and visualizations
+- Comprehensive data exports for community use
 
 ## Data Flow Overview
 
@@ -51,16 +61,41 @@ graph TD
     style J fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000
 ```
 
-## Features
+## Architecture and Features
 
-- **GitHub API Integration**: Fetch repository metadata with intelligent rate limiting
-- **SQLite Database**: Local storage for efficient analysis of package data
-- **Package.swift Parsing**: Extract dependencies and Swift version requirements
-- **Priority Scoring**: Multi-factor algorithm ranking packages by migration value
-- **Interactive Reports**: HTML reports with charts and dependency visualizations
-- **Multiple Export Formats**: JSON, CSV, and HTML outputs for different use cases
-- **Batch Processing**: Respectful API usage with progress tracking
-- **Dependency Analysis**: Network graphs showing package relationships
+### Core Components
+
+- **GitHub API Integration**: Automated repository metadata collection with intelligent rate limiting (5000 requests/hour with authentication)
+- **SQLite Database**: Local storage with SQLAlchemy ORM for efficient data management and analysis
+- **Package.swift Analysis**: Automated parsing to extract dependencies, Swift version requirements, and compatibility information
+- **Priority Scoring Algorithm**: Multi-factor ranking system considering stars, forks, dependency impact, and recent activity
+- **Dependency Network Analysis**: Graph-based analysis to identify high-impact packages and migration cascades
+- **Interactive Report Generation**: Professional HTML reports with embedded visualizations and GitHub Pages compatibility
+- **Multiple Export Formats**: JSON, CSV, and HTML outputs optimized for different stakeholders and use cases
+- **Batch Processing Pipeline**: Respectful API usage with automatic retry logic and comprehensive error handling
+
+### Technical Architecture
+
+The tool follows a modular architecture designed for scalability and maintainability:
+
+```
+Data Ingestion → API Collection → Storage → Analysis → Report Generation
+     ↓              ↓              ↓         ↓            ↓
+   CSV Input    GitHub Metadata   SQLite   Priority    Multi-format
+   847 packages  Rate Limited     Local DB  Scoring     Exports
+```
+
+### Priority Scoring Methodology
+
+The priority scoring algorithm considers multiple factors to rank packages by migration value:
+
+1. **Community Adoption**: GitHub stars and fork counts indicate package popularity and adoption
+2. **Dependency Impact**: Packages with many dependents unlock more value when migrated
+3. **Maintenance Activity**: Recent commits and releases suggest active maintenance
+4. **Technical Readiness**: Presence of Package.swift files and Swift version compatibility
+5. **Network Effects**: Position in dependency graph and potential cascade effects
+
+Scores are normalized to 0.0-1.0 range with detailed rationale provided for each package.
 
 ## Setup
 
@@ -250,11 +285,13 @@ Repository Processing Status:
 ### Analysis Report Sample
 ```bash
 $ python analyze.py stats
-📊 Swift Package Analysis Summary
-├── Total Repositories: 156
-├── Average Stars: 1,247
-├── Most Popular: Alamofire/Alamofire (40K stars)
-└── Top Language: Swift (89.2%)
+=== SWIFT PACKAGE ANALYSIS SUMMARY ===
+Total Repositories: 156
+Average Stars: 1,247
+Most Popular: Alamofire/Alamofire (40K stars)
+Primary Language: Swift (89.2%)
+Package.swift Coverage: 92.3%
+API Success Rate: 94.7%
 ```
 
 ## Troubleshooting
@@ -377,17 +414,8 @@ graph TD
 
 ## Contributing
 
-This project supports the Swift Android Working Group initiative. Contributions welcome for:
-- Enhanced Package.swift parsing capabilities
-- Additional interactive visualizations  
-- Performance optimizations
-- Web dashboard development
-- Migration tracking features
+This project supports the [Swift Android Working Group](https://github.com/swift-android/swift-android-working-group) initiative to bring Swift to Android. Contributions welcome for enhanced analysis features, visualizations, and performance improvements.
 
-## License
+## Acknowledgments
 
-See LICENSE file for details.
-
----
-
-**Goal**: Accelerate Swift's Android ecosystem by prioritizing high-impact package migrations through data-driven insights! 🚀
+This project supports the Swift Android Working Group's mission to accelerate Swift adoption on Android through systematic package migration analysis. Special thanks to the Swift Package Index team for maintaining comprehensive package metadata.
