@@ -689,8 +689,10 @@
         // Render summary cards
         function renderSummaryCards() {
             const stats = appData.statistics || {};
+            const androidStats = stats.android_compatibility || {};
             const cards = [
                 { title: 'Total Repositories', value: stats.total_analyzed || 0, icon: '📊' },
+                { title: 'Android Compatible', value: `${androidStats.android_percentage || 0}%`, icon: '🤖', subtitle: `${androidStats.android_compatible || 0} of ${androidStats.total_repositories || 0}` },
                 { title: 'Average Stars', value: Math.round(stats.avg_stars || 0), icon: '⭐' },
                 { title: 'Primary Language', value: stats.primary_language || 'Unknown', icon: '💻' }
             ];
@@ -702,6 +704,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500">${card.title}</p>
                             <p class="text-2xl font-bold text-gray-900">${card.value}</p>
+                            ${card.subtitle ? `<p class="text-xs text-gray-400 mt-1">${card.subtitle}</p>` : ''}
                         </div>
                     </div>
                 </div>

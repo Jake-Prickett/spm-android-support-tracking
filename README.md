@@ -25,7 +25,7 @@ This analysis tool processes Swift packages from the Swift Package Index that su
 
 ```mermaid
 graph TD
-    A[Input Data<br/>linux-compatible-android-incompatible.csv<br/>847 Swift packages] --> B[Database Setup<br/>SQLite initialization]
+    A[Input Data<br/>data/linux-compatible-android-incompatible.csv<br/>1065 Swift packages] --> B[Database Setup<br/>SQLite initialization]
     
     B --> C[GitHub Data Collection<br/>Repository metadata<br/>Stars, forks, language info]
     C --> D[Package Analysis<br/>Parse Package.swift files<br/>Extract dependencies]
@@ -82,7 +82,7 @@ The tool follows a modular architecture designed for scalability and maintainabi
 Data Ingestion → API Collection → Storage → Analysis → Report Generation
      ↓              ↓              ↓         ↓            ↓
    CSV Input    GitHub Metadata   SQLite   Priority    Multi-format
-   847 packages  Rate Limited     Local DB  Scoring     Exports
+   1065 packages  Rate Limited     Local DB  Scoring     Exports
 ```
 
 ### Priority Scoring Methodology
@@ -284,7 +284,8 @@ The project follows a standard Python package structure for improved maintainabi
 ├── requirements.txt             # Python dependencies
 ├── .env.example                # Environment template
 ├── setup.sh                    # Automated setup script
-├── linux-compatible-android-incompatible.csv  # Input data
+├── data/
+│   └── linux-compatible-android-incompatible.csv  # Input data
 ├── swift_packages.db           # SQLite database
 ├── logs/                       # Application logs
 └── exports/                    # Generated outputs
@@ -395,7 +396,7 @@ python swift_analyzer.py setup
 ```
 
 **Empty Results:**
-- Verify `linux-compatible-android-incompatible.csv` exists
+- Verify `data/linux-compatible-android-incompatible.csv` exists
 - Check network connection for GitHub API access
 
 ### Getting Help
@@ -409,7 +410,7 @@ python swift_analyzer.py setup
 
 ```mermaid
 graph TD
-    A[CSV Input<br/>linux-compatible-android-incompatible.csv<br/>847 packages] --> B[Database Initialization<br/>SQLite + SQLAlchemy]
+    A[CSV Input<br/>data/linux-compatible-android-incompatible.csv<br/>1065 packages] --> B[Database Initialization<br/>SQLite + SQLAlchemy]
     
     B --> C[Data Fetching Pipeline]
     C --> D{GitHub API Integration<br/>Rate Limited<br/>5000/hour with token}

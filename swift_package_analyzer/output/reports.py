@@ -68,6 +68,7 @@ class ReportGenerator:
                 "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
                 "primary_language": self._get_primary_language(languages),
                 "total_analyzed": popularity.get("total_repositories", 0),
+                "android_compatibility": self._get_android_compatibility_stats(),
                 "api_usage": self._get_api_usage_stats()
             }
         }
@@ -133,6 +134,48 @@ class ReportGenerator:
             return "Unknown"
         return max(lang_dist.items(), key=lambda x: x[1])[0]
     
+    def _get_android_compatibility_stats(self) -> Dict[str, Any]:
+        """Get Android compatibility statistics."""
+        try:
+            total_repos = self.db.query(Repository).filter(
+                Repository.processing_status == "completed"
+            ).count()
+            
+            android_compatible = self.db.query(Repository).filter(
+                Repository.processing_status == "completed",
+                Repository.android_compatible == True
+            ).count()
+            
+            android_not_compatible = self.db.query(Repository).filter(
+                Repository.processing_status == "completed",
+                Repository.android_compatible == False
+            ).count()
+            
+            # Calculate percentages
+            android_percentage = (android_compatible / total_repos * 100) if total_repos > 0 else 0
+            progress_percentage = android_percentage  # Same as android_percentage for now
+            
+            return {
+                "total_repositories": total_repos,
+                "android_compatible": android_compatible,
+                "android_not_compatible": android_not_compatible,
+                "android_percentage": round(android_percentage, 1),
+                "progress_percentage": round(progress_percentage, 1),
+                "migration_target": total_repos,  # Target is to migrate all repos
+                "remaining_to_migrate": android_not_compatible
+            }
+        except Exception as e:
+            print(f"Error calculating Android compatibility stats: {e}")
+            return {
+                "total_repositories": 0,
+                "android_compatible": 0,
+                "android_not_compatible": 0,
+                "android_percentage": 0.0,
+                "progress_percentage": 0.0,
+                "migration_target": 0,
+                "remaining_to_migrate": 0
+            }
+
     def _get_api_usage_stats(self) -> Dict[str, Any]:
         """Get API usage statistics from processing logs."""
         from swift_package_analyzer.core.models import ProcessingLog, SessionLocal
@@ -512,6 +555,7 @@ class ReportGenerator:
                 "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
                 "primary_language": self._get_primary_language(languages),
                 "total_analyzed": popularity.get("total_repositories", 0),
+                "android_compatibility": self._get_android_compatibility_stats(),
                 "api_usage": self._get_api_usage_stats()
             }
         }

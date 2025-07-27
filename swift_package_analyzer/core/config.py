@@ -30,7 +30,7 @@ class Config:
     batch_delay_minutes: int = 2  # 60 minutes / 29 batches = ~2.1 minutes (70% utilization)
 
     # Data processing settings
-    csv_file_path: str = "linux-compatible-android-incompatible.csv"
+    csv_file_path: str = "data/linux-compatible-android-incompatible.csv"
 
     # Logging settings
     log_level: str = "INFO"

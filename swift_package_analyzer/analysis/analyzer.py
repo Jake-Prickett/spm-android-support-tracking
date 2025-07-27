@@ -45,6 +45,8 @@ class PackageAnalyzer:
                     "has_package_swift": repo.has_package_swift,
                     "swift_tools_version": repo.swift_tools_version,
                     "dependencies_count": repo.dependencies_count or 0,
+                    "linux_compatible": repo.linux_compatible,
+                    "android_compatible": repo.android_compatible,
                     "created_at": repo.created_at,
                     "updated_at": repo.updated_at,
                     "pushed_at": repo.pushed_at,

@@ -36,9 +36,11 @@ def collect_command(args):
         args.batch_size = 3
         args.max_batches = 1
         print("Running test collection (3 repositories)")
-    elif not args.batch_size:
-        # Auto-detect based on GitHub token availability
-        args.batch_size = 10 if config.github_token else 5
+    elif not config.github_token and args.batch_size == config.repositories_per_batch:
+        # Reduce batch size if using default with no token
+        args.batch_size = 5
+        print(f"Using reduced batch size: {args.batch_size} (no GitHub token)")
+    else:
         print(f"Using batch size: {args.batch_size}")
     
     # Call existing fetch_data function
@@ -134,8 +136,8 @@ Examples:
         help='Fetch repository data from GitHub'
     )
     collect_parser.add_argument(
-        '--batch-size', type=int, 
-        help='Repositories per batch (auto-detected if not specified)'
+        '--batch-size', type=int, default=config.repositories_per_batch,
+        help=f'Repositories per batch (default: {config.repositories_per_batch})'
     )
     collect_parser.add_argument(
         '--max-batches', type=int,

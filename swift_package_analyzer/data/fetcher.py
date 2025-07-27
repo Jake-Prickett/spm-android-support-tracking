@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 import requests
 from github import Github, RateLimitExceededException, GithubException
 from tqdm import tqdm
+from bs4 import BeautifulSoup
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.core.models import ProcessingLog, Repository, SessionLocal
@@ -123,6 +124,15 @@ class GitHubFetcher:
                 except Exception as e:
                     logger.warning(f"Error parsing Package.swift for {owner}/{repo_name}: {e}")
                     metadata["dependencies_count"] = 0
+
+            # Check Android support from Swift Package Index
+            try:
+                android_support = self.check_android_support_spi(owner, repo_name)
+                if android_support is not None:
+                    metadata["android_compatible"] = android_support
+                    logger.info(f"Updated Android support status for {owner}/{repo_name}: {android_support}")
+            except Exception as e:
+                logger.warning(f"Error checking Android support for {owner}/{repo_name}: {e}")
 
             # Add processing metadata
             metadata["fetch_duration"] = time.time() - start_time
@@ -269,6 +279,220 @@ class GitHubFetcher:
 
         return dependencies
 
+    def check_android_support_spi(self, owner: str, repo_name: str) -> Optional[bool]:
+        """Check Android support status from Swift Package Index with multiple strategies."""
+        # Strategy 1: Try Swift Package Index website
+        android_support = self._scrape_spi_website(owner, repo_name)
+        if android_support is not None:
+            return android_support
+        
+        # Strategy 2: Check Package.swift for platform declarations (if we have the content)
+        # This will be handled separately in the main processing flow
+        
+        # Strategy 3: Heuristic based on package characteristics
+        # For now, return None if we can't determine from SPI
+        return None
+    
+    def _scrape_spi_website(self, owner: str, repo_name: str) -> Optional[bool]:
+        """Scrape Swift Package Index website for Android support indicators."""
+        spi_url = f"https://swiftpackageindex.com/{owner}/{repo_name}"
+        
+        try:
+            # Multiple user agents to try
+            user_agents = [
+                'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            ]
+            
+            for user_agent in user_agents:
+                headers = {
+                    'User-Agent': user_agent,
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Language': 'en-US,en;q=0.5',
+                    'Accept-Encoding': 'gzip, deflate',
+                    'DNT': '1',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1',
+                }
+                
+                try:
+                    # Add delay to be respectful
+                    time.sleep(1)
+                    response = self.session.get(spi_url, headers=headers, timeout=15)
+                    
+                    if response.status_code == 200:
+                        return self._parse_spi_page(response.content, owner, repo_name)
+                    elif response.status_code == 404:
+                        logger.debug(f"Package {owner}/{repo_name} not found on Swift Package Index")
+                        return None
+                    elif response.status_code == 403:
+                        logger.debug(f"Access denied for {owner}/{repo_name}, trying next user agent")
+                        continue
+                    else:
+                        logger.warning(f"HTTP {response.status_code} for {owner}/{repo_name}")
+                        continue
+                        
+                except requests.exceptions.RequestException as e:
+                    logger.debug(f"Request failed for {owner}/{repo_name} with user agent {user_agent[:20]}...: {e}")
+                    continue
+            
+            # If all user agents failed
+            logger.warning(f"All attempts failed to fetch SPI page for {owner}/{repo_name}")
+            return None
+            
+        except Exception as e:
+            logger.warning(f"Error fetching SPI page for {owner}/{repo_name}: {e}")
+            return None
+    
+    def _parse_spi_page(self, content: bytes, owner: str, repo_name: str) -> Optional[bool]:
+        """Parse Swift Package Index page content for Android support indicators.
+        
+        Looks for platform compatibility badges and checks their visual state:
+        - Green background indicates supported platform
+        - Grey/disabled background indicates unsupported platform
+        """
+        try:
+            soup = BeautifulSoup(content, 'html.parser')
+            
+            # Strategy 1: Look for platform compatibility badges/buttons with Android text
+            # These usually have classes like 'badge', 'platform', 'btn', etc.
+            android_elements = soup.find_all(
+                ['span', 'div', 'button', 'a'],
+                string=lambda text: text and 'android' in text.lower()
+            )
+            
+            for element in android_elements:
+                # Check the element and its parents for styling indicators
+                elements_to_check = [element] + list(element.parents)[:3]  # Check element + up to 3 parents
+                
+                for elem in elements_to_check:
+                    # Get style attribute
+                    style = elem.get('style', '').lower()
+                    
+                    # Get class attributes 
+                    class_attr = elem.get('class', [])
+                    if isinstance(class_attr, str):
+                        class_attr = [class_attr]
+                    classes = ' '.join(class_attr).lower()
+                    
+                    # Check for green indicators (supported) - Swift Package Index specific
+                    green_indicators = [
+                        'green', 'success', 'enabled', 'supported', 'active',
+                        # Swift Package Index enabled Android colors
+                        'rgb(14, 191, 76)', 'rgb(255, 255, 255)',
+                        '#0ebf4c', '#ffffff',
+                        # Swift Package Index CSS classes - be specific to avoid matching "incompatible"
+                        'result compatible',
+                        # Additional common green variations
+                        'rgb(34, 197, 94)', 'rgb(22, 163, 74)', '#22c55e', '#16a34a',
+                        'bg-green', 'text-green', 'border-green'
+                    ]
+                    
+                    # Check for grey/disabled indicators (not supported) - Swift Package Index specific
+                    grey_indicators = [
+                        'grey', 'gray', 'disabled', 'inactive', 'muted', 'unavailable', 'incompatible',
+                        # Swift Package Index disabled Android colors
+                        'rgb(25, 25, 35)', 'rgb(154, 154, 154)',
+                        '#191923', '#9a9a9a',
+                        # Swift Package Index CSS classes
+                        'result incompatible', 'incompatible', 'result unknown', 'unknown',
+                        # Additional common grey variations
+                        'rgb(156, 163, 175)', 'rgb(107, 114, 128)', '#9ca3af', '#6b7280',
+                        'bg-gray', 'text-gray', 'border-gray', 'opacity-50', 'opacity-25'
+                    ]
+                    
+                    # Check style and classes for indicators
+                    content_to_check = f"{style} {classes}"
+                    
+                    if any(indicator in content_to_check for indicator in green_indicators):
+                        logger.info(f"Found Android with green/supported styling for {owner}/{repo_name}")
+                        return True
+                    elif any(indicator in content_to_check for indicator in grey_indicators):
+                        logger.info(f"Found Android with grey/disabled styling for {owner}/{repo_name}")
+                        return False
+            
+            # Strategy 2: Look for platform grids/lists and check Android element styling
+            platform_containers = soup.find_all(['div', 'ul', 'ol'], 
+                                               class_=lambda x: x and any(keyword in str(x).lower() 
+                                                                         for keyword in ['platform', 'compatibility', 'support', 'badge']))
+            
+            for container in platform_containers:
+                # Find all elements in container that might contain Android
+                child_elements = container.find_all(['span', 'div', 'li', 'button', 'a'])
+                
+                for child in child_elements:
+                    text = child.get_text().lower()
+                    if 'android' in text:
+                        # Check styling of this specific child
+                        style = child.get('style', '').lower()
+                        classes = ' '.join(child.get('class', [])).lower()
+                        content_to_check = f"{style} {classes}"
+                        
+                        green_indicators = [
+                            'green', 'success', 'enabled', 'supported', 'active',
+                            # Swift Package Index enabled colors
+                            'rgb(14, 191, 76)', 'rgb(255, 255, 255)', '#0ebf4c', '#ffffff',
+                            # Swift Package Index CSS classes - be specific to avoid matching "incompatible"
+                            'result compatible',
+                            # Additional variations
+                            'rgb(34, 197, 94)', '#22c55e', 'bg-green'
+                        ]
+                        grey_indicators = [
+                            'grey', 'gray', 'disabled', 'inactive', 'muted', 'incompatible',
+                            # Swift Package Index disabled colors
+                            'rgb(25, 25, 35)', 'rgb(154, 154, 154)', '#191923', '#9a9a9a',
+                            # Swift Package Index CSS classes
+                            'result incompatible', 'incompatible', 'result unknown', 'unknown',
+                            # Additional variations
+                            'rgb(156, 163, 175)', '#9ca3af', 'bg-gray', 'opacity-50'
+                        ]
+                        
+                        if any(indicator in content_to_check for indicator in green_indicators):
+                            logger.info(f"Found Android with green styling in platform container for {owner}/{repo_name}")
+                            return True
+                        elif any(indicator in content_to_check for indicator in grey_indicators):
+                            logger.info(f"Found Android with grey styling in platform container for {owner}/{repo_name}")
+                            return False
+            
+            # Strategy 3: Look for images/icons with Android in alt/title and check parent styling
+            images = soup.find_all('img')
+            for img in images:
+                alt_text = img.get('alt', '').lower()
+                title = img.get('title', '').lower()
+                src = img.get('src', '').lower()
+                
+                if any('android' in text for text in [alt_text, title, src]):
+                    # Check parent elements for styling
+                    for parent in list(img.parents)[:3]:
+                        style = parent.get('style', '').lower()
+                        classes = ' '.join(parent.get('class', [])).lower()
+                        content_to_check = f"{style} {classes}"
+                        
+                        if any(indicator in content_to_check for indicator in ['green', 'success', 'enabled']):
+                            logger.info(f"Found Android icon with green parent styling for {owner}/{repo_name}")
+                            return True
+                        elif any(indicator in content_to_check for indicator in ['grey', 'gray', 'disabled']):
+                            logger.info(f"Found Android icon with grey parent styling for {owner}/{repo_name}")
+                            return False
+            
+            # Strategy 4: Fallback - if we found Android mentioned but no clear styling indicators,
+            # look for general patterns that might indicate support
+            page_text = soup.get_text().lower()
+            if 'android' in page_text:
+                # Look for positive indicators near Android mentions
+                if any(phrase in page_text for phrase in ['android support', 'supports android', 'android compatible']):
+                    logger.info(f"Found positive Android support text for {owner}/{repo_name}")
+                    return True
+            
+            # No clear Android support indicators found
+            logger.debug(f"No clear Android support indicators found for {owner}/{repo_name}")
+            return False  # Default to False (not supported) instead of None
+            
+        except Exception as e:
+            logger.warning(f"Error parsing SPI page content for {owner}/{repo_name}: {e}")
+            return None
+
 
 class DataProcessor:
     """Processes repository data and updates the database with enhanced progress tracking."""
@@ -335,7 +559,9 @@ class DataProcessor:
                     repo.last_fetched = datetime.now()
                     repo.processing_status = "completed"
                     repo.linux_compatible = True  # All repos in our CSV are Linux compatible
-                    repo.android_compatible = False  # All repos in our CSV are NOT Android compatible
+                    # android_compatible will be set from metadata if detected, otherwise defaults to False
+                    if 'android_compatible' not in valid_fields:
+                        repo.android_compatible = False  # Default for repos in our CSV
                     self.db.add(repo)
 
                 self.db.commit()
