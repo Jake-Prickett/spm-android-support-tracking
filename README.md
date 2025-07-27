@@ -136,72 +136,79 @@ Scores are normalized to 0.0-1.0 range with detailed rationale provided for each
 
 ### Initialize Database
 ```bash
-python main.py init-db
+python swift_analyzer.py setup
 ```
 
 ## Usage
 
-### Data Collection
+### Quick Start Workflow
+```bash
+# One-time setup
+python swift_analyzer.py setup
+
+# Fetch repository data (uses smart defaults)
+python swift_analyzer.py collect
+
+# Generate comprehensive analysis and reports
+python swift_analyzer.py analyze
+
+# Check results
+python swift_analyzer.py stats
+```
+
+### Detailed Usage
+
+#### Data Collection
 ```bash
 # Test with small batch (recommended first run)
-python main.py fetch-data --batch-size 5 --max-batches 1
+python swift_analyzer.py collect --test
 
 # Process larger datasets
-python main.py fetch-data --batch-size 10 --max-batches 5
+python swift_analyzer.py collect --batch-size 10 --max-batches 5
 
-# Process all repositories (respects rate limits)
-python main.py fetch-data
+# Process all repositories (uses smart defaults based on GitHub token)
+python swift_analyzer.py collect
 ```
 
-### Analysis and Reporting
+#### Analysis and Reporting
 ```bash
 # Quick statistics overview
-python analyze.py stats
+python swift_analyzer.py stats
 
-# Comprehensive HTML report with interactive charts
-python analyze.py comprehensive --output-dir exports
+# Generate all reports (comprehensive + dependencies)
+python swift_analyzer.py analyze
 
-# Dependency network analysis
-python analyze.py dependencies --output-dir exports/dependencies
+# Generate specific report types
+python swift_analyzer.py analyze --comprehensive
+python swift_analyzer.py analyze --dependencies
+python swift_analyzer.py analyze --web
 
 # Export data in various formats
-python main.py export --format csv --output data.csv
-python main.py export --format json --output data.json
+python swift_analyzer.py export --csv
+python swift_analyzer.py export --json
 ```
 
-### Check Status
+#### Check Status
 ```bash
 # View processing status and database statistics
-python main.py status
+python swift_analyzer.py status
 ```
 
 ### GitHub Pages Generation
 ```bash
-# Generate GitHub Pages compatible site
-python analyze.py github-pages --output-dir exports
+# Generate web-ready site
+python swift_analyzer.py analyze --web
 
-# Alternative: Generate via reports.py
-python reports.py --github-pages --output-dir exports
-
-# Generate comprehensive reports and GitHub Pages in one command
-python analyze.py comprehensive --output-dir exports
-python analyze.py github-pages --output-dir exports
+# Deploy to repository root
+python swift_analyzer.py analyze --web --output-dir .
+git add index.html
+git commit -m "Add analysis site"
+git push origin main
 ```
 
 ## GitHub Pages Deployment
 
 Generate a complete analysis website for public sharing:
-
-```bash
-# Generate GitHub Pages site
-python analyze.py github-pages --output-dir exports
-
-# Deploy to repository root
-python analyze.py github-pages --output-dir .
-git add index.html
-git commit -m "Add analysis site"
-git push origin main
-```
 
 **Enable GitHub Pages**: Repository Settings → Pages → Deploy from branch → main/root
 
@@ -211,31 +218,38 @@ The generated `index.html` includes all visualizations, data exports, and intera
 
 ## Command Reference
 
-### Main Commands (`main.py`)
-| Command | Description | Example |
-|---------|-------------|---------|
-| `init-db` | Initialize database tables | `python main.py init-db` |
-| `fetch-data` | Collect repository data from GitHub | `python main.py fetch-data --batch-size 10` |
-| `status` | Show processing statistics | `python main.py status` |
-| `export` | Export data to CSV/JSON | `python main.py export --format csv` |
-| `schedule-runner` | Run scheduled batch processing | `python main.py schedule-runner` |
+### Simplified CLI (`swift_analyzer.py`)
 
-### Analysis Commands (`analyze.py`)
+#### Core Workflow Commands
 | Command | Description | Example |
 |---------|-------------|---------|
-| `stats` | Quick overview statistics | `python analyze.py stats` |
-| `comprehensive` | Full HTML/JSON reports | `python analyze.py comprehensive` |
-| `report` | JSON analysis report | `python analyze.py report --output report.json` |
-| `visualize` | Generate charts | `python analyze.py visualize --output-dir charts` |
-| `priorities` | Priority ranking analysis | `python analyze.py priorities --limit 25` |
-| `dependencies` | Dependency network analysis | `python analyze.py dependencies` |
-| `github-pages` | Generate GitHub Pages site | `python analyze.py github-pages --output-dir exports` |
+| `setup` | Initialize database and environment | `python swift_analyzer.py setup` |
+| `collect` | Fetch repository data from GitHub | `python swift_analyzer.py collect --test` |
+| `analyze` | Generate analysis and reports | `python swift_analyzer.py analyze` |
+| `status` | Show processing status | `python swift_analyzer.py status` |
 
-### Report Generation (`reports.py`)
+#### Quick Actions
 | Command | Description | Example |
 |---------|-------------|---------|
-| `reports.py` | Direct comprehensive reports | `python reports.py --output-dir exports` |
-| `reports.py --github-pages` | Generate GitHub Pages site | `python reports.py --github-pages --output-dir exports` |
+| `stats` | Quick overview statistics | `python swift_analyzer.py stats` |
+| `export` | Export data to CSV/JSON | `python swift_analyzer.py export --csv` |
+
+#### Analysis Options
+| Flag | Description | Usage |
+|------|-------------|-------|
+| `--comprehensive` | Generate HTML/JSON reports | `python swift_analyzer.py analyze --comprehensive` |
+| `--dependencies` | Include dependency analysis | `python swift_analyzer.py analyze --dependencies` |
+| `--web` | Generate web-ready site | `python swift_analyzer.py analyze --web` |
+
+#### Collection Options
+| Flag | Description | Usage |
+|------|-------------|-------|
+| `--test` | Run small test batch (3 repos) | `python swift_analyzer.py collect --test` |
+| `--batch-size N` | Set batch size | `python swift_analyzer.py collect --batch-size 20` |
+| `--max-batches N` | Limit number of batches | `python swift_analyzer.py collect --max-batches 5` |
+
+### Legacy Commands (Still Available)
+The original `main.py`, `analyze.py`, and `reports.py` commands remain available for backward compatibility, but the new unified CLI is recommended for all new usage.
 
 ## Project Structure
 
@@ -335,7 +349,7 @@ The project follows a standard Python package structure for improved maintainabi
 
 ### Status Check
 ```bash
-$ python main.py status
+$ python swift_analyzer.py status
 Repository Processing Status:
   Total repositories: 156
   Completed: 143
@@ -345,13 +359,18 @@ Repository Processing Status:
 
 ### Analysis Report Sample
 ```bash
-$ python analyze.py stats
-=== SWIFT PACKAGE ANALYSIS SUMMARY ===
-Total Repositories: 156
-Average Stars: 1,247
-Most Popular: Alamofire/Alamofire (40K stars)
-Primary Language: Swift (89.2%)
-API Success Rate: 94.7%
+$ python swift_analyzer.py stats
+=== QUICK STATISTICS ===
+📊 Total Repositories: 156
+⭐ Average Stars: 1,247
+🔗 Average Dependencies: 12.3
+
+🌐 API Usage Summary:
+   Success rate: 94.7%
+
+🏆 Most Popular Repositories:
+  1. Alamofire/Alamofire (40,234 ⭐)
+  2. ReactiveX/RxSwift (23,456 ⭐)
 ```
 
 ## Troubleshooting
@@ -372,7 +391,7 @@ pip install -r requirements.txt
 **Database Errors:**
 ```bash
 # Reinitialize database if needed
-python main.py init-db
+python swift_analyzer.py setup
 ```
 
 **Empty Results:**
@@ -381,8 +400,8 @@ python main.py init-db
 
 ### Getting Help
 - Check logs in `logs/` directory for detailed error information
-- Use `python main.py status` to verify database state
-- Test with small batches first: `--batch-size 5 --max-batches 1`
+- Use `python swift_analyzer.py status` to verify database state
+- Test with small batches first: `python swift_analyzer.py collect --test`
 
 ## Technical Details
 

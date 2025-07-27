@@ -40,7 +40,7 @@ fi
 
 # Initialize database
 echo "🗄️ Initializing database..."
-python main.py init-db
+python swift_analyzer.py setup
 
 echo ""
 echo "🎉 Setup complete! Next steps:"
@@ -49,12 +49,16 @@ echo "1. Edit .env file with your GitHub token:"
 echo "   nano .env"
 echo ""
 echo "2. Test the setup:"
-echo "   python main.py status"
+echo "   python swift_analyzer.py status"
 echo ""
 echo "3. Process some repositories:"
-echo "   python main.py fetch-data --batch-size 5 --max-batches 1"
+echo "   python swift_analyzer.py collect --test"
 echo ""
 echo "4. Generate analysis:"
-echo "   python analyze.py stats"
+echo "   python swift_analyzer.py stats"
+echo ""
+echo "📚 Quick workflow:"
+echo "   python swift_analyzer.py collect    # Fetch data"
+echo "   python swift_analyzer.py analyze    # Generate reports"
 echo ""
 echo "For full documentation, see README.md"
