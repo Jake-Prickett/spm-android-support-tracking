@@ -16,22 +16,19 @@ from swift_package_analyzer.core.models import ProcessingLog, Repository, Sessio
 
 def _countdown_timer(total_seconds):
     """Display a countdown timer for the specified number of seconds."""
-    print(f"Waiting {total_seconds // 60} minutes before next batch...")
-    
     for remaining in range(total_seconds, 0, -1):
         minutes, seconds = divmod(remaining, 60)
-        timer_display = f"\rTime remaining: {minutes:02d}:{seconds:02d}"
+        timer_display = f"\rNext batch in: {minutes:02d}:{seconds:02d}"
         print(timer_display, end="", flush=True)
         time.sleep(1)
     
-    print("\rContinuing with next batch...                    ")  # Clear the timer line
+    print("\r" + " " * 20 + "\r", end="")
 
 
 def init_database(args):
     """Initialize the database with required tables."""
-    print("Initializing database...")
     create_tables()
-    print("Database initialized successfully!")
+    print("Database initialized")
 
 
 def fetch_data(args):
@@ -39,13 +36,13 @@ def fetch_data(args):
     batch_size = args.batch_size
     max_batches = args.max_batches
     
-    print(f"Starting data fetch with batch size: {batch_size}")
+    print(f"Processing repositories: batch size {batch_size}")
 
     processor = DataProcessor()
     urls = processor.load_csv_repositories()
 
     if not urls:
-        print("No URLs found in CSV file!")
+        print("No repositories found in source data")
         return
 
     total_urls = len(urls)
@@ -67,37 +64,22 @@ def fetch_data(args):
         results = processor.process_batch(batch)
         processed_count += len(batch)
 
-        print(
-            f"Batch {batch_count} complete: {results['success']} success, {results['error']} errors"
-        )
-        print(f"Progress: {processed_count}/{total_urls} repositories processed")
+        print(f"Batch {batch_count}: {results['success']} success, {results['error']} errors ({processed_count}/{total_urls})")
 
-        # Only wait between batches if we actually fetched data from remote (not all skipped)
-        # and we're not on the last batch
         fetched_count = results['success'] + results['error']
         if (i + batch_size < total_urls and 
             (not max_batches or batch_count < max_batches) and
             fetched_count > 0):
             _countdown_timer(config.batch_delay_minutes * 60)
         elif fetched_count == 0:
-            print("All repositories in batch were skipped - continuing immediately to next batch")
+            print("Batch skipped - no new data to fetch")
 
-    # Get final statistics before closing
     final_stats = processor.get_processing_stats()
     processor.close()
     
-    # Display comprehensive completion summary
-    print(f"\nData fetch complete! Processed {processed_count} repositories in {batch_count} batches.")
-    print(f"\nAPI Usage Summary:")
-    print(f"  Total GitHub API calls: {final_stats['fetcher_stats']['request_count']}")
-    print(f"  Successful fetches: {final_stats['fetcher_stats']['success_count']}")
-    print(f"  Failed fetches: {final_stats['fetcher_stats']['error_count']}")
-    print(f"  Success rate: {final_stats['success_rate']:.1f}%")
-    if processed_count > 0:
-        avg_calls = final_stats['fetcher_stats']['request_count'] / processed_count
-        print(f"  Average API calls per package: {avg_calls:.1f}")
-    print(f"  Processing time: {final_stats['elapsed_time']:.1f} seconds")
-    print(f"  Rate: {final_stats['repos_per_minute']:.1f} repos/minute")
+    print(f"\nCompleted: {processed_count} repositories, {batch_count} batches")
+    print(f"Success rate: {final_stats['success_rate']:.1f}% ({final_stats['fetcher_stats']['request_count']} API calls)")
+    print(f"Rate: {final_stats['repos_per_minute']:.1f} repos/minute")
 
 
 def show_status(args):
@@ -178,7 +160,7 @@ def export_data(args):
     )
 
     if not repos:
-        print("No completed repositories found to export!")
+        print("No data available for export")
         return
 
     # Convert to dictionary format
@@ -224,10 +206,7 @@ def export_data(args):
 
 def schedule_runner(args):
     """Run the scheduled batch processing."""
-    print("Starting scheduled runner...")
-    print(
-        f"Will process {config.repositories_per_batch} repositories every {config.batch_delay_minutes} minutes"
-    )
+    print(f"Scheduler: {config.repositories_per_batch} repos every {config.batch_delay_minutes} minutes")
 
     def run_batch():
         processor = DataProcessor()
@@ -241,13 +220,11 @@ def schedule_runner(args):
 
         if pending_urls:
             batch = pending_urls[: config.repositories_per_batch]
-            print(f"Processing batch of {len(batch)} repositories...")
+            print(f"Processing {len(batch)} repositories...")
             results = processor.process_batch(batch)
-            print(
-                f"Batch complete: {results['success']} success, {results['error']} errors"
-            )
+            print(f"Complete: {results['success']} success, {results['error']} errors")
         else:
-            print("No pending repositories to process")
+            print("All repositories processed")
 
         processor.close()
 
@@ -294,20 +271,19 @@ def show_database_info(args=None):
                 completion_rate = (completed_repos / total_repos) * 100
                 print(f"  Completion rate: {completion_rate:.1f}%")
                 
-                # Check if database is suitable for CI/CD
                 if completion_rate > 50:
-                    print("  ✅ Database has significant data - good for CI/CD persistence")
+                    print("  ✅ Substantial data - recommended for persistence")
                 elif completion_rate > 10:
-                    print("  ⚠️  Database has some data - may be worth persisting")
+                    print("  ⚠️  Partial data - consider persistence")
                 else:
-                    print("  ❌ Database has minimal data - consider fresh start in CI")
+                    print("  ❌ Minimal data - fresh start recommended")
                     
         except Exception as e:
             print(f"  Error reading database: {e}")
         finally:
             db.close()
     else:
-        print("  ❌ Database does not exist - run 'python main.py init-db' first")
+        print("  ❌ Database not found - run init-db command")
 
 
 def main():
@@ -324,7 +300,7 @@ def main():
     init_parser.set_defaults(func=init_database)
     
     # Fetch data command
-    fetch_parser = subparsers.add_parser('fetch-data', help='Fetch repository data from GitHub API')
+    fetch_parser = subparsers.add_parser('fetch-data', help='Fetch repository data')
     fetch_parser.add_argument('--batch-size', type=int, default=config.repositories_per_batch, 
                              help='Number of repositories to process in each batch')
     fetch_parser.add_argument('--max-batches', type=int, default=None,
@@ -332,11 +308,11 @@ def main():
     fetch_parser.set_defaults(func=fetch_data)
     
     # Status command
-    status_parser = subparsers.add_parser('status', help='Show processing status and statistics')
+    status_parser = subparsers.add_parser('status', help='Show processing status')
     status_parser.set_defaults(func=show_status)
     
     # Database info command
-    db_info_parser = subparsers.add_parser('db-info', help='Show database information for CI/CD')
+    db_info_parser = subparsers.add_parser('db-info', help='Show database information')
     db_info_parser.set_defaults(func=show_database_info)
     
     # Export command
@@ -348,7 +324,7 @@ def main():
     export_parser.set_defaults(func=export_data)
     
     # Schedule runner command
-    schedule_parser = subparsers.add_parser('schedule-runner', help='Run scheduled batch processing')
+    schedule_parser = subparsers.add_parser('schedule-runner', help='Run scheduled processing')
     schedule_parser.set_defaults(func=schedule_runner)
     
     # Parse arguments and run appropriate function

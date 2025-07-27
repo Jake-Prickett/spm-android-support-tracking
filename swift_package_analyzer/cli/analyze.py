@@ -18,7 +18,7 @@ def generate_report(args):
     
     analyzer = PackageAnalyzer()
 
-    print("Generating analysis report...")
+    print("Generating report...")
 
     # Generate all analyses
     popularity = analyzer.generate_popularity_analysis()
@@ -52,7 +52,7 @@ def generate_report(args):
     with open(args.output, "w") as f:
         json.dump(report_data, f, indent=2, default=str)
 
-    print(f"Analysis report saved to {args.output}")
+    print(f"Report saved: {args.output}")
 
     # Print summary
     print("\n=== ANALYSIS SUMMARY ===")
@@ -69,7 +69,7 @@ def generate_visualizations(args):
     """Generate visualization charts."""
     analyzer = PackageAnalyzer()
 
-    print(f"Generating visualizations in {args.output_dir}...")
+    print(f"Generating visualizations...")
     analyzer.generate_visualizations(args.output_dir)
 
     analyzer.close()
@@ -79,7 +79,7 @@ def generate_priorities(args):
     """Generate priority list for Android compatibility work."""
     analyzer = PackageAnalyzer()
 
-    print("Analyzing repository priorities...")
+    print("Analyzing priorities...")
 
     priority_list = analyzer.generate_priority_analysis()[:args.limit]
 
@@ -108,7 +108,7 @@ def generate_priorities(args):
         )
         print()
 
-    print(f"Full priority list saved to {args.output}")
+    print(f"Priority list saved: {args.output}")
     analyzer.close()
 
 
@@ -121,7 +121,7 @@ def show_stats(args):
     languages = analyzer.generate_language_analysis()
 
     if "error" in popularity:
-        print("No data available for analysis!")
+        print("No data available")
         return
 
     print("=== QUICK STATISTICS ===")
@@ -187,8 +187,7 @@ def generate_comprehensive_report(args):
         )
         files['priority_csv'] = csv_path
         
-        print("\n🎉 Comprehensive report generation complete!")
-        print("Generated files:")
+        print("\nGenerated files:")
         for report_type, file_path in files.items():
             print(f"  • {report_type}: {file_path}")
             
@@ -202,21 +201,21 @@ def analyze_dependencies(args):
     visualizer = DependencyVisualizer(analyzer)
     
     try:
-        print("🔍 Building dependency tree...")
+        print("Building dependency tree...")
         analyzer.build_dependency_tree()
         
         output_dir = Path(args.output_dir)
         output_dir.mkdir(parents=True, exist_ok=True)
         
-        print("📊 Generating impact analysis...")
+        print("Generating impact analysis...")
         impact_analysis = analyzer.get_impact_analysis()
         
         # Save impact analysis
         with open(output_dir / "impact_analysis.json", 'w') as f:
             json.dump(impact_analysis, f, indent=2)
-        print(f"✅ Impact analysis saved to {output_dir / 'impact_analysis.json'}")
+        print(f"Impact analysis: {output_dir / 'impact_analysis.json'}")
         
-        print("🕸️ Generating network visualization...")
+        print("Generating network visualization...")
         network_path = visualizer.generate_dependency_network_visualization(
             str(output_dir / "dependency_network.html"),
             args.max_nodes
@@ -224,7 +223,7 @@ def analyze_dependencies(args):
         
         # Generate tree visualization for specific package if requested
         if args.package:
-            print(f"🌳 Generating dependency tree for {args.package}...")
+            print(f"Generating tree for {args.package}...")
             tree_path = visualizer.generate_dependency_tree_html(
                 args.package,
                 str(output_dir / f"dependency_tree_{args.package.replace('/', '_')}.html"),
@@ -237,7 +236,7 @@ def analyze_dependencies(args):
             print(f"{i:2d}. {pkg['package_id']} - Impact: {pkg['total_impact']} packages")
             print(f"     ⭐ {pkg['stars']} stars | 👥 {pkg['direct_dependents']} direct dependents")
         
-        print(f"\n🎉 Dependency analysis complete! Files saved to {output_dir}")
+        print(f"\nAnalysis complete: {output_dir}")
         
     finally:
         analyzer.close()
@@ -252,18 +251,7 @@ def generate_github_pages(args):
             f"{args.output_dir}/index.html"
         )
         
-        print(f"\n🌐 GitHub Pages site ready: {github_pages_path}")
-        print("\n🚀 Deployment Instructions:")
-        print("1. Commit the index.html file to your repository")
-        print("2. Go to repository Settings > Pages")
-        print("3. Set source to 'Deploy from a branch'")
-        print("4. Select 'main' branch and '/ (root)' folder")
-        print("5. Your site will be available at: https://username.github.io/repository-name/")
-        print("\n📱 The site is optimized for:")
-        print("  • Desktop and mobile viewing")
-        print("  • Fast loading with embedded data")
-        print("  • Interactive charts and filtering")
-        print("  • Dark/light theme support")
+        print(f"\nGitHub Pages site: {github_pages_path}")
         
     finally:
         generator.close()
@@ -279,7 +267,7 @@ def main():
     subparsers = parser.add_subparsers(dest='command', help='Available commands')
     
     # Report command
-    report_parser = subparsers.add_parser('report', help='Generate comprehensive analysis report')
+    report_parser = subparsers.add_parser('report', help='Generate analysis report')
     report_parser.add_argument('--output', default='exports/analysis_report.json',
                               help='Output file for analysis report')
     report_parser.set_defaults(func=generate_report)
@@ -291,7 +279,7 @@ def main():
     viz_parser.set_defaults(func=generate_visualizations)
     
     # Priorities command
-    priorities_parser = subparsers.add_parser('priorities', help='Generate priority list for Android compatibility')
+    priorities_parser = subparsers.add_parser('priorities', help='Generate priority rankings')
     priorities_parser.add_argument('--limit', type=int, default=25,
                                   help='Number of top priority repositories to show')
     priorities_parser.add_argument('--output', default='exports/priority_list.json',
@@ -303,7 +291,7 @@ def main():
     stats_parser.set_defaults(func=show_stats)
     
     # Comprehensive report command
-    comp_parser = subparsers.add_parser('comprehensive', help='Generate comprehensive report with multiple formats')
+    comp_parser = subparsers.add_parser('comprehensive', help='Generate multi-format reports')
     comp_parser.add_argument('--output-dir', default='exports',
                             help='Output directory for comprehensive reports')
     comp_parser.add_argument('--csv-limit', type=int, default=50,
@@ -311,7 +299,7 @@ def main():
     comp_parser.set_defaults(func=generate_comprehensive_report)
     
     # Dependencies command
-    deps_parser = subparsers.add_parser('dependencies', help='Analyze package dependencies and generate visualizations')
+    deps_parser = subparsers.add_parser('dependencies', help='Analyze package dependencies')
     deps_parser.add_argument('--output-dir', default='exports/dependencies',
                             help='Output directory for dependency analysis')
     deps_parser.add_argument('--package', help='Specific package to analyze (owner/repo format)')
@@ -322,7 +310,7 @@ def main():
     deps_parser.set_defaults(func=analyze_dependencies)
     
     # GitHub Pages command
-    pages_parser = subparsers.add_parser('github-pages', help='Generate GitHub Pages compatible site')
+    pages_parser = subparsers.add_parser('github-pages', help='Generate web-ready site')
     pages_parser.add_argument('--output-dir', default='exports',
                              help='Output directory for GitHub Pages site')
     pages_parser.set_defaults(func=generate_github_pages)

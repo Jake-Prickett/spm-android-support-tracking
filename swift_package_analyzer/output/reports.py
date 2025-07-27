@@ -33,7 +33,7 @@ class ReportGenerator:
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
         
-        print("Generating comprehensive analysis report...")
+        print("Generating comprehensive report...")
         
         # Generate all analyses
         popularity = self.analyzer.generate_popularity_analysis()
@@ -42,12 +42,12 @@ class ReportGenerator:
         priorities = self.analyzer.generate_priority_analysis()
         
         # Generate dependency tree analysis
-        print("🔍 Building dependency tree analysis...")
+        print("Building dependency analysis...")
         self.dependency_analyzer.build_dependency_tree()
         impact_analysis = self.dependency_analyzer.get_impact_analysis()
         
         if "error" in popularity:
-            print("No data available for analysis!")
+            print("No data available")
             return {}
         
         # Prepare comprehensive data
@@ -79,13 +79,13 @@ class ReportGenerator:
         with open(json_path, "w") as f:
             json.dump(report_data, f, indent=2, default=str)
         generated_files["json"] = str(json_path)
-        print(f"✅ JSON report saved to {json_path}")
+        print(f"JSON: {json_path}")
         
         # Generate HTML report
         html_path = output_path / "comprehensive_report.html"
         self._generate_html_report(report_data, html_path)
         generated_files["html"] = str(html_path)
-        print(f"✅ HTML report saved to {html_path}")
+        print(f"HTML: {html_path}")
         
         # Generate interactive visualizations
         viz_dir = output_path / "interactive_charts"
@@ -97,7 +97,7 @@ class ReportGenerator:
         deps_viz_files = self._generate_dependency_visualizations(deps_viz_dir)
         generated_files.update(deps_viz_files)
         
-        print(f"✅ Comprehensive report generated with {len(generated_files)} files")
+        print(f"Generated {len(generated_files)} files")
         return generated_files
     
     def _generate_executive_summary(self, popularity, dependencies, languages) -> Dict[str, Any]:
@@ -465,7 +465,7 @@ class ReportGenerator:
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         df_ordered.to_csv(output_path, index=False)
         
-        print(f"✅ Priority analysis CSV saved to {output_path}")
+        print(f"Priority CSV: {output_path}")
         return output_path
     
     def generate_github_pages_site(self, output_path: str = "exports/index.html") -> str:
@@ -482,7 +482,7 @@ class ReportGenerator:
         priorities = self.analyzer.generate_priority_analysis()
         
         # Generate dependency tree analysis
-        print("🔍 Building dependency tree analysis...")
+        print("Building dependency analysis...")
         self.dependency_analyzer.build_dependency_tree()
         impact_analysis = self.dependency_analyzer.get_impact_analysis()
         

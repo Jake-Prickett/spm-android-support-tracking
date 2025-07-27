@@ -1,6 +1,6 @@
 # Swift Package Android Migration Analysis
 
-A comprehensive data analysis tool supporting the [Swift Android Working Group](https://github.com/swift-android/swift-android-working-group) initiative to prioritize Swift package migrations for Android compatibility. This tool analyzes 847 Swift packages that currently support Linux but lack Android support, providing data-driven insights to guide migration efforts.
+A comprehensive data analysis tool supporting the [Swift Android Working Group](https://www.swift.org/ecosystem/android/) initiative to prioritize Swift package migrations for Android compatibility. This tool analyzes 847 Swift packages that currently support Linux but lack Android support, providing data-driven insights to guide migration efforts.
 
 ## Project Goals
 
@@ -472,10 +472,3 @@ graph TD
 - **Export System**: Multiple output formats for different use cases
 - **Error Recovery**: Comprehensive retry logic and graceful degradation
 
-## Contributing
-
-This project supports the [Swift Android Working Group](https://github.com/swift-android/swift-android-working-group) initiative to bring Swift to Android. Contributions welcome for enhanced analysis features, visualizations, and performance improvements.
-
-## Acknowledgments
-
-This project supports the Swift Android Working Group's mission to accelerate Swift adoption on Android through systematic package migration analysis. Special thanks to the Swift Package Index team for maintaining comprehensive package metadata.
