@@ -28,25 +28,50 @@ python swift_analyzer.py --status
 - **Generates interactive reports** with visualizations and migration recommendations
 - **Exports data** in HTML, JSON, and CSV formats for community use
 
+## Data Flow Overview
+
+```mermaid
+flowchart TD
+    A[CSV Input<br/>1065 Packages] --> B[GitHub API<br/>Repository Metadata]
+    B --> C[SQLite Database<br/>Structured Storage]
+    C --> D[Analysis Engine<br/>Priority Scoring]
+    D --> E[Dependency Network<br/>Impact Analysis]
+    D --> F[Multi-Format Reports<br/>HTML, JSON, CSV]
+    
+    G[Package.swift Files] --> C
+    H[Dependency Data] --> E
+    
+    F --> I[Interactive Website<br/>GitHub Pages Ready]
+    F --> J[Priority Rankings<br/>Migration Recommendations]
+    F --> K[Data Exports<br/>Further Analysis]
+    
+    style A fill:#e1f5fe
+    style B fill:#f3e5f5
+    style C fill:#e8f5e8
+    style D fill:#fff3e0
+    style E fill:#fce4ec
+    style F fill:#f1f8e9
+```
+
 ## Requirements
 
-- Python 3.8+
+- Python 3.11+ (recommended for best compatibility)
 - GitHub token (recommended for higher API limits)
 
 ## Installation
 
 ```bash
 git clone <repository-url>
-cd swift-package-support-data-processing
-./setup.sh
+cd spm-android-support-tracking
+./scripts/setup.sh
 ```
 
 **Manual setup:**
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+python3.11 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env
+cp .env.example .env  # If .env.example exists
 # Add GitHub token to .env: GITHUB_TOKEN=your_token_here
 python swift_analyzer.py --setup
 ```
@@ -81,7 +106,7 @@ python swift_analyzer.py --status                         # Processing status
 | Flag | Description |
 |------|-------------|
 | `--test` | Process 3 repositories (testing) |
-| `--batch-size N` | Set batch size (default: 10) |
+| `--batch-size N` | Set batch size (default: 40) |
 | `--max-batches N` | Limit number of batches |
 
 ### Analysis Options
@@ -135,16 +160,11 @@ Site will be available at: `https://username.github.io/repository-name/`
 
 ## Architecture
 
-```
-Input Data → GitHub API → SQLite Database → Analysis Engine → Reports
-(1065 packages)  (Metadata)    (Storage)       (Priority Scoring)  (Multiple Formats)
-```
-
 **Priority scoring considers:**
-- GitHub stars and forks
-- Dependency impact
-- Recent activity
-- Package.swift presence
+- GitHub stars and forks (40% weight)
+- Community engagement - forks + watchers (30% weight)
+- Recent activity - based on last push (20% weight)
+- Low dependency complexity - easier migration (10% weight)
 
 ## Project Structure
 
