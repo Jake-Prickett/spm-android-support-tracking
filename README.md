@@ -6,18 +6,18 @@ A data analysis tool for the [Swift Android Working Group](https://www.swift.org
 
 ```bash
 # Setup (one-time)
-./setup.sh
-python swift_analyzer.py setup
+./scripts/setup.sh
+python swift_analyzer.py --setup
 
 # Collect data
-python swift_analyzer.py collect --test  # Small test batch
-python swift_analyzer.py collect         # Full collection
+python swift_analyzer.py --collect --test  # Small test batch
+python swift_analyzer.py --collect         # Full collection
 
 # Generate analysis
-python swift_analyzer.py analyze         # Complete reports & visualizations
+python swift_analyzer.py --analyze         # Complete reports & visualizations
 
 # Check results
-python swift_analyzer.py status
+python swift_analyzer.py --status
 ```
 
 ## What It Does
@@ -48,7 +48,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 cp .env.example .env
 # Add GitHub token to .env: GITHUB_TOKEN=your_token_here
-python swift_analyzer.py setup
+python swift_analyzer.py --setup
 ```
 
 ## Usage
@@ -56,25 +56,25 @@ python swift_analyzer.py setup
 ### Basic Workflow
 ```bash
 # Collect repository data
-python swift_analyzer.py collect --test                 # Test with 3 repos
-python swift_analyzer.py collect --batch-size 10        # Process 10 at a time
-python swift_analyzer.py collect                        # Full collection
+python swift_analyzer.py --collect --test                 # Test with 3 repos
+python swift_analyzer.py --collect --batch-size 10        # Process 10 at a time
+python swift_analyzer.py --collect                        # Full collection
 
 # Generate analysis and reports
-python swift_analyzer.py analyze                        # All reports and exports
+python swift_analyzer.py --analyze                        # All reports and exports
 
 # Check status
-python swift_analyzer.py status                         # Processing status
+python swift_analyzer.py --status                         # Processing status
 ```
 
 ### Commands
 
 | Command | Description |
 |---------|-------------|
-| `setup` | Initialize database |
-| `collect` | Fetch GitHub data |
-| `analyze` | Generate reports |
-| `status` | Show progress |
+| `--setup` | Initialize database |
+| `--collect` | Fetch GitHub data |
+| `--analyze` | Generate reports |
+| `--status` | Show progress |
 
 ### Collection Options
 
@@ -113,7 +113,7 @@ python swift_analyzer.py status                         # Processing status
 
 ```bash
 # Generate all reports including web site
-python swift_analyzer.py analyze
+python swift_analyzer.py --analyze
 
 # Deploy (enable GitHub Pages in repo settings)
 git add exports/index.html
@@ -149,7 +149,7 @@ Input Data → GitHub API → SQLite Database → Analysis Engine → Reports
 ## Project Structure
 
 ```
-├── swift_analyzer.py               # Main CLI
+├── swift_analyzer.py               # Single entry point CLI
 ├── swift_package_analyzer/         # Core package
 │   ├── cli/                       # Command interfaces
 │   ├── core/                      # Config & models
@@ -167,19 +167,19 @@ Input Data → GitHub API → SQLite Database → Analysis Engine → Reports
 **Common issues:**
 - **Rate limits:** Add GitHub token to `.env`
 - **Import errors:** Activate virtual environment: `source venv/bin/activate`
-- **Database errors:** Reinitialize: `python swift_analyzer.py setup`
+- **Database errors:** Reinitialize: `python swift_analyzer.py --setup`
 - **Empty results:** Verify CSV file exists and network connectivity
 
 **Debug commands:**
 ```bash
-python swift_analyzer.py status         # Check database state
-python swift_analyzer.py collect --test # Test with small batch
+python swift_analyzer.py --status         # Check database state
+python swift_analyzer.py --collect --test # Test with small batch
 ```
 
 ## Example Output
 
 ```bash
-$ python swift_analyzer.py status
+$ python swift_analyzer.py --status
 === Processing Status ===
 📊 Repositories in database: 156 / 1065
 ⭐ Average stars: 1,247

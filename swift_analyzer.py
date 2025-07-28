@@ -106,78 +106,73 @@ def status_command(args):
 
 
 def main():
-    """Main CLI entry point with simplified command structure."""
+    """Main CLI entry point with flag-based commands."""
     parser = argparse.ArgumentParser(
         prog='swift-analyzer',
         description='Swift Package Android Migration Analysis Tool',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  swift-analyzer setup                    # One-time setup
-  swift-analyzer collect                  # Fetch data with smart defaults
-  swift-analyzer collect --test           # Test with small batch
-  swift-analyzer analyze                  # Generate all analysis and exports
-  swift-analyzer status                   # Check processing status
+  swift-analyzer --setup                    # One-time setup
+  swift-analyzer --collect                  # Fetch data with smart defaults
+  swift-analyzer --collect --test           # Test with small batch
+  swift-analyzer --analyze                  # Generate all analysis and exports
+  swift-analyzer --status                   # Check processing status
         """
     )
     
-    subparsers = parser.add_subparsers(dest='command', help='Available commands')
-    
-    # Setup command
-    setup_parser = subparsers.add_parser(
-        'setup', 
+    # Command flags (mutually exclusive)
+    command_group = parser.add_mutually_exclusive_group(required=True)
+    command_group.add_argument(
+        '--setup', action='store_true',
         help='Initialize database and environment'
     )
-    setup_parser.set_defaults(func=setup_command)
-    
-    # Collect command
-    collect_parser = subparsers.add_parser(
-        'collect', 
+    command_group.add_argument(
+        '--collect', action='store_true',
         help='Fetch repository data from GitHub'
     )
-    collect_parser.add_argument(
+    command_group.add_argument(
+        '--analyze', action='store_true',
+        help='Generate comprehensive analysis, reports, and exports'
+    )
+    command_group.add_argument(
+        '--status', action='store_true',
+        help='Show processing status and database statistics'
+    )
+    
+    # Collect options
+    parser.add_argument(
         '--batch-size', type=int, default=config.repositories_per_batch,
         help=f'Repositories per batch (default: {config.repositories_per_batch})'
     )
-    collect_parser.add_argument(
+    parser.add_argument(
         '--max-batches', type=int,
         help='Maximum number of batches to process'
     )
-    collect_parser.add_argument(
+    parser.add_argument(
         '--test', action='store_true',
         help='Run small test batch (3 repositories)'
     )
-    collect_parser.set_defaults(func=collect_command)
     
-    # Analyze command
-    analyze_parser = subparsers.add_parser(
-        'analyze', 
-        help='Generate comprehensive analysis, reports, and exports'
-    )
-    analyze_parser.add_argument(
+    # Analyze options
+    parser.add_argument(
         '--output-dir', default='exports',
         help='Output directory for all outputs (default: exports)'
     )
-    analyze_parser.set_defaults(func=analyze_command)
-    
-    # Status command
-    status_parser = subparsers.add_parser(
-        'status', 
-        help='Show processing status and database statistics'
-    )
-    status_parser.set_defaults(func=status_command)
-    
     
     # Parse arguments and run appropriate function
     args = parser.parse_args()
     
-    if args.command is None:
-        parser.print_help()
-        sys.exit(1)
-    
-    # Execute the command
+    # Execute the appropriate command
     try:
-        args.func(args)
+        if args.setup:
+            setup_command(args)
+        elif args.collect:
+            collect_command(args)
+        elif args.analyze:
+            analyze_command(args)
+        elif args.status:
+            status_command(args)
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")
         sys.exit(1)
