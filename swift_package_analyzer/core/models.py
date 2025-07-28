@@ -97,10 +97,3 @@ def create_tables():
     Base.metadata.create_all(bind=engine)
 
 
-def get_db():
-    """Get database session."""
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()

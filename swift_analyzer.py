@@ -6,11 +6,10 @@ Simplified command-line interface for Swift package Android migration analysis.
 
 import argparse
 import sys
-from pathlib import Path
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.cli.main import (
-    init_database, fetch_data, show_status, export_data, schedule_runner
+    init_database, fetch_data, show_status, export_data
 )
 from swift_package_analyzer.cli.analyze import (
     show_stats, generate_comprehensive_report, analyze_dependencies, 
@@ -48,38 +47,55 @@ def collect_command(args):
 
 
 def analyze_command(args):
-    """Generate analysis and reports with smart defaults."""
+    """Generate comprehensive analysis, reports, and exports."""
     # Set output directory default
     if not hasattr(args, 'output_dir') or not args.output_dir:
         args.output_dir = "exports"
     
-    # Default to comprehensive analysis if no specific flags
-    if not any([args.comprehensive, args.dependencies, args.web]):
-        args.comprehensive = True
-        print("Running comprehensive analysis (use --help for specific options)")
+    print("Running comprehensive analysis with all outputs...")
+    
+    # Show current statistics
+    print("\nCurrent Statistics:")
+    show_stats(args)
     
     # Generate comprehensive report
-    if args.comprehensive:
-        print("Generating comprehensive reports...")
-        generate_comprehensive_report(args)
+    print("\nGenerating comprehensive reports...")
+    generate_comprehensive_report(args)
     
     # Generate dependency analysis
-    if args.dependencies:
-        print("Analyzing dependencies...")
-        deps_args = argparse.Namespace(
-            output_dir=f"{args.output_dir}/dependencies",
-            package=None,
-            max_nodes=100,
-            max_depth=3
-        )
-        analyze_dependencies(deps_args)
+    print("\nAnalyzing dependencies...")
+    deps_args = argparse.Namespace(
+        output_dir=f"{args.output_dir}/dependencies",
+        package=None,
+        max_nodes=100,
+        max_depth=3
+    )
+    analyze_dependencies(deps_args)
     
     # Generate web-ready site
-    if args.web:
-        print("Generating web-ready site...")
-        pages_args = argparse.Namespace(output_dir=args.output_dir)
-        generate_github_pages(pages_args)
-        print(f"Web site ready at: {args.output_dir}/index.html")
+    print("\nGenerating web-ready site...")
+    pages_args = argparse.Namespace(output_dir=args.output_dir)
+    generate_github_pages(pages_args)
+    
+    # Export data in both formats
+    print("\nExporting data...")
+    
+    # Export CSV
+    csv_args = argparse.Namespace(
+        format='csv',
+        output=f"{args.output_dir}/swift_packages.csv"
+    )
+    export_data(csv_args)
+    
+    # Export JSON
+    json_args = argparse.Namespace(
+        format='json',
+        output=f"{args.output_dir}/swift_packages.json"
+    )
+    export_data(json_args)
+    
+    print(f"\nAnalysis complete! All outputs available in: {args.output_dir}/")
+    print(f"Web site ready at: {args.output_dir}/index.html")
 
 
 def status_command(args):
@@ -87,19 +103,6 @@ def status_command(args):
     show_status(args)
 
 
-def stats_command(args):
-    """Show quick overview statistics."""
-    show_stats(args)
-
-
-def export_command(args):
-    """Export data in specified format."""
-    # Set smart defaults for output path
-    if not args.output:
-        extension = "csv" if args.format == "csv" else "json"
-        args.output = f"exports/swift_packages.{extension}"
-    
-    export_data(args)
 
 
 def main():
@@ -113,11 +116,8 @@ Examples:
   swift-analyzer setup                    # One-time setup
   swift-analyzer collect                  # Fetch data with smart defaults
   swift-analyzer collect --test           # Test with small batch
-  swift-analyzer analyze                  # Generate comprehensive reports
-  swift-analyzer analyze --web            # Generate web-ready site
+  swift-analyzer analyze                  # Generate all analysis and exports
   swift-analyzer status                   # Check processing status
-  swift-analyzer stats                    # Quick statistics overview
-  swift-analyzer export --csv             # Export to CSV format
         """
     )
     
@@ -152,23 +152,11 @@ Examples:
     # Analyze command
     analyze_parser = subparsers.add_parser(
         'analyze', 
-        help='Generate analysis and reports'
+        help='Generate comprehensive analysis, reports, and exports'
     )
     analyze_parser.add_argument(
         '--output-dir', default='exports',
-        help='Output directory for reports (default: exports)'
-    )
-    analyze_parser.add_argument(
-        '--comprehensive', action='store_true',
-        help='Generate comprehensive HTML/JSON reports'
-    )
-    analyze_parser.add_argument(
-        '--dependencies', action='store_true',
-        help='Include dependency network analysis'
-    )
-    analyze_parser.add_argument(
-        '--web', action='store_true',
-        help='Generate web-ready GitHub Pages site'
+        help='Output directory for all outputs (default: exports)'
     )
     analyze_parser.set_defaults(func=analyze_command)
     
@@ -179,35 +167,6 @@ Examples:
     )
     status_parser.set_defaults(func=status_command)
     
-    # Stats command
-    stats_parser = subparsers.add_parser(
-        'stats', 
-        help='Show quick overview statistics'
-    )
-    stats_parser.set_defaults(func=stats_command)
-    
-    # Export command
-    export_parser = subparsers.add_parser(
-        'export', 
-        help='Export data to CSV or JSON format'
-    )
-    export_parser.add_argument(
-        '--format', choices=['csv', 'json'], default='csv',
-        help='Export format (default: csv)'
-    )
-    export_parser.add_argument(
-        '--csv', action='store_const', const='csv', dest='format',
-        help='Export to CSV format (shorthand for --format csv)'
-    )
-    export_parser.add_argument(
-        '--json', action='store_const', const='json', dest='format',
-        help='Export to JSON format (shorthand for --format json)'
-    )
-    export_parser.add_argument(
-        '--output',
-        help='Output file path (auto-generated if not specified)'
-    )
-    export_parser.set_defaults(func=export_command)
     
     # Parse arguments and run appropriate function
     args = parser.parse_args()

@@ -9,12 +9,11 @@ import re
 import logging
 from pathlib import Path
 from typing import Dict, List, Set, Tuple, Optional, Any
-from collections import defaultdict, deque
-from dataclasses import dataclass, asdict
+from collections import deque
+from dataclasses import dataclass
 
 import pandas as pd
 import plotly.graph_objects as go
-import plotly.express as px
 from plotly.offline import plot
 import networkx as nx
 from jinja2 import Template
