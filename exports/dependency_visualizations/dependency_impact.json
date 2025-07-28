@@ -10,7 +10,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 5
     },
     {
@@ -23,7 +23,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -36,7 +36,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -49,7 +49,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -62,7 +62,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -75,7 +75,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -88,7 +88,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -101,7 +101,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -114,7 +114,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -127,7 +127,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -140,7 +140,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -153,7 +153,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -166,7 +166,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -179,7 +179,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -192,7 +192,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -205,7 +205,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -218,7 +218,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -231,7 +231,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -244,7 +244,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -257,7 +257,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -270,7 +270,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -283,20 +283,20 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
       "package_id": "RxSwiftCommunity/RxDataSources",
       "name": "RxDataSources",
       "owner": "RxSwiftCommunity",
-      "stars": 3102,
+      "stars": 3103,
       "direct_dependents": 0,
       "indirect_impact": 0,
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -309,7 +309,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -322,7 +322,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -335,7 +335,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -348,7 +348,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -361,7 +361,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -374,7 +374,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -387,7 +387,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -400,7 +400,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -413,7 +413,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -426,7 +426,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -439,7 +439,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -452,7 +452,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -478,7 +478,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -491,7 +491,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -504,7 +504,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -517,7 +517,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -530,7 +530,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -543,7 +543,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -556,7 +556,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -569,7 +569,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 1
     },
     {
@@ -582,7 +582,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -595,7 +595,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -608,7 +608,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -621,7 +621,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -634,7 +634,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -647,7 +647,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -660,7 +660,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -673,7 +673,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -686,7 +686,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -699,20 +699,20 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
       "package_id": "ReactiveX/RxSwift",
       "name": "RxSwift",
       "owner": "ReactiveX",
-      "stars": 24623,
+      "stars": 24624,
       "direct_dependents": 0,
       "indirect_impact": 0,
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -725,7 +725,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -738,7 +738,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -751,7 +751,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -764,7 +764,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -777,7 +777,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -790,7 +790,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -803,7 +803,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -816,7 +816,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -829,7 +829,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -842,7 +842,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -855,7 +855,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -868,7 +868,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -881,7 +881,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -894,7 +894,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -907,7 +907,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 1
     },
     {
@@ -920,7 +920,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -933,7 +933,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -946,7 +946,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -959,7 +959,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -972,7 +972,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -985,7 +985,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -998,7 +998,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1011,7 +1011,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1024,7 +1024,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1037,7 +1037,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1050,7 +1050,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1063,7 +1063,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1076,7 +1076,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1089,7 +1089,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1102,7 +1102,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1115,7 +1115,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1128,7 +1128,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1154,7 +1154,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1167,7 +1167,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1180,7 +1180,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1193,7 +1193,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1206,7 +1206,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1219,7 +1219,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1232,7 +1232,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1245,7 +1245,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1258,7 +1258,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1271,7 +1271,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1284,7 +1284,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1297,7 +1297,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1310,7 +1310,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1323,7 +1323,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1336,7 +1336,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1349,7 +1349,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1362,7 +1362,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1375,7 +1375,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1388,7 +1388,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1401,7 +1401,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1414,7 +1414,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1427,7 +1427,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1440,7 +1440,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1453,7 +1453,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1466,7 +1466,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1479,7 +1479,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1492,7 +1492,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1503,9 +1503,9 @@
       "direct_dependents": 0,
       "indirect_impact": 0,
       "total_impact": 0,
-      "has_package_swift": true,
+      "has_package_swift": false,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1518,7 +1518,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1531,7 +1531,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -1544,7 +1544,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1557,7 +1557,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1570,7 +1570,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1583,7 +1583,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1596,7 +1596,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1609,7 +1609,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1622,7 +1622,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1635,7 +1635,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -1648,7 +1648,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1661,7 +1661,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1674,7 +1674,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1687,7 +1687,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1700,7 +1700,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1713,7 +1713,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1726,7 +1726,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1739,7 +1739,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1752,7 +1752,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 1
     },
     {
@@ -1765,7 +1765,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1778,7 +1778,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 4
     },
     {
@@ -1791,7 +1791,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1804,7 +1804,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1817,7 +1817,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1830,7 +1830,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1843,7 +1843,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1856,7 +1856,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1869,7 +1869,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1882,7 +1882,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1895,7 +1895,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1908,7 +1908,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1921,7 +1921,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1934,7 +1934,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1947,7 +1947,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1960,7 +1960,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1973,7 +1973,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1986,7 +1986,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -1999,7 +1999,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2012,7 +2012,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2025,7 +2025,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2038,7 +2038,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2051,7 +2051,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2064,7 +2064,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2077,7 +2077,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2090,7 +2090,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2103,7 +2103,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2116,7 +2116,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2129,7 +2129,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2142,7 +2142,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2155,7 +2155,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2168,7 +2168,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2181,7 +2181,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2194,7 +2194,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2207,7 +2207,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2220,7 +2220,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2233,7 +2233,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2246,7 +2246,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2259,7 +2259,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2272,7 +2272,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2285,7 +2285,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2298,7 +2298,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2311,7 +2311,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2324,7 +2324,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2337,7 +2337,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2350,7 +2350,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2363,7 +2363,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2376,7 +2376,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2389,7 +2389,20 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
+      "dependency_count": 0
+    },
+    {
+      "package_id": "dirtyhenry/swift-blocks",
+      "name": "swift-blocks",
+      "owner": "dirtyhenry",
+      "stars": 3,
+      "direct_dependents": 0,
+      "indirect_impact": 0,
+      "total_impact": 0,
+      "has_package_swift": true,
+      "linux_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2402,7 +2415,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2415,7 +2428,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2428,7 +2441,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2441,7 +2454,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2454,7 +2467,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2467,7 +2480,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2480,7 +2493,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -2493,7 +2506,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2506,7 +2519,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2519,7 +2532,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2532,7 +2545,20 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
+      "dependency_count": 0
+    },
+    {
+      "package_id": "stackotter/jpeg",
+      "name": "jpeg",
+      "owner": "stackotter",
+      "stars": 0,
+      "direct_dependents": 0,
+      "indirect_impact": 0,
+      "total_impact": 0,
+      "has_package_swift": true,
+      "linux_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2545,7 +2571,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2558,7 +2584,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2571,7 +2597,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2584,7 +2610,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2597,7 +2623,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2610,7 +2636,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2623,7 +2649,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2636,7 +2662,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2649,7 +2675,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2662,7 +2688,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2675,7 +2701,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2688,7 +2714,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2701,7 +2727,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2714,7 +2740,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2727,7 +2753,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2740,7 +2766,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2753,7 +2779,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 1
     },
     {
@@ -2766,7 +2792,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -2779,7 +2805,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2792,7 +2818,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2805,7 +2831,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2818,7 +2844,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2831,7 +2857,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2844,7 +2870,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -2857,7 +2883,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2883,7 +2909,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2896,7 +2922,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2909,7 +2935,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2935,7 +2961,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2948,7 +2974,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2961,7 +2987,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2974,7 +3000,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -2987,7 +3013,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3000,7 +3026,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 2
     },
     {
@@ -3013,7 +3039,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3026,7 +3052,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3039,7 +3065,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3052,7 +3078,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3065,7 +3091,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3078,7 +3104,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3091,7 +3117,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3104,21 +3130,8 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
-    },
-    {
-      "package_id": "tuist/Rosalind",
-      "name": "Rosalind",
-      "owner": "tuist",
-      "stars": 80,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 1
     },
     {
       "package_id": "LuizZak/TargetDependencyChecker",
@@ -3130,7 +3143,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3143,7 +3156,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3156,7 +3169,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3169,7 +3182,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3182,7 +3195,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3208,7 +3221,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3221,7 +3234,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3234,7 +3247,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3247,7 +3260,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 1
     },
     {
@@ -3260,7 +3273,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3273,7 +3286,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3286,7 +3299,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3299,7 +3312,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3312,7 +3325,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3325,7 +3338,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3338,7 +3351,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3351,7 +3364,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3364,7 +3377,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3377,7 +3390,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3390,7 +3403,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3403,7 +3416,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3416,7 +3429,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3429,7 +3442,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3442,7 +3455,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3455,7 +3468,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3468,7 +3481,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3481,7 +3494,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3494,7 +3507,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3507,7 +3520,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3520,7 +3533,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3533,7 +3546,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3546,7 +3559,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3559,7 +3572,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3572,7 +3585,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 3
     },
     {
@@ -3585,7 +3598,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3598,7 +3611,7 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     },
     {
@@ -3611,1013 +3624,12 @@
       "total_impact": 0,
       "has_package_swift": true,
       "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "ringsaturn/tzf-swift",
-      "name": "tzf-swift",
-      "owner": "ringsaturn",
-      "stars": 11,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "MihaelIsaev/SwiftSystemd",
-      "name": "SwiftSystemd",
-      "owner": "MihaelIsaev",
-      "stars": 7,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "kean/Get",
-      "name": "Get",
-      "owner": "kean",
-      "stars": 983,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "swiftlang/swift-package-collection-generator",
-      "name": "swift-package-collection-generator",
-      "owner": "swiftlang",
-      "stars": 112,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "ajevans99/swift-openai",
-      "name": "swift-openai",
-      "owner": "ajevans99",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "OperatorFoundation/swift-netutils",
-      "name": "swift-netutils",
-      "owner": "OperatorFoundation",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "xcode-actions/swift-process-invocation",
-      "name": "swift-process-invocation",
-      "owner": "xcode-actions",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Outdooractive/mvt-tools",
-      "name": "mvt-tools",
-      "owner": "Outdooractive",
-      "stars": 10,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "dagronf/ColorPaletteCodable",
-      "name": "ColorPaletteCodable",
-      "owner": "dagronf",
-      "stars": 40,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "sersoft-gmbh/swift-inotify",
-      "name": "swift-inotify",
-      "owner": "sersoft-gmbh",
-      "stars": 15,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "vkill/SwiftIPAddress",
-      "name": "SwiftIPAddress",
-      "owner": "vkill",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "DoccZz/servedocc",
-      "name": "servedocc",
-      "owner": "DoccZz",
-      "stars": 9,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 1
-    },
-    {
-      "package_id": "pedantix/levellogger",
-      "name": "levellogger",
-      "owner": "pedantix",
-      "stars": 2,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "SDGGiesbrecht/swift-crypto",
-      "name": "swift-crypto",
-      "owner": "SDGGiesbrecht",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "NoTests/RxFeedback.swift",
-      "name": "RxFeedback.swift",
-      "owner": "NoTests",
-      "stars": 1029,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "SwiftGL/OpenGL",
-      "name": "OpenGL",
-      "owner": "SwiftGL",
-      "stars": 48,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "terhechte/swift-x11-example",
-      "name": "swift-x11-example",
-      "owner": "terhechte",
-      "stars": 12,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Macro-swift/MacroLambda",
-      "name": "MacroLambda",
-      "owner": "Macro-swift",
-      "stars": 13,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 3
-    },
-    {
-      "package_id": "mrwerdo/geometry",
-      "name": "geometry",
-      "owner": "mrwerdo",
-      "stars": 2,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Jomy10/TaskProgress",
-      "name": "TaskProgress",
-      "owner": "Jomy10",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Appsaurus/FluentTestUtils",
-      "name": "FluentTestUtils",
-      "owner": "Appsaurus",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "swiftlang/swift-subprocess",
-      "name": "swift-subprocess",
-      "owner": "swiftlang",
-      "stars": 357,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "dagronf/ZIPFoundation",
-      "name": "ZIPFoundation",
-      "owner": "dagronf",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "swiftengine/swiftengine",
-      "name": "swiftengine",
-      "owner": "swiftengine",
-      "stars": 661,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "tattn/MoreCodable",
-      "name": "MoreCodable",
-      "owner": "tattn",
-      "stars": 380,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "mihai8804858/swift-snapshot-testing",
-      "name": "swift-snapshot-testing",
-      "owner": "mihai8804858",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "SD10/GitDiffSwift",
-      "name": "GitDiffSwift",
-      "owner": "SD10",
-      "stars": 16,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "mvolpato/magickpublishplugin",
-      "name": "magickpublishplugin",
-      "owner": "mvolpato",
-      "stars": 3,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "danielsincere/Sh",
-      "name": "Sh",
-      "owner": "danielsincere",
-      "stars": 11,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "techinpark/ios_privacy_manifest_scanner",
-      "name": "ios_privacy_manifest_scanner",
-      "owner": "techinpark",
-      "stars": 69,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "elegantchaos/ActionsKit",
-      "name": "ActionsKit",
-      "owner": "elegantchaos",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "swhitty/awaiting",
-      "name": "awaiting",
-      "owner": "swhitty",
-      "stars": 22,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "bdrelling/KippleDiagnostics",
-      "name": "KippleDiagnostics",
-      "owner": "bdrelling",
-      "stars": 10,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Local-Connectivity-Lab/lcl-speedtest",
-      "name": "lcl-speedtest",
-      "owner": "Local-Connectivity-Lab",
-      "stars": 10,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "devxoul/Then",
-      "name": "Then",
-      "owner": "devxoul",
-      "stars": 4343,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "hummingbird-project/hummingbird-lambda",
-      "name": "hummingbird-lambda",
-      "owner": "hummingbird-project",
-      "stars": 31,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Kitura/BlueCryptor",
-      "name": "BlueCryptor",
-      "owner": "Kitura",
-      "stars": 192,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "richardpiazza/Occurrence",
-      "name": "Occurrence",
-      "owner": "richardpiazza",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "hanjoes/swift-termina",
-      "name": "swift-termina",
-      "owner": "hanjoes",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "uraimo/rcwl-0516-radar.swift",
-      "name": "rcwl-0516-radar.swift",
-      "owner": "uraimo",
-      "stars": 5,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "sbooth/DRBGs",
-      "name": "DRBGs",
-      "owner": "sbooth",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "nerzh/swift-custom-logger",
-      "name": "swift-custom-logger",
-      "owner": "nerzh",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "guitaripod/GeminiKit",
-      "name": "GeminiKit",
-      "owner": "guitaripod",
-      "stars": 7,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "LiarPrincess/Violet",
-      "name": "Violet",
-      "owner": "LiarPrincess",
-      "stars": 192,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "rosecoder/google-cloud-bigquery-swift",
-      "name": "google-cloud-bigquery-swift",
-      "owner": "rosecoder",
-      "stars": 2,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "ordo-one/Progress.swift",
-      "name": "Progress.swift",
-      "owner": "ordo-one",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "amzn/openapi-swift-code-generate",
-      "name": "openapi-swift-code-generate",
-      "owner": "amzn",
-      "stars": 9,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "richardpiazza/VectorPlus",
-      "name": "VectorPlus",
-      "owner": "richardpiazza",
-      "stars": 11,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "apple/swift-play-experimental",
-      "name": "swift-play-experimental",
-      "owner": "apple",
-      "stars": 101,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "reers/ReerKit",
-      "name": "ReerKit",
-      "owner": "reers",
-      "stars": 110,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "MFB-Technologies-Inc/Stencil",
-      "name": "Stencil",
-      "owner": "MFB-Technologies-Inc",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "open-meteo/om-file-format",
-      "name": "om-file-format",
-      "owner": "open-meteo",
-      "stars": 14,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "aus-der-Technik/FileMonitor",
-      "name": "FileMonitor",
-      "owner": "aus-der-Technik",
-      "stars": 79,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "my-prayers/muslim-data-ios",
-      "name": "muslim-data-ios",
-      "owner": "my-prayers",
-      "stars": 28,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "vapor/fluent-postgres-driver",
-      "name": "fluent-postgres-driver",
-      "owner": "vapor",
-      "stars": 157,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "LaunchDarkly/swift-eventsource",
-      "name": "swift-eventsource",
-      "owner": "LaunchDarkly",
-      "stars": 249,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "fruitcoder/extract-case-value",
-      "name": "extract-case-value",
-      "owner": "fruitcoder",
-      "stars": 22,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "JohnSundell/Publish",
-      "name": "Publish",
-      "owner": "JohnSundell",
-      "stars": 4944,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 7
-    },
-    {
-      "package_id": "wolfmcnally/WolfFoundation",
-      "name": "WolfFoundation",
-      "owner": "wolfmcnally",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "DoccZz/docc2html",
-      "name": "docc2html",
-      "owner": "DoccZz",
-      "stars": 125,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 3
-    },
-    {
-      "package_id": "Ponyboy47/Pathman",
-      "name": "Pathman",
-      "owner": "Ponyboy47",
-      "stars": 12,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "jagreenwood/swift-log-datadog",
-      "name": "swift-log-datadog",
-      "owner": "jagreenwood",
-      "stars": 22,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "objective-audio/flowgraphdotconverter",
-      "name": "flowgraphdotconverter",
-      "owner": "objective-audio",
-      "stars": 4,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "swift-cloud/swift-crypto",
-      "name": "swift-crypto",
-      "owner": "swift-cloud",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "tayloraswift/swift-noise",
-      "name": "swift-noise",
-      "owner": "tayloraswift",
-      "stars": 138,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "danielctull/RomanNumerals",
-      "name": "RomanNumerals",
-      "owner": "danielctull",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Jomy10/Plugins",
-      "name": "Plugins",
-      "owner": "Jomy10",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "nicklockwood/SwiftFormat",
-      "name": "SwiftFormat",
-      "owner": "nicklockwood",
-      "stars": 8462,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "dduan/Pathos",
-      "name": "Pathos",
-      "owner": "dduan",
-      "stars": 119,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "art-divin/swift-llbuild",
-      "name": "swift-llbuild",
-      "owner": "art-divin",
-      "stars": 0,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "heroesofcode/SwiftFileTools",
-      "name": "SwiftFileTools",
-      "owner": "heroesofcode",
-      "stars": 3,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "broadwaylamb/gottagofast",
-      "name": "gottagofast",
-      "owner": "broadwaylamb",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "phimage/XcodeProjKit",
-      "name": "XcodeProjKit",
-      "owner": "phimage",
-      "stars": 18,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "yutailang0119/filescankit",
-      "name": "filescankit",
-      "owner": "yutailang0119",
-      "stars": 12,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "glessard/swift-reactive-streams",
-      "name": "swift-reactive-streams",
-      "owner": "glessard",
-      "stars": 4,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "kylef/JSONSchema.swift",
-      "name": "JSONSchema.swift",
-      "owner": "kylef",
-      "stars": 283,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
-      "dependency_count": 0
-    },
-    {
-      "package_id": "Swonkie/RawTerm",
-      "name": "RawTerm",
-      "owner": "Swonkie",
-      "stars": 1,
-      "direct_dependents": 0,
-      "indirect_impact": 0,
-      "total_impact": 0,
-      "has_package_swift": true,
-      "linux_compatible": true,
-      "android_compatible": true,
+      "android_compatible": false,
       "dependency_count": 0
     }
   ],
   "summary": {
-    "total_packages": 355,
+    "total_packages": 279,
     "high_impact_packages": 0,
     "foundational_packages": 0
   }
