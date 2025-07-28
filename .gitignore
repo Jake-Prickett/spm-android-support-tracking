@@ -233,3 +233,5 @@ data/*.tmp
 
 # Local Claude.md file (avoid committing personal instructions)
 CLAUDE.md
+
+.DS_Store
