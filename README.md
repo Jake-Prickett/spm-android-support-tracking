@@ -4,38 +4,19 @@ A data analysis tool for the [Swift Android Working Group](https://www.swift.org
 
 ## Quick Start
 
-### Using Docker (Recommended)
-
 ```bash
 # Setup environment file
 echo "GITHUB_TOKEN=your_token_here" > .env
 
-# Run complete analysis pipeline
-docker-compose --profile setup run --rm setup        # Initialize database
-docker-compose --profile test run --rm collect-test  # Test with 3 repos
-docker-compose --profile collect run --rm collect    # Collect all data
-docker-compose --profile analyze run --rm analyze    # Generate reports
+# Docker (Recommended)
+docker-compose --profile setup run --rm setup
+docker-compose --profile collect run --rm collect
+docker-compose --profile analyze run --rm analyze
 
-# Check status
-docker-compose --profile status run --rm status
-```
-
-### Using Python (Manual)
-
-```bash
-# Setup (one-time)
-./scripts/setup.sh
-python swift_analyzer.py --setup
-
-# Collect data
-python swift_analyzer.py --collect --test  # Small test batch
-python swift_analyzer.py --collect         # Full collection
-
-# Generate analysis
-python swift_analyzer.py --analyze         # Complete reports & visualizations
-
-# Check results
-python swift_analyzer.py --status
+# Python (Manual)
+./scripts/setup.sh && python swift_analyzer.py --setup
+python swift_analyzer.py --collect
+python swift_analyzer.py --analyze
 ```
 
 ## What It Does
@@ -71,106 +52,45 @@ flowchart TD
     style F fill:#f1f8e9
 ```
 
-## Requirements
-
-### Docker (Recommended)
-- Docker and Docker Compose
-- GitHub token (recommended for higher API limits)
-
-### Manual Installation
-- Python 3.11+ (recommended for best compatibility)
-- GitHub token (recommended for higher API limits)
-
 ## Installation
 
-### Docker Setup (Recommended)
+**Requirements:** Docker + Docker Compose OR Python 3.11+
 
 ```bash
 git clone <repository-url>
 cd spm-android-support-tracking
-
-# Create environment file
 echo "GITHUB_TOKEN=your_token_here" > .env
 
-# Build and run
+# Docker (Recommended)
 docker-compose build
-docker-compose --profile setup run --rm setup
-```
 
-### Manual Setup
-
-```bash
-git clone <repository-url>
-cd spm-android-support-tracking
+# Python (Manual)
 ./scripts/setup.sh
-```
-
-**Or manual Python setup:**
-```bash
-python3.11 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env  # If .env.example exists
-# Add GitHub token to .env: GITHUB_TOKEN=your_token_here
-python swift_analyzer.py --setup
+# OR: python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 ```
 
 ## Usage
 
-### Docker Workflow (Recommended)
-```bash
-# Test collection (3 repos)
-docker-compose --profile test run --rm collect-test
-
-# Full data collection
-docker-compose --profile collect run --rm collect
-
-# Generate analysis and reports
-docker-compose --profile analyze run --rm analyze
-
-# Check status
-docker-compose --profile status run --rm status
-
-# Interactive shell for debugging
-docker-compose run --rm swift-analyzer
-```
-
-### Python Workflow
-```bash
-# Collect repository data
-python swift_analyzer.py --collect --test                 # Test with 3 repos
-python swift_analyzer.py --collect --batch-size 10        # Process 10 at a time
-python swift_analyzer.py --collect                        # Full collection
-
-# Generate analysis and reports
-python swift_analyzer.py --analyze                        # All reports and exports
-
-# Check status
-python swift_analyzer.py --status                         # Processing status
-```
-
-### Commands
-
 | Command | Description |
 |---------|-------------|
 | `--setup` | Initialize database |
-| `--collect` | Fetch GitHub data |
+| `--collect` | Fetch GitHub data (`--test` for 3 repos) |
 | `--analyze` | Generate reports |
 | `--status` | Show progress |
 
-### Collection Options
+```bash
+# Docker
+docker-compose --profile setup run --rm setup
+docker-compose --profile test run --rm collect-test     # Test with 3 repos
+docker-compose --profile collect run --rm collect       # Full collection
+docker-compose --profile analyze run --rm analyze
 
-| Flag | Description |
-|------|-------------|
-| `--test` | Process 3 repositories (testing) |
-| `--batch-size N` | Set batch size (default: 40) |
-| `--max-batches N` | Limit number of batches |
-
-### Analysis Options
-
-| Flag | Description |
-|------|-------------|
-| `--output-dir` | Set output directory (default: exports) |
+# Python
+python swift_analyzer.py --setup
+python swift_analyzer.py --collect --test               # Test with 3 repos
+python swift_analyzer.py --collect --batch-size 10      # Custom batch size
+python swift_analyzer.py --analyze --output-dir exports
+```
 
 ## Output
 
@@ -208,20 +128,10 @@ Site will be available at: `https://username.github.io/repository-name/`
 ## Configuration
 
 **Environment variables** (`.env`):
-- `GITHUB_TOKEN` - GitHub API token (recommended)
+- `GITHUB_TOKEN` - GitHub API token (5000 req/hr vs 60 req/hr without)
 - `DATABASE_URL` - Database path (optional)
 
-**Rate limits:**
-- With token: 5000 requests/hour
-- Without token: 60 requests/hour
-
-## Architecture
-
-**Priority scoring considers:**
-- GitHub stars and forks (40% weight)
-- Community engagement - forks + watchers (30% weight)
-- Recent activity - based on last push (20% weight)
-- Low dependency complexity - easier migration (10% weight)
+**Priority scoring:** Stars/forks (40%), engagement (30%), recent activity (20%), low complexity (10%)
 
 ## Project Structure
 
@@ -241,17 +151,10 @@ Site will be available at: `https://username.github.io/repository-name/`
 
 ## Troubleshooting
 
-**Common issues:**
 - **Rate limits:** Add GitHub token to `.env`
-- **Import errors:** Activate virtual environment: `source venv/bin/activate`
+- **Import errors:** Activate venv: `source .venv/bin/activate`  
 - **Database errors:** Reinitialize: `python swift_analyzer.py --setup`
-- **Empty results:** Verify CSV file exists and network connectivity
-
-**Debug commands:**
-```bash
-python swift_analyzer.py --status         # Check database state
-python swift_analyzer.py --collect --test # Test with small batch
-```
+- **Debug:** Use `--status` and `--test` flags
 
 ## Example Output
 
