@@ -8,12 +8,7 @@ A data analysis tool for the [Swift Android Working Group](https://www.swift.org
 # Setup environment file
 echo "GITHUB_TOKEN=your_token_here" > .env
 
-# Docker (Recommended)
-docker-compose --profile setup run --rm setup
-docker-compose --profile collect run --rm collect
-docker-compose --profile analyze run --rm analyze
-
-# Python (Manual)
+# Python setup and usage
 ./scripts/setup.sh && python swift_analyzer.py --setup
 python swift_analyzer.py --collect
 python swift_analyzer.py --analyze
@@ -54,17 +49,14 @@ flowchart TD
 
 ## Installation
 
-**Requirements:** Docker + Docker Compose OR Python 3.11+
+**Requirements:** Python 3.11+
 
 ```bash
 git clone <repository-url>
 cd spm-android-support-tracking
 echo "GITHUB_TOKEN=your_token_here" > .env
 
-# Docker (Recommended)
-docker-compose build
-
-# Python (Manual)
+# Setup
 ./scripts/setup.sh
 # OR: python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 ```
@@ -79,13 +71,6 @@ docker-compose build
 | `--status` | Show progress |
 
 ```bash
-# Docker
-docker-compose --profile setup run --rm setup
-docker-compose --profile test run --rm collect-test     # Test with 3 repos
-docker-compose --profile collect run --rm collect       # Full collection
-docker-compose --profile analyze run --rm analyze
-
-# Python
 python swift_analyzer.py --setup
 python swift_analyzer.py --collect --test               # Test with 3 repos
 python swift_analyzer.py --collect --batch-size 10      # Custom batch size
