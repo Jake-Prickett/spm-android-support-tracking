@@ -4,6 +4,24 @@ A data analysis tool for the [Swift Android Working Group](https://www.swift.org
 
 ## Quick Start
 
+### Using Docker (Recommended)
+
+```bash
+# Setup environment file
+echo "GITHUB_TOKEN=your_token_here" > .env
+
+# Run complete analysis pipeline
+docker-compose --profile setup run --rm setup        # Initialize database
+docker-compose --profile test run --rm collect-test  # Test with 3 repos
+docker-compose --profile collect run --rm collect    # Collect all data
+docker-compose --profile analyze run --rm analyze    # Generate reports
+
+# Check status
+docker-compose --profile status run --rm status
+```
+
+### Using Python (Manual)
+
 ```bash
 # Setup (one-time)
 ./scripts/setup.sh
@@ -55,10 +73,31 @@ flowchart TD
 
 ## Requirements
 
+### Docker (Recommended)
+- Docker and Docker Compose
+- GitHub token (recommended for higher API limits)
+
+### Manual Installation
 - Python 3.11+ (recommended for best compatibility)
 - GitHub token (recommended for higher API limits)
 
 ## Installation
+
+### Docker Setup (Recommended)
+
+```bash
+git clone <repository-url>
+cd spm-android-support-tracking
+
+# Create environment file
+echo "GITHUB_TOKEN=your_token_here" > .env
+
+# Build and run
+docker-compose build
+docker-compose --profile setup run --rm setup
+```
+
+### Manual Setup
 
 ```bash
 git clone <repository-url>
@@ -66,7 +105,7 @@ cd spm-android-support-tracking
 ./scripts/setup.sh
 ```
 
-**Manual setup:**
+**Or manual Python setup:**
 ```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
@@ -78,7 +117,25 @@ python swift_analyzer.py --setup
 
 ## Usage
 
-### Basic Workflow
+### Docker Workflow (Recommended)
+```bash
+# Test collection (3 repos)
+docker-compose --profile test run --rm collect-test
+
+# Full data collection
+docker-compose --profile collect run --rm collect
+
+# Generate analysis and reports
+docker-compose --profile analyze run --rm analyze
+
+# Check status
+docker-compose --profile status run --rm status
+
+# Interactive shell for debugging
+docker-compose run --rm swift-analyzer
+```
+
+### Python Workflow
 ```bash
 # Collect repository data
 python swift_analyzer.py --collect --test                 # Test with 3 repos

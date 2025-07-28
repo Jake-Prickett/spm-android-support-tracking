@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  swift-analyzer:
+    build: .
+    container_name: swift-package-analyzer
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DATABASE_URL=sqlite:///swift_packages.db
+      - REPOSITORIES_PER_BATCH=${REPOSITORIES_PER_BATCH:-50}
+      - BATCH_DELAY_MINUTES=${BATCH_DELAY_MINUTES:-1}
+    volumes:
+      # Mount data directory for input CSV
+      - ./data:/app/data:ro
+      # Mount exports directory for output
+      - ./exports:/app/exports
+      # Mount logs directory
+      - ./logs:/app/logs
+      # Persist database
+      - ./swift_packages.db:/app/swift_packages.db
+    working_dir: /app
+    # Override default command for interactive use
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+  # Service for one-time setup
+  setup:
+    build: .
+    container_name: swift-analyzer-setup
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DATABASE_URL=sqlite:///swift_packages.db
+    volumes:
+      - ./data:/app/data:ro
+      - ./exports:/app/exports
+      - ./logs:/app/logs
+      - ./swift_packages.db:/app/swift_packages.db
+    command: python swift_analyzer.py --setup
+    profiles: ["setup"]
+
+  # Service for data collection
+  collect:
+    build: .
+    container_name: swift-analyzer-collect
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DATABASE_URL=sqlite:///swift_packages.db
+      - REPOSITORIES_PER_BATCH=${REPOSITORIES_PER_BATCH:-50}
+      - BATCH_DELAY_MINUTES=${BATCH_DELAY_MINUTES:-1}
+    volumes:
+      - ./data:/app/data:ro
+      - ./exports:/app/exports
+      - ./logs:/app/logs
+      - ./swift_packages.db:/app/swift_packages.db
+    command: python swift_analyzer.py --collect
+    profiles: ["collect"]
+
+  # Service for test collection (3 repos only)
+  collect-test:
+    build: .
+    container_name: swift-analyzer-collect-test
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DATABASE_URL=sqlite:///swift_packages.db
+    volumes:
+      - ./data:/app/data:ro
+      - ./exports:/app/exports
+      - ./logs:/app/logs
+      - ./swift_packages.db:/app/swift_packages.db
+    command: python swift_analyzer.py --collect --test
+    profiles: ["test"]
+
+  # Service for analysis and report generation
+  analyze:
+    build: .
+    container_name: swift-analyzer-analyze
+    environment:
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DATABASE_URL=sqlite:///swift_packages.db
+    volumes:
+      - ./data:/app/data:ro
+      - ./exports:/app/exports
+      - ./logs:/app/logs
+      - ./swift_packages.db:/app/swift_packages.db
+    command: python swift_analyzer.py --analyze
+    profiles: ["analyze"]
+
+  # Service to check status
+  status:
+    build: .
+    container_name: swift-analyzer-status
+    environment:
+      - DATABASE_URL=sqlite:///swift_packages.db
+    volumes:
+      - ./swift_packages.db:/app/swift_packages.db
+    command: python swift_analyzer.py --status
+    profiles: ["status"]
