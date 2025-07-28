@@ -14,140 +14,168 @@ from jinja2 import Template
 
 from swift_package_analyzer.analysis.analyzer import PackageAnalyzer
 from swift_package_analyzer.core.models import Repository, SessionLocal
-from swift_package_analyzer.analysis.dependencies import DependencyTreeAnalyzer, DependencyVisualizer
+from swift_package_analyzer.analysis.dependencies import (
+    DependencyTreeAnalyzer,
+    DependencyVisualizer,
+)
 
 
 class ReportGenerator:
     """Generate comprehensive reports in multiple formats."""
-    
+
     def __init__(self):
         self.analyzer = PackageAnalyzer()
         self.dependency_analyzer = DependencyTreeAnalyzer()
         self.db = SessionLocal()
-        
-    def generate_comprehensive_report(self, output_dir: str = "exports") -> Dict[str, str]:
+
+    def generate_comprehensive_report(
+        self, output_dir: str = "exports"
+    ) -> Dict[str, str]:
         """Generate comprehensive analysis report in multiple formats."""
         output_path = Path(output_dir)
         output_path.mkdir(parents=True, exist_ok=True)
-        
+
         print("Generating comprehensive report...")
-        
+
         # Generate all analyses
         popularity = self.analyzer.generate_popularity_analysis()
         dependencies = self.analyzer.generate_dependency_analysis()
         languages = self.analyzer.generate_language_analysis()
         priorities = self.analyzer.generate_priority_analysis()
-        
+
         # Generate dependency tree analysis
         print("Building dependency analysis...")
         self.dependency_analyzer.build_dependency_tree()
         impact_analysis = self.dependency_analyzer.get_impact_analysis()
-        
+
         if "error" in popularity:
             print("No data available")
             return {}
-        
+
         # Prepare comprehensive data
         report_data = {
             "metadata": {
                 "generated_at": datetime.now().isoformat(),
                 "total_repositories": popularity.get("total_repositories", 0),
-                "generation_tool": "Swift Package Android Compatibility Analyzer"
+                "generation_tool": "Swift Package Android Compatibility Analyzer",
             },
-            "executive_summary": self._generate_executive_summary(popularity, dependencies, languages),
+            "executive_summary": self._generate_executive_summary(
+                popularity, dependencies, languages
+            ),
             "popularity_analysis": popularity,
             "dependency_analysis": dependencies,
             "language_analysis": languages,
             "priority_repositories": priorities[:25],
             "dependency_impact_analysis": impact_analysis,
             "statistics": {
-                "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),
-                "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
+                "avg_stars": round(
+                    popularity.get("star_statistics", {}).get("mean", 0), 1
+                ),
+                "median_stars": round(
+                    popularity.get("star_statistics", {}).get("median", 0), 1
+                ),
                 "primary_language": self._get_primary_language(languages),
                 "total_analyzed": popularity.get("total_repositories", 0),
                 "android_compatibility": self._get_android_compatibility_stats(),
-                "api_usage": self._get_api_usage_stats()
-            }
+                "api_usage": self._get_api_usage_stats(),
+            },
         }
-        
+
         generated_files = {}
-        
+
         # Generate JSON report
         json_path = output_path / "comprehensive_report.json"
         with open(json_path, "w") as f:
             json.dump(report_data, f, indent=2, default=str)
         generated_files["json"] = str(json_path)
         print(f"JSON: {json_path}")
-        
+
         # Generate HTML report
         html_path = output_path / "comprehensive_report.html"
         self._generate_html_report(report_data, html_path)
         generated_files["html"] = str(html_path)
         print(f"HTML: {html_path}")
-        
-        
+
         # Generate dependency visualizations
         deps_viz_dir = output_path / "dependency_visualizations"
         deps_viz_files = self._generate_dependency_visualizations(deps_viz_dir)
         generated_files.update(deps_viz_files)
-        
+
         print(f"Generated {len(generated_files)} files")
         return generated_files
-    
-    def _generate_executive_summary(self, popularity, dependencies, languages) -> Dict[str, Any]:
+
+    def _generate_executive_summary(
+        self, popularity, dependencies, languages
+    ) -> Dict[str, Any]:
         """Generate executive summary for the report."""
         total_repos = popularity.get("total_repositories", 0)
         avg_stars = popularity.get("star_statistics", {}).get("mean", 0)
-        
+
         # Identify key insights
         top_repo = popularity.get("star_statistics", {}).get("top_10", [{}])[0]
         primary_lang = self._get_primary_language(languages)
-        
+
         summary = {
             "overview": f"Analysis of {total_repos} Swift packages that support Linux but lack Android compatibility",
             "key_metrics": {
                 "average_popularity": f"{avg_stars:.0f} stars per repository",
                 "primary_language": primary_lang,
-                "most_popular": f"{top_repo.get('owner', 'N/A')}/{top_repo.get('name', 'N/A')}" if top_repo else "N/A"
+                "most_popular": f"{top_repo.get('owner', 'N/A')}/{top_repo.get('name', 'N/A')}"
+                if top_repo
+                else "N/A",
             },
             "recommendations": [
                 "Focus on high-star repositories for maximum impact",
                 "Prioritize packages with existing Package.swift files",
                 "Consider dependency chains to unlock multiple packages",
-                "Target recently active repositories for better maintenance"
-            ]
+                "Target recently active repositories for better maintenance",
+            ],
         }
-        
+
         return summary
-    
+
     def _get_primary_language(self, languages) -> str:
         """Get the primary programming language from analysis."""
         lang_dist = languages.get("language_distribution", {})
         if not lang_dist:
             return "Unknown"
         return max(lang_dist.items(), key=lambda x: x[1])[0]
-    
+
     def _get_android_compatibility_stats(self) -> Dict[str, Any]:
         """Get Android compatibility statistics."""
         try:
-            total_repos = self.db.query(Repository).filter(
-                Repository.processing_status == "completed"
-            ).count()
-            
-            android_compatible = self.db.query(Repository).filter(
-                Repository.processing_status == "completed",
-                Repository.android_compatible == True
-            ).count()
-            
-            android_not_compatible = self.db.query(Repository).filter(
-                Repository.processing_status == "completed",
-                Repository.android_compatible == False
-            ).count()
-            
+            total_repos = (
+                self.db.query(Repository)
+                .filter(Repository.processing_status == "completed")
+                .count()
+            )
+
+            android_compatible = (
+                self.db.query(Repository)
+                .filter(
+                    Repository.processing_status == "completed",
+                    Repository.android_compatible == True,
+                )
+                .count()
+            )
+
+            android_not_compatible = (
+                self.db.query(Repository)
+                .filter(
+                    Repository.processing_status == "completed",
+                    Repository.android_compatible == False,
+                )
+                .count()
+            )
+
             # Calculate percentages
-            android_percentage = (android_compatible / total_repos * 100) if total_repos > 0 else 0
-            progress_percentage = android_percentage  # Same as android_percentage for now
-            
+            android_percentage = (
+                (android_compatible / total_repos * 100) if total_repos > 0 else 0
+            )
+            progress_percentage = (
+                android_percentage  # Same as android_percentage for now
+            )
+
             return {
                 "total_repositories": total_repos,
                 "android_compatible": android_compatible,
@@ -155,7 +183,7 @@ class ReportGenerator:
                 "android_percentage": round(android_percentage, 1),
                 "progress_percentage": round(progress_percentage, 1),
                 "migration_target": total_repos,  # Target is to migrate all repos
-                "remaining_to_migrate": android_not_compatible
+                "remaining_to_migrate": android_not_compatible,
             }
         except Exception as e:
             print(f"Error calculating Android compatibility stats: {e}")
@@ -166,43 +194,57 @@ class ReportGenerator:
                 "android_percentage": 0.0,
                 "progress_percentage": 0.0,
                 "migration_target": 0,
-                "remaining_to_migrate": 0
+                "remaining_to_migrate": 0,
             }
 
     def _get_api_usage_stats(self) -> Dict[str, Any]:
         """Get API usage statistics from processing logs."""
         from swift_package_analyzer.core.models import ProcessingLog, SessionLocal
-        
+
         db = SessionLocal()
         try:
-            total_api_calls = db.query(ProcessingLog).filter(
-                ProcessingLog.action == "fetch_metadata"
-            ).count()
-            
-            successful_fetches = db.query(ProcessingLog).filter(
-                ProcessingLog.action == "fetch_metadata", 
-                ProcessingLog.status == "success"
-            ).count()
-            
-            failed_fetches = db.query(ProcessingLog).filter(
-                ProcessingLog.action == "fetch_metadata", 
-                ProcessingLog.status == "error"
-            ).count()
-            
-            success_rate = (successful_fetches / total_api_calls * 100) if total_api_calls > 0 else 0
-            
+            total_api_calls = (
+                db.query(ProcessingLog)
+                .filter(ProcessingLog.action == "fetch_metadata")
+                .count()
+            )
+
+            successful_fetches = (
+                db.query(ProcessingLog)
+                .filter(
+                    ProcessingLog.action == "fetch_metadata",
+                    ProcessingLog.status == "success",
+                )
+                .count()
+            )
+
+            failed_fetches = (
+                db.query(ProcessingLog)
+                .filter(
+                    ProcessingLog.action == "fetch_metadata",
+                    ProcessingLog.status == "error",
+                )
+                .count()
+            )
+
+            success_rate = (
+                (successful_fetches / total_api_calls * 100)
+                if total_api_calls > 0
+                else 0
+            )
+
             return {
                 "total_api_calls": total_api_calls,
                 "successful_fetches": successful_fetches,
                 "failed_fetches": failed_fetches,
-                "success_rate": round(success_rate, 1)
+                "success_rate": round(success_rate, 1),
             }
         finally:
             db.close()
-    
+
     def _generate_html_report(self, report_data: Dict, output_path: Path):
         """Generate an HTML report with embedded visualizations."""
-        
+
         html_template = """
 <!DOCTYPE html>
 <html>
@@ -360,153 +402,181 @@ class ReportGenerator:
 </body>
 </html>
         """
-        
+
         template = Template(html_template)
         html_content = template.render(report_data=report_data)
-        
-        with open(output_path, 'w', encoding='utf-8') as f:
+
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
-    
-    
+
     def _generate_dependency_visualizations(self, output_dir: Path) -> Dict[str, str]:
         """Generate dependency-specific visualizations."""
         output_dir.mkdir(parents=True, exist_ok=True)
         viz_files = {}
-        
+
         try:
             visualizer = DependencyVisualizer(self.dependency_analyzer)
-            
+
             # Generate network visualization
             network_path = visualizer.generate_dependency_network_visualization(
                 str(output_dir / "dependency_network.html"),
-                max_nodes=50  # Smaller for comprehensive report
+                max_nodes=50,  # Smaller for comprehensive report
             )
-            viz_files['dependency_network'] = network_path
-            
+            viz_files["dependency_network"] = network_path
+
             # Generate impact analysis JSON
             impact_analysis = self.dependency_analyzer.get_impact_analysis()
             impact_path = output_dir / "dependency_impact.json"
-            with open(impact_path, 'w') as f:
+            with open(impact_path, "w") as f:
                 json.dump(impact_analysis, f, indent=2)
-            viz_files['dependency_impact'] = str(impact_path)
-            
-            print(f"✅ Generated {len(viz_files)} dependency visualizations in {output_dir}")
-            
+            viz_files["dependency_impact"] = str(impact_path)
+
+            print(
+                f"✅ Generated {len(viz_files)} dependency visualizations in {output_dir}"
+            )
+
         except Exception as e:
             print(f"⚠️ Error generating dependency visualizations: {e}")
-        
+
         return viz_files
-    
-    def generate_priority_csv(self, output_path: str = "exports/priority_analysis.csv", limit: int = 50) -> str:
+
+    def generate_priority_csv(
+        self, output_path: str = "exports/priority_analysis.csv", limit: int = 50
+    ) -> str:
         """Generate a detailed CSV of priority repositories."""
         priorities = self.analyzer.generate_priority_analysis()[:limit]
-        
+
         # Convert to DataFrame for better CSV output
         df = pd.DataFrame(priorities)
-        
+
         # Add additional calculated columns
-        df['github_url'] = df.apply(lambda row: f"https://github.com/{row['owner']}/{row['name']}", axis=1)
-        df['package_index_url'] = df.apply(lambda row: f"https://swiftpackageindex.com/{row['owner']}/{row['name']}", axis=1)
-        
+        df["github_url"] = df.apply(
+            lambda row: f"https://github.com/{row['owner']}/{row['name']}", axis=1
+        )
+        df["package_index_url"] = df.apply(
+            lambda row: f"https://swiftpackageindex.com/{row['owner']}/{row['name']}",
+            axis=1,
+        )
+
         # Reorder columns for better readability
         column_order = [
-            'owner', 'name', 'priority_score', 'stars', 'forks', 'watchers', 
-            'dependencies_count', 'has_package_swift', 'swift_tools_version',
-            'language', 'license_name', 'rationale', 'github_url', 'package_index_url'
+            "owner",
+            "name",
+            "priority_score",
+            "stars",
+            "forks",
+            "watchers",
+            "dependencies_count",
+            "has_package_swift",
+            "swift_tools_version",
+            "language",
+            "license_name",
+            "rationale",
+            "github_url",
+            "package_index_url",
         ]
-        
+
         # Only include columns that exist
         existing_columns = [col for col in column_order if col in df.columns]
         df_ordered = df[existing_columns]
-        
+
         Path(output_path).parent.mkdir(parents=True, exist_ok=True)
         df_ordered.to_csv(output_path, index=False)
-        
+
         print(f"Priority CSV: {output_path}")
         return output_path
-    
-    def generate_github_pages_site(self, output_path: str = "exports/index.html") -> str:
+
+    def generate_github_pages_site(
+        self, output_path: str = "exports/index.html"
+    ) -> str:
         """Generate a single-file GitHub Pages compatible site."""
         from pathlib import Path
         import json
-        
+
         print("🌐 Generating GitHub Pages site...")
-        
+
         # Generate all analyses
         popularity = self.analyzer.generate_popularity_analysis()
         dependencies = self.analyzer.generate_dependency_analysis()
         languages = self.analyzer.generate_language_analysis()
         priorities = self.analyzer.generate_priority_analysis()
-        
+
         # Generate dependency tree analysis
         print("Building dependency analysis...")
         self.dependency_analyzer.build_dependency_tree()
         impact_analysis = self.dependency_analyzer.get_impact_analysis()
-        
+
         if "error" in popularity:
             print("No data available for analysis!")
             return ""
-        
+
         # Prepare comprehensive data optimized for web
         web_data = {
             "metadata": {
                 "generated_at": datetime.now().isoformat(),
                 "total_repositories": popularity.get("total_repositories", 0),
                 "generation_tool": "Swift Package Android Compatibility Analyzer",
-                "data_size_kb": 0  # Will be calculated
+                "data_size_kb": 0,  # Will be calculated
             },
-            "executive_summary": self._generate_executive_summary(popularity, dependencies, languages),
+            "executive_summary": self._generate_executive_summary(
+                popularity, dependencies, languages
+            ),
             "popularity_analysis": popularity,
             "dependency_analysis": dependencies,
             "language_analysis": languages,
             "priority_repositories": priorities[:100],  # Limit for web performance
             "dependency_impact_analysis": {
                 "packages": impact_analysis.get("packages", [])[:50],  # Top 50 for web
-                "summary": impact_analysis.get("summary", {})
+                "summary": impact_analysis.get("summary", {}),
             },
             "statistics": {
-                "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),
-                "median_stars": round(popularity.get("star_statistics", {}).get("median", 0), 1),
+                "avg_stars": round(
+                    popularity.get("star_statistics", {}).get("mean", 0), 1
+                ),
+                "median_stars": round(
+                    popularity.get("star_statistics", {}).get("median", 0), 1
+                ),
                 "primary_language": self._get_primary_language(languages),
                 "total_analyzed": popularity.get("total_repositories", 0),
                 "android_compatibility": self._get_android_compatibility_stats(),
-                "api_usage": self._get_api_usage_stats()
-            }
+                "api_usage": self._get_api_usage_stats(),
+            },
         }
-        
+
         # Calculate data size
         data_json = json.dumps(web_data, default=str)
-        data_size_kb = len(data_json.encode('utf-8')) / 1024
+        data_size_kb = len(data_json.encode("utf-8")) / 1024
         web_data["metadata"]["data_size_kb"] = round(data_size_kb, 1)
-        
+
         print(f"📊 Embedded data size: {data_size_kb:.1f} KB")
-        
+
         # Load template
-        template_path = Path(__file__).parent.parent / "templates" / "github_pages_template.html"
+        template_path = (
+            Path(__file__).parent.parent / "templates" / "github_pages_template.html"
+        )
         if not template_path.exists():
             raise FileNotFoundError(f"Template not found: {template_path}")
-        
-        with open(template_path, 'r', encoding='utf-8') as f:
+
+        with open(template_path, "r", encoding="utf-8") as f:
             template_content = f.read()
-        
+
         # Embed data in template
         html_content = template_content.replace(
-            '{{ EMBEDDED_DATA }}', 
-            json.dumps(web_data, default=str)
+            "{{ EMBEDDED_DATA }}", json.dumps(web_data, default=str)
         )
-        
+
         # Save the final file
         output_file = Path(output_path)
         output_file.parent.mkdir(parents=True, exist_ok=True)
-        
-        with open(output_file, 'w', encoding='utf-8') as f:
+
+        with open(output_file, "w", encoding="utf-8") as f:
             f.write(html_content)
-        
+
         final_size_kb = output_file.stat().st_size / 1024
         print(f"✅ GitHub Pages site generated: {output_path}")
         print(f"📄 Final file size: {final_size_kb:.1f} KB")
         print(f"🚀 Ready for GitHub Pages deployment!")
-        
+
         return str(output_path)
 
     def close(self):
@@ -519,16 +589,29 @@ class ReportGenerator:
 def main():
     """Generate comprehensive reports when run directly."""
     import argparse
-    
-    parser = argparse.ArgumentParser(description="Generate comprehensive Swift Package analysis reports")
-    parser.add_argument('--output-dir', default='exports', help='Output directory for reports')
-    parser.add_argument('--csv-limit', type=int, default=50, help='Number of repositories in priority CSV')
-    parser.add_argument('--github-pages', action='store_true', help='Generate GitHub Pages compatible site')
-    
+
+    parser = argparse.ArgumentParser(
+        description="Generate comprehensive Swift Package analysis reports"
+    )
+    parser.add_argument(
+        "--output-dir", default="exports", help="Output directory for reports"
+    )
+    parser.add_argument(
+        "--csv-limit",
+        type=int,
+        default=50,
+        help="Number of repositories in priority CSV",
+    )
+    parser.add_argument(
+        "--github-pages",
+        action="store_true",
+        help="Generate GitHub Pages compatible site",
+    )
+
     args = parser.parse_args()
-    
+
     generator = ReportGenerator()
-    
+
     try:
         if args.github_pages:
             # Generate GitHub Pages site
@@ -543,19 +626,18 @@ def main():
         else:
             # Generate comprehensive reports
             files = generator.generate_comprehensive_report(args.output_dir)
-            
+
             # Generate priority CSV
             csv_path = generator.generate_priority_csv(
-                f"{args.output_dir}/priority_analysis.csv", 
-                args.csv_limit
+                f"{args.output_dir}/priority_analysis.csv", args.csv_limit
             )
-            files['priority_csv'] = csv_path
-            
+            files["priority_csv"] = csv_path
+
             print("\n🎉 Report generation complete!")
             print("Generated files:")
             for report_type, file_path in files.items():
                 print(f"  • {report_type}: {file_path}")
-            
+
     finally:
         generator.close()
 

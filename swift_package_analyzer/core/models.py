@@ -4,8 +4,16 @@ Database models for Swift Package support data.
 
 from datetime import datetime
 
-from sqlalchemy import (Boolean, Column, DateTime, Float, Integer, String,
-                        Text, create_engine)
+from sqlalchemy import (
+    Boolean,
+    Column,
+    DateTime,
+    Float,
+    Integer,
+    String,
+    Text,
+    create_engine,
+)
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -95,5 +103,3 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def create_tables():
     """Create all database tables."""
     Base.metadata.create_all(bind=engine)
-
-

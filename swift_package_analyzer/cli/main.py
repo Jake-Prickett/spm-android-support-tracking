@@ -11,7 +11,12 @@ import schedule
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.data.fetcher import DataProcessor
-from swift_package_analyzer.core.models import ProcessingLog, Repository, SessionLocal, create_tables
+from swift_package_analyzer.core.models import (
+    ProcessingLog,
+    Repository,
+    SessionLocal,
+    create_tables,
+)
 
 
 def _countdown_timer(total_seconds):
@@ -21,7 +26,7 @@ def _countdown_timer(total_seconds):
         timer_display = f"\rNext batch in: {minutes:02d}:{seconds:02d}"
         print(timer_display, end="", flush=True)
         time.sleep(1)
-    
+
     print("\r" + " " * 20 + "\r", end="")
 
 
@@ -35,7 +40,7 @@ def fetch_data(args):
     """Fetch repository data from GitHub API."""
     batch_size = args.batch_size
     max_batches = args.max_batches
-    
+
     print(f"Processing repositories: batch size {batch_size}")
 
     processor = DataProcessor()
@@ -64,21 +69,27 @@ def fetch_data(args):
         results = processor.process_batch(batch)
         processed_count += len(batch)
 
-        print(f"Batch {batch_count}: {results['success']} success, {results['error']} errors ({processed_count}/{total_urls})")
+        print(
+            f"Batch {batch_count}: {results['success']} success, {results['error']} errors ({processed_count}/{total_urls})"
+        )
 
-        fetched_count = results['success'] + results['error']
-        if (i + batch_size < total_urls and 
-            (not max_batches or batch_count < max_batches) and
-            fetched_count > 0):
+        fetched_count = results["success"] + results["error"]
+        if (
+            i + batch_size < total_urls
+            and (not max_batches or batch_count < max_batches)
+            and fetched_count > 0
+        ):
             _countdown_timer(config.batch_delay_minutes * 60)
         elif fetched_count == 0:
             print("Batch skipped - no new data to fetch")
 
     final_stats = processor.get_processing_stats()
     processor.close()
-    
+
     print(f"\nCompleted: {processed_count} repositories, {batch_count} batches")
-    print(f"Success rate: {final_stats['success_rate']:.1f}% ({final_stats['fetcher_stats']['request_count']} API calls)")
+    print(
+        f"Success rate: {final_stats['success_rate']:.1f}% ({final_stats['fetcher_stats']['request_count']} API calls)"
+    )
     print(f"Rate: {final_stats['repos_per_minute']:.1f} repos/minute")
 
 
@@ -206,7 +217,9 @@ def export_data(args):
 
 def schedule_runner(args):
     """Run the scheduled batch processing."""
-    print(f"Scheduler: {config.repositories_per_batch} repos every {config.batch_delay_minutes} minutes")
+    print(
+        f"Scheduler: {config.repositories_per_batch} repos every {config.batch_delay_minutes} minutes"
+    )
 
     def run_batch():
         processor = DataProcessor()
@@ -240,44 +253,50 @@ def schedule_runner(args):
 def show_database_info(args=None):
     """Show database information useful for CI/CD workflows."""
     db_path = Path(config.database_url.replace("sqlite:///", ""))
-    
+
     print("Database Information:")
     print(f"  Database file: {db_path}")
     print(f"  Exists: {db_path.exists()}")
-    
+
     if db_path.exists():
         size_mb = db_path.stat().st_size / (1024 * 1024)
         print(f"  Size: {size_mb:.2f} MB")
-        
+
         db = SessionLocal()
         try:
             total_repos = db.query(Repository).count()
-            completed_repos = db.query(Repository).filter(
-                Repository.processing_status == "completed"
-            ).count()
-            pending_repos = db.query(Repository).filter(
-                Repository.processing_status == "pending"
-            ).count()
-            error_repos = db.query(Repository).filter(
-                Repository.processing_status == "error"
-            ).count()
-            
+            completed_repos = (
+                db.query(Repository)
+                .filter(Repository.processing_status == "completed")
+                .count()
+            )
+            pending_repos = (
+                db.query(Repository)
+                .filter(Repository.processing_status == "pending")
+                .count()
+            )
+            error_repos = (
+                db.query(Repository)
+                .filter(Repository.processing_status == "error")
+                .count()
+            )
+
             print(f"  Total repositories: {total_repos}")
             print(f"  Completed: {completed_repos}")
             print(f"  Pending: {pending_repos}")
             print(f"  Errors: {error_repos}")
-            
+
             if total_repos > 0:
                 completion_rate = (completed_repos / total_repos) * 100
                 print(f"  Completion rate: {completion_rate:.1f}%")
-                
+
                 if completion_rate > 50:
                     print("  ✅ Substantial data - recommended for persistence")
                 elif completion_rate > 10:
                     print("  ⚠️  Partial data - consider persistence")
                 else:
                     print("  ❌ Minimal data - fresh start recommended")
-                    
+
         except Exception as e:
             print(f"  Error reading database: {e}")
         finally:
@@ -290,50 +309,62 @@ def main():
     """Main CLI entry point with argparse."""
     parser = argparse.ArgumentParser(
         description="Swift Package Support Data Processing CLI",
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    
-    subparsers = parser.add_subparsers(dest='command', help='Available commands')
-    
+
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
     # Init database command
-    init_parser = subparsers.add_parser('init-db', help='Initialize the database')
+    init_parser = subparsers.add_parser("init-db", help="Initialize the database")
     init_parser.set_defaults(func=init_database)
-    
+
     # Fetch data command
-    fetch_parser = subparsers.add_parser('fetch-data', help='Fetch repository data')
-    fetch_parser.add_argument('--batch-size', type=int, default=config.repositories_per_batch, 
-                             help='Number of repositories to process in each batch')
-    fetch_parser.add_argument('--max-batches', type=int, default=None,
-                             help='Maximum number of batches to process')
+    fetch_parser = subparsers.add_parser("fetch-data", help="Fetch repository data")
+    fetch_parser.add_argument(
+        "--batch-size",
+        type=int,
+        default=config.repositories_per_batch,
+        help="Number of repositories to process in each batch",
+    )
+    fetch_parser.add_argument(
+        "--max-batches",
+        type=int,
+        default=None,
+        help="Maximum number of batches to process",
+    )
     fetch_parser.set_defaults(func=fetch_data)
-    
+
     # Status command
-    status_parser = subparsers.add_parser('status', help='Show processing status')
+    status_parser = subparsers.add_parser("status", help="Show processing status")
     status_parser.set_defaults(func=show_status)
-    
+
     # Database info command
-    db_info_parser = subparsers.add_parser('db-info', help='Show database information')
+    db_info_parser = subparsers.add_parser("db-info", help="Show database information")
     db_info_parser.set_defaults(func=show_database_info)
-    
+
     # Export command
-    export_parser = subparsers.add_parser('export', help='Export repository data')
-    export_parser.add_argument('--format', choices=['csv', 'json'], default='csv',
-                              help='Export format')
-    export_parser.add_argument('--output', default='exports/repositories.csv',
-                              help='Output file path')
+    export_parser = subparsers.add_parser("export", help="Export repository data")
+    export_parser.add_argument(
+        "--format", choices=["csv", "json"], default="csv", help="Export format"
+    )
+    export_parser.add_argument(
+        "--output", default="exports/repositories.csv", help="Output file path"
+    )
     export_parser.set_defaults(func=export_data)
-    
+
     # Schedule runner command
-    schedule_parser = subparsers.add_parser('schedule-runner', help='Run scheduled processing')
+    schedule_parser = subparsers.add_parser(
+        "schedule-runner", help="Run scheduled processing"
+    )
     schedule_parser.set_defaults(func=schedule_runner)
-    
+
     # Parse arguments and run appropriate function
     args = parser.parse_args()
-    
+
     if args.command is None:
         parser.print_help()
         sys.exit(1)
-    
+
     args.func(args)
 
 

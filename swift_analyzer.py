@@ -9,11 +9,16 @@ import sys
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.cli.main import (
-    init_database, fetch_data, show_status, export_data
+    init_database,
+    fetch_data,
+    show_status,
+    export_data,
 )
 from swift_package_analyzer.cli.analyze import (
-    show_stats, generate_comprehensive_report, analyze_dependencies, 
-    generate_github_pages
+    show_stats,
+    generate_comprehensive_report,
+    analyze_dependencies,
+    generate_github_pages,
 )
 
 
@@ -21,7 +26,7 @@ def setup_command(args):
     """Initialize database and environment."""
     print("Setting up Swift Package Analyzer...")
     init_database(args)
-    
+
     if not config.github_token:
         print("\nRecommendation: Add GitHub token to .env file for higher API limits")
         print("Without token: 60 requests/hour | With token: 5000 requests/hour")
@@ -41,7 +46,7 @@ def collect_command(args):
         print(f"Using reduced batch size: {args.batch_size} (no GitHub token)")
     else:
         print(f"Using batch size: {args.batch_size}")
-    
+
     # Call existing fetch_data function
     fetch_data(args)
 
@@ -49,51 +54,49 @@ def collect_command(args):
 def analyze_command(args):
     """Generate comprehensive analysis, reports, and exports."""
     # Set output directory default
-    if not hasattr(args, 'output_dir') or not args.output_dir:
+    if not hasattr(args, "output_dir") or not args.output_dir:
         args.output_dir = "exports"
-    
+
     print("Running comprehensive analysis with all outputs...")
-    
+
     # Show current statistics
     print("\nCurrent Statistics:")
     show_stats(args)
-    
+
     # Generate comprehensive report
     print("\nGenerating comprehensive reports...")
     generate_comprehensive_report(args)
-    
+
     # Generate dependency analysis
     print("\nAnalyzing dependencies...")
     deps_args = argparse.Namespace(
         output_dir=f"{args.output_dir}/dependencies",
         package=None,
         max_nodes=100,
-        max_depth=3
+        max_depth=3,
     )
     analyze_dependencies(deps_args)
-    
+
     # Generate web-ready site
     print("\nGenerating web-ready site...")
     pages_args = argparse.Namespace(output_dir=args.output_dir)
     generate_github_pages(pages_args)
-    
+
     # Export data in both formats
     print("\nExporting data...")
-    
+
     # Export CSV
     csv_args = argparse.Namespace(
-        format='csv',
-        output=f"{args.output_dir}/swift_packages.csv"
+        format="csv", output=f"{args.output_dir}/swift_packages.csv"
     )
     export_data(csv_args)
-    
+
     # Export JSON
     json_args = argparse.Namespace(
-        format='json',
-        output=f"{args.output_dir}/swift_packages.json"
+        format="json", output=f"{args.output_dir}/swift_packages.json"
     )
     export_data(json_args)
-    
+
     print(f"\nAnalysis complete! All outputs available in: {args.output_dir}/")
     print(f"Web site ready at: {args.output_dir}/index.html")
 
@@ -103,13 +106,11 @@ def status_command(args):
     show_status(args)
 
 
-
-
 def main():
     """Main CLI entry point with flag-based commands."""
     parser = argparse.ArgumentParser(
-        prog='swift-analyzer',
-        description='Swift Package Android Migration Analysis Tool',
+        prog="swift-analyzer",
+        description="Swift Package Android Migration Analysis Tool",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
@@ -118,51 +119,52 @@ Examples:
   swift-analyzer --collect --test           # Test with small batch
   swift-analyzer --analyze                  # Generate all analysis and exports
   swift-analyzer --status                   # Check processing status
-        """
+        """,
     )
-    
+
     # Command flags (mutually exclusive)
     command_group = parser.add_mutually_exclusive_group(required=True)
     command_group.add_argument(
-        '--setup', action='store_true',
-        help='Initialize database and environment'
+        "--setup", action="store_true", help="Initialize database and environment"
     )
     command_group.add_argument(
-        '--collect', action='store_true',
-        help='Fetch repository data from GitHub'
+        "--collect", action="store_true", help="Fetch repository data from GitHub"
     )
     command_group.add_argument(
-        '--analyze', action='store_true',
-        help='Generate comprehensive analysis, reports, and exports'
+        "--analyze",
+        action="store_true",
+        help="Generate comprehensive analysis, reports, and exports",
     )
     command_group.add_argument(
-        '--status', action='store_true',
-        help='Show processing status and database statistics'
+        "--status",
+        action="store_true",
+        help="Show processing status and database statistics",
     )
-    
+
     # Collect options
     parser.add_argument(
-        '--batch-size', type=int, default=config.repositories_per_batch,
-        help=f'Repositories per batch (default: {config.repositories_per_batch})'
+        "--batch-size",
+        type=int,
+        default=config.repositories_per_batch,
+        help=f"Repositories per batch (default: {config.repositories_per_batch})",
     )
     parser.add_argument(
-        '--max-batches', type=int,
-        help='Maximum number of batches to process'
+        "--max-batches", type=int, help="Maximum number of batches to process"
     )
     parser.add_argument(
-        '--test', action='store_true',
-        help='Run small test batch (3 repositories)'
+        "--test", action="store_true", help="Run small test batch (3 repositories)"
     )
-    
+
     # Analyze options
     parser.add_argument(
-        '--output-dir', default='exports',
-        help='Output directory for all outputs (default: exports)'
+        "--output-dir",
+        default="exports",
+        help="Output directory for all outputs (default: exports)",
     )
-    
+
     # Parse arguments and run appropriate function
     args = parser.parse_args()
-    
+
     # Execute the appropriate command
     try:
         if args.setup:
