@@ -61,12 +61,10 @@ python swift_analyzer.py collect --batch-size 10        # Process 10 at a time
 python swift_analyzer.py collect                        # Full collection
 
 # Generate analysis and reports
-python swift_analyzer.py analyze                        # All reports
-python swift_analyzer.py analyze --web                  # GitHub Pages site
+python swift_analyzer.py analyze                        # All reports and exports
 
-# Check status and stats
+# Check status
 python swift_analyzer.py status                         # Processing status
-python swift_analyzer.py stats                          # Quick overview
 ```
 
 ### Commands
@@ -77,7 +75,6 @@ python swift_analyzer.py stats                          # Quick overview
 | `collect` | Fetch GitHub data |
 | `analyze` | Generate reports |
 | `status` | Show progress |
-| `stats` | Quick statistics |
 
 ### Collection Options
 
@@ -91,29 +88,32 @@ python swift_analyzer.py stats                          # Quick overview
 
 | Flag | Description |
 |------|-------------|
-| `--web` | Generate GitHub Pages site |
-| `--comprehensive` | HTML/JSON reports |
-| `--dependencies` | Dependency analysis |
+| `--output-dir` | Set output directory (default: exports) |
 
 ## Output
 
 **Generated files:**
-- `exports/index.html` - GitHub Pages site
-- `exports/comprehensive_report.html` - Detailed analysis
-- `exports/priority_analysis.csv` - Migration priorities
-- `exports/comprehensive_report.json` - Structured data
+- `exports/index.html` - GitHub Pages site with interactive features
+- `exports/comprehensive_report.html` - Detailed analysis report
+- `exports/comprehensive_report.json` - Structured data export
+- `exports/priority_analysis.csv` - Migration priority rankings
+- `exports/swift_packages.csv` - Complete repository data
+- `exports/swift_packages.json` - Repository data in JSON format
+- `exports/dependencies/` - Dependency network analysis
+- `exports/dependency_visualizations/` - Interactive dependency graphs
 
 **Features:**
 - Interactive dependency network graphs
-- Priority rankings with rationale
+- Priority rankings with detailed rationale
 - Repository cards with GitHub/Swift Package Index links
 - Executive summary with key metrics
+- Complete data exports for further analysis
 
 ## GitHub Pages Deployment
 
 ```bash
-# Generate web site
-python swift_analyzer.py analyze --web
+# Generate all reports including web site
+python swift_analyzer.py analyze
 
 # Deploy (enable GitHub Pages in repo settings)
 git add exports/index.html
@@ -172,19 +172,19 @@ Input Data → GitHub API → SQLite Database → Analysis Engine → Reports
 
 **Debug commands:**
 ```bash
-python swift_analyzer.py status     # Check database state
-python swift_analyzer.py collect --test  # Test with small batch
+python swift_analyzer.py status         # Check database state
+python swift_analyzer.py collect --test # Test with small batch
 ```
 
 ## Example Output
 
 ```bash
-$ python swift_analyzer.py stats
-=== QUICK STATISTICS ===
-📊 Total Repositories: 156
-⭐ Average Stars: 1,247
-🔗 Average Dependencies: 12.3
-🏆 Most Popular: Alamofire/Alamofire (40,234 ⭐)
+$ python swift_analyzer.py status
+=== Processing Status ===
+📊 Repositories in database: 156 / 1065
+⭐ Average stars: 1,247
+📈 Processing complete: 14.6%
+🕒 Last update: 2 hours ago
 ```
 
 ---
