@@ -93,20 +93,6 @@ python swift_analyzer.py --analyze --output-dir docs
 - Executive summary with key metrics
 - Complete data exports for further analysis
 
-## GitHub Pages Deployment
-
-```bash
-# Generate all reports including web site
-python swift_analyzer.py --analyze
-
-# Deploy (enable GitHub Pages in repo settings)
-git add docs/index.html
-git commit -m "Add analysis site"
-git push origin main
-```
-
-Site will be available at: `https://username.github.io/repository-name/`
-
 ## Configuration
 
 **Environment variables** (`.env`):
