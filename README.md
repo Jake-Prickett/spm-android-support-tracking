@@ -39,12 +39,12 @@ flowchart TD
     F --> J[Priority Rankings<br/>Migration Recommendations]
     F --> K[Data Exports<br/>Further Analysis]
     
-    style A fill:#e1f5fe
-    style B fill:#f3e5f5
-    style C fill:#e8f5e8
-    style D fill:#fff3e0
-    style E fill:#fce4ec
-    style F fill:#f1f8e9
+    style A fill:#334155,stroke:#60a5fa,stroke-width:2px,color:#f9fafb
+    style B fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f9fafb
+    style C fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#f9fafb
+    style D fill:#334155,stroke:#ef4444,stroke-width:2px,color:#f9fafb
+    style E fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#f9fafb
+    style F fill:#0f172a,stroke:#06b6d4,stroke-width:2px,color:#f9fafb
 ```
 
 ## Installation
