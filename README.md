@@ -1,6 +1,6 @@
 # Swift Package Android Migration Analysis
 
-A data analysis tool for the [Swift Android Working Group](https://www.swift.org/ecosystem/android/) that analyzes **1065 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
+A data analysis tool for the [Swift Android Working Group](https://www.swift.org/android-workgroup/) that analyzes **1065 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
 
 ## Quick Start
 
@@ -81,13 +81,10 @@ python swift_analyzer.py --analyze --output-dir exports
 
 **Generated files:**
 - `exports/index.html` - GitHub Pages site with interactive features
-- `exports/comprehensive_report.html` - Detailed analysis report
-- `exports/comprehensive_report.json` - Structured data export
 - `exports/priority_analysis.csv` - Migration priority rankings
 - `exports/swift_packages.csv` - Complete repository data
 - `exports/swift_packages.json` - Repository data in JSON format
 - `exports/dependencies/` - Dependency network analysis
-- `exports/dependency_visualizations/` - Interactive dependency graphs
 
 **Features:**
 - Interactive dependency network graphs

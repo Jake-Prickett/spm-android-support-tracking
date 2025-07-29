@@ -16,7 +16,6 @@ from swift_package_analyzer.cli.main import (
 )
 from swift_package_analyzer.cli.analyze import (
     show_stats,
-    generate_comprehensive_report,
     analyze_dependencies,
     generate_github_pages,
 )
@@ -63,16 +62,13 @@ def analyze_command(args):
     print("\nCurrent Statistics:")
     show_stats(args)
 
-    # Generate comprehensive report
-    print("\nGenerating comprehensive reports...")
-    generate_comprehensive_report(args)
 
     # Generate dependency analysis
     print("\nAnalyzing dependencies...")
     deps_args = argparse.Namespace(
         output_dir=f"{args.output_dir}/dependencies",
         package=None,
-        max_nodes=100,
+        max_nodes=250,
         max_depth=3,
     )
     analyze_dependencies(deps_args)

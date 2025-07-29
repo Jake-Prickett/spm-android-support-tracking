@@ -28,81 +28,6 @@ class ReportGenerator:
         self.dependency_analyzer = DependencyTreeAnalyzer()
         self.db = SessionLocal()
 
-    def generate_comprehensive_report(
-        self, output_dir: str = "exports"
-    ) -> Dict[str, str]:
-        """Generate comprehensive analysis report in multiple formats."""
-        output_path = Path(output_dir)
-        output_path.mkdir(parents=True, exist_ok=True)
-
-        print("Generating comprehensive report...")
-
-        # Generate all analyses
-        popularity = self.analyzer.generate_popularity_analysis()
-        dependencies = self.analyzer.generate_dependency_analysis()
-        languages = self.analyzer.generate_language_analysis()
-        priorities = self.analyzer.generate_priority_analysis()
-
-        # Generate dependency tree analysis
-        print("Building dependency analysis...")
-        self.dependency_analyzer.build_dependency_tree()
-        impact_analysis = self.dependency_analyzer.get_impact_analysis()
-
-        if "error" in popularity:
-            print("No data available")
-            return {}
-
-        # Prepare comprehensive data
-        report_data = {
-            "metadata": {
-                "generated_at": datetime.now().isoformat(),
-                "total_repositories": popularity.get("total_repositories", 0),
-                "generation_tool": "Swift Package Android Compatibility Analyzer",
-            },
-            "executive_summary": self._generate_executive_summary(
-                popularity, dependencies, languages
-            ),
-            "popularity_analysis": popularity,
-            "dependency_analysis": dependencies,
-            "language_analysis": languages,
-            "priority_repositories": priorities[:25],
-            "dependency_impact_analysis": impact_analysis,
-            "statistics": {
-                "avg_stars": round(
-                    popularity.get("star_statistics", {}).get("mean", 0), 1
-                ),
-                "median_stars": round(
-                    popularity.get("star_statistics", {}).get("median", 0), 1
-                ),
-                "primary_language": self._get_primary_language(languages),
-                "total_analyzed": popularity.get("total_repositories", 0),
-                "android_compatibility": self._get_android_compatibility_stats(),
-                "api_usage": self._get_api_usage_stats(),
-            },
-        }
-
-        generated_files = {}
-
-        # Generate JSON report
-        json_path = output_path / "comprehensive_report.json"
-        with open(json_path, "w") as f:
-            json.dump(report_data, f, indent=2, default=str)
-        generated_files["json"] = str(json_path)
-        print(f"JSON: {json_path}")
-
-        # Generate HTML report
-        html_path = output_path / "comprehensive_report.html"
-        self._generate_html_report(report_data, html_path)
-        generated_files["html"] = str(html_path)
-        print(f"HTML: {html_path}")
-
-        # Generate dependency visualizations
-        deps_viz_dir = output_path / "dependency_visualizations"
-        deps_viz_files = self._generate_dependency_visualizations(deps_viz_dir)
-        generated_files.update(deps_viz_files)
-
-        print(f"Generated {len(generated_files)} files")
-        return generated_files
 
     def _generate_executive_summary(
         self, popularity, dependencies, languages
@@ -182,7 +107,7 @@ class ReportGenerator:
                 "android_not_compatible": android_not_compatible,
                 "android_percentage": round(android_percentage, 1),
                 "progress_percentage": round(progress_percentage, 1),
-                "migration_target": total_repos,  # Target is to migrate all repos
+                "migration_target": total_repos,
                 "remaining_to_migrate": android_not_compatible,
             }
         except Exception as e:
@@ -409,36 +334,6 @@ class ReportGenerator:
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
 
-    def _generate_dependency_visualizations(self, output_dir: Path) -> Dict[str, str]:
-        """Generate dependency-specific visualizations."""
-        output_dir.mkdir(parents=True, exist_ok=True)
-        viz_files = {}
-
-        try:
-            visualizer = DependencyVisualizer(self.dependency_analyzer)
-
-            # Generate network visualization
-            network_path = visualizer.generate_dependency_network_visualization(
-                str(output_dir / "dependency_network.html"),
-                max_nodes=50,  # Smaller for comprehensive report
-            )
-            viz_files["dependency_network"] = network_path
-
-            # Generate impact analysis JSON
-            impact_analysis = self.dependency_analyzer.get_impact_analysis()
-            impact_path = output_dir / "dependency_impact.json"
-            with open(impact_path, "w") as f:
-                json.dump(impact_analysis, f, indent=2)
-            viz_files["dependency_impact"] = str(impact_path)
-
-            print(
-                f"✅ Generated {len(viz_files)} dependency visualizations in {output_dir}"
-            )
-
-        except Exception as e:
-            print(f"⚠️ Error generating dependency visualizations: {e}")
-
-        return viz_files
 
     def generate_priority_csv(
         self, output_path: str = "exports/priority_analysis.csv", limit: int = 50
@@ -524,7 +419,7 @@ class ReportGenerator:
             "popularity_analysis": popularity,
             "dependency_analysis": dependencies,
             "language_analysis": languages,
-            "priority_repositories": priorities[:100],  # Limit for web performance
+            "priority_repositories": priorities,  # All repositories for complete dataset
             "dependency_impact_analysis": {
                 "packages": impact_analysis.get("packages", [])[:50],  # Top 50 for web
                 "summary": impact_analysis.get("summary", {}),
@@ -624,10 +519,8 @@ def main():
             print("2. Enable GitHub Pages in repository settings")
             print("3. Set source to main branch / root")
         else:
-            # Generate comprehensive reports
-            files = generator.generate_comprehensive_report(args.output_dir)
-
             # Generate priority CSV
+            files = {}
             csv_path = generator.generate_priority_csv(
                 f"{args.output_dir}/priority_analysis.csv", args.csv_limit
             )

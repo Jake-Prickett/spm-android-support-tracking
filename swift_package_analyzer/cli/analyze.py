@@ -181,25 +181,6 @@ def show_stats(args):
     analyzer.close()
 
 
-def generate_comprehensive_report(args):
-    """Generate comprehensive report with multiple formats."""
-    generator = ReportGenerator()
-
-    try:
-        files = generator.generate_comprehensive_report(args.output_dir)
-
-        # Also generate priority CSV
-        csv_path = generator.generate_priority_csv(
-            f"{args.output_dir}/priority_analysis.csv", getattr(args, "csv_limit", 50)
-        )
-        files["priority_csv"] = csv_path
-
-        print("\nGenerated files:")
-        for report_type, file_path in files.items():
-            print(f"  • {report_type}: {file_path}")
-
-    finally:
-        generator.close()
 
 
 def analyze_dependencies(args):
@@ -320,22 +301,6 @@ def main():
     stats_parser = subparsers.add_parser("stats", help="Show quick statistics")
     stats_parser.set_defaults(func=show_stats)
 
-    # Comprehensive report command
-    comp_parser = subparsers.add_parser(
-        "comprehensive", help="Generate multi-format reports"
-    )
-    comp_parser.add_argument(
-        "--output-dir",
-        default="exports",
-        help="Output directory for comprehensive reports",
-    )
-    comp_parser.add_argument(
-        "--csv-limit",
-        type=int,
-        default=50,
-        help="Number of repositories in priority CSV",
-    )
-    comp_parser.set_defaults(func=generate_comprehensive_report)
 
     # Dependencies command
     deps_parser = subparsers.add_parser(

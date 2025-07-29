@@ -285,8 +285,8 @@ class PackageAnalyzer:
             df["simplicity_score"] = 1 - (df["dependencies_count"] / max_deps)
             df["priority_score"] += df["simplicity_score"] * 0.1  # 10% weight
 
-        # Sort by priority score
-        priority_repos = df.nlargest(50, "priority_score")
+        # Sort by star count - show all repositories
+        priority_repos = df.sort_values("stars", ascending=False)
 
         result = []
         for _, repo in priority_repos.iterrows():
