@@ -12,7 +12,7 @@ python swift_analyzer.py collect
 python swift_analyzer.py analyze
 
 # Add changes and commit
-git add exports/ swift_packages.db
+git add docs/ swift_packages.db
 git commit -m "📊 Update Swift package analysis data"
 
 # Push to remote

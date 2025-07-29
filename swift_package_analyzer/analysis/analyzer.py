@@ -122,7 +122,7 @@ class PackageAnalyzer:
 
         return analysis
 
-    def generate_visualizations(self, output_dir: str = "exports/visualizations"):
+    def generate_visualizations(self, output_dir: str = "docs/visualizations"):
         """Generate visualization charts."""
         Path(output_dir).mkdir(parents=True, exist_ok=True)
 

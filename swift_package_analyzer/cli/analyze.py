@@ -262,7 +262,7 @@ def main():
     report_parser = subparsers.add_parser("report", help="Generate analysis report")
     report_parser.add_argument(
         "--output",
-        default="exports/analysis_report.json",
+        default="docs/analysis_report.json",
         help="Output file for analysis report",
     )
     report_parser.set_defaults(func=generate_report)
@@ -273,7 +273,7 @@ def main():
     )
     viz_parser.add_argument(
         "--output-dir",
-        default="exports/visualizations",
+        default="docs/visualizations",
         help="Directory for visualization outputs",
     )
     viz_parser.set_defaults(func=generate_visualizations)
@@ -290,7 +290,7 @@ def main():
     )
     priorities_parser.add_argument(
         "--output",
-        default="exports/priority_list.json",
+        default="docs/priority_list.json",
         help="Output file for priority list",
     )
     priorities_parser.set_defaults(func=generate_priorities)
@@ -305,7 +305,7 @@ def main():
     )
     deps_parser.add_argument(
         "--output-dir",
-        default="exports/dependencies",
+        default="docs/dependencies",
         help="Output directory for dependency analysis",
     )
     deps_parser.add_argument(
@@ -325,7 +325,7 @@ def main():
     # GitHub Pages command
     pages_parser = subparsers.add_parser("github-pages", help="Generate web-ready site")
     pages_parser.add_argument(
-        "--output-dir", default="exports", help="Output directory for GitHub Pages site"
+        "--output-dir", default="docs", help="Output directory for GitHub Pages site"
     )
     pages_parser.set_defaults(func=generate_github_pages)
 

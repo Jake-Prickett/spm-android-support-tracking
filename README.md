@@ -74,17 +74,17 @@ echo "GITHUB_TOKEN=your_token_here" > .env
 python swift_analyzer.py --setup
 python swift_analyzer.py --collect --test               # Test with 3 repos
 python swift_analyzer.py --collect --batch-size 10      # Custom batch size
-python swift_analyzer.py --analyze --output-dir exports
+python swift_analyzer.py --analyze --output-dir docs
 ```
 
 ## Output
 
 **Generated files:**
-- `exports/index.html` - GitHub Pages site with interactive features
-- `exports/priority_analysis.csv` - Migration priority rankings
-- `exports/swift_packages.csv` - Complete repository data
-- `exports/swift_packages.json` - Repository data in JSON format
-- `exports/dependencies/` - Dependency network analysis
+- `docs/index.html` - GitHub Pages site with interactive features
+- `docs/priority_analysis.csv` - Migration priority rankings
+- `docs/swift_packages.csv` - Complete repository data
+- `docs/swift_packages.json` - Repository data in JSON format
+- `docs/dependencies/` - Dependency network analysis
 
 **Features:**
 - Interactive dependency network graphs
@@ -100,7 +100,7 @@ python swift_analyzer.py --analyze --output-dir exports
 python swift_analyzer.py --analyze
 
 # Deploy (enable GitHub Pages in repo settings)
-git add exports/index.html
+git add docs/index.html
 git commit -m "Add analysis site"
 git push origin main
 ```
@@ -128,7 +128,7 @@ Site will be available at: `https://username.github.io/repository-name/`
 │   └── templates/                 # HTML templates
 ├── data/linux-compatible-android-incompatible.csv
 ├── requirements.txt
-└── exports/                       # Generated outputs
+└── docs/                          # Generated outputs
 ```
 
 ## Troubleshooting

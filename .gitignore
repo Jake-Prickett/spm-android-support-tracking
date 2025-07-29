@@ -221,7 +221,8 @@ __marimo__/
 # Log files
 logs/*.log
 
-# Exports and generated files
+# Generated files (allow docs/ for GitHub Pages)
+# docs/ directory is now tracked for GitHub Pages deployment
 exports/*.json
 exports/*.csv
 exports/visualizations/*.png

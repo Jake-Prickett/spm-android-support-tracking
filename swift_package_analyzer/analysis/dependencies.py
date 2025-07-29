@@ -793,7 +793,7 @@ def main():
 
     parser = argparse.ArgumentParser(description="Swift Package Dependency Analysis")
     parser.add_argument(
-        "--output-dir", default="exports/dependencies", help="Output directory"
+        "--output-dir", default="docs/dependencies", help="Output directory"
     )
     parser.add_argument("--package", help="Specific package to analyze (owner/repo)")
     parser.add_argument(

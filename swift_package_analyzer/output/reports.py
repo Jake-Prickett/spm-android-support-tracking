@@ -334,7 +334,7 @@ class ReportGenerator:
             f.write(html_content)
 
     def generate_priority_csv(
-        self, output_path: str = "exports/priority_analysis.csv", limit: int = 50
+        self, output_path: str = "docs/priority_analysis.csv", limit: int = 50
     ) -> str:
         """Generate a detailed CSV of priority repositories."""
         priorities = self.analyzer.generate_priority_analysis()[:limit]
@@ -380,7 +380,7 @@ class ReportGenerator:
         return output_path
 
     def generate_github_pages_site(
-        self, output_path: str = "exports/index.html"
+        self, output_path: str = "docs/index.html"
     ) -> str:
         """Generate a single-file GitHub Pages compatible site."""
         from pathlib import Path
@@ -487,7 +487,7 @@ def main():
         description="Generate comprehensive Swift Package analysis reports"
     )
     parser.add_argument(
-        "--output-dir", default="exports", help="Output directory for reports"
+        "--output-dir", default="docs", help="Output directory for reports"
     )
     parser.add_argument(
         "--csv-limit",

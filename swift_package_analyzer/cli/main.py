@@ -348,7 +348,7 @@ def main():
         "--format", choices=["csv", "json"], default="csv", help="Export format"
     )
     export_parser.add_argument(
-        "--output", default="exports/repositories.csv", help="Output file path"
+        "--output", default="docs/repositories.csv", help="Output file path"
     )
     export_parser.set_defaults(func=export_data)
 
