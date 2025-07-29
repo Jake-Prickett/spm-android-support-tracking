@@ -28,7 +28,6 @@ class ReportGenerator:
         self.dependency_analyzer = DependencyTreeAnalyzer()
         self.db = SessionLocal()
 
-
     def _generate_executive_summary(
         self, popularity, dependencies, languages
     ) -> Dict[str, Any]:
@@ -333,7 +332,6 @@ class ReportGenerator:
 
         with open(output_path, "w", encoding="utf-8") as f:
             f.write(html_content)
-
 
     def generate_priority_csv(
         self, output_path: str = "exports/priority_analysis.csv", limit: int = 50

@@ -62,7 +62,6 @@ def analyze_command(args):
     print("\nCurrent Statistics:")
     show_stats(args)
 
-
     # Generate dependency analysis
     print("\nAnalyzing dependencies...")
     deps_args = argparse.Namespace(

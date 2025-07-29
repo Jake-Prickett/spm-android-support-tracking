@@ -181,8 +181,6 @@ def show_stats(args):
     analyzer.close()
 
 
-
-
 def analyze_dependencies(args):
     """Analyze package dependencies and generate visualizations."""
     analyzer = DependencyTreeAnalyzer()
@@ -300,7 +298,6 @@ def main():
     # Stats command
     stats_parser = subparsers.add_parser("stats", help="Show quick statistics")
     stats_parser.set_defaults(func=show_stats)
-
 
     # Dependencies command
     deps_parser = subparsers.add_parser(
