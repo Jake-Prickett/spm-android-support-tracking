@@ -9,11 +9,11 @@ echo "=========================================="
 # Check if virtual environment is activated
 if [[ -z "${VIRTUAL_ENV}" ]]; then
     echo "⚠️  Virtual environment not detected. Activating..."
-    if [[ -f "venv/bin/activate" ]]; then
-        source venv/bin/activate
+    if [[ -f ".venv/bin/activate" ]]; then
+        source .venv/bin/activate
         echo "✅ Virtual environment activated"
     else
-        echo "❌ Virtual environment not found. Run ./scripts/setup.sh first"
+        echo "❌ .venv directory not found. Run ./scripts/setup.sh first"
         exit 1
     fi
 fi

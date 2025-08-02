@@ -5,6 +5,14 @@ set -e
 
 echo "🔄 Refreshing Swift package data..."
 
+# Activate virtual environment
+if [ -d ".venv" ]; then
+    source .venv/bin/activate
+else
+    echo "Error: .venv directory not found. Run ./scripts/setup.sh first"
+    exit 1
+fi
+
 # Collect latest data
 python swift_analyzer.py collect
 

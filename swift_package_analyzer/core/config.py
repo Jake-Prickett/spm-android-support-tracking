@@ -30,12 +30,7 @@ class Config:
     batch_delay_minutes: int = (
         2  # 60 minutes / 29 batches = ~2.1 minutes (70% utilization)
     )
-    
-    # Incremental processing settings
-    staleness_threshold_days: int = 7  # Default repository staleness threshold
-    popular_repo_threshold_stars: int = 1000  # Repos with more stars get updated more frequently
-    popular_repo_staleness_days: int = 3  # Update popular repos every 3 days
-    checkpoint_cleanup_days: int = 7  # Clean up checkpoints older than 7 days
+
 
     # Data processing settings
     csv_file_path: str = "data/linux-compatible-android-incompatible.csv"

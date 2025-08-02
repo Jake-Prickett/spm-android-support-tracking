@@ -8,12 +8,10 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-import schedule
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.data.fetcher import DataProcessor
 from swift_package_analyzer.core.models import (
-    ProcessingCheckpoint,
     ProcessingLog,
     Repository,
     SessionLocal,
@@ -217,41 +215,6 @@ def export_data(args):
     db.close()
 
 
-def schedule_runner(args):
-    """Run the scheduled batch processing."""
-    print(
-        f"Scheduler: {config.repositories_per_batch} repos every {config.batch_delay_minutes} minutes"
-    )
-
-    def run_batch():
-        processor = DataProcessor()
-        urls = processor.load_csv_repositories()
-
-        # Get pending repositories
-        db = SessionLocal()
-        processed_urls = {repo.url for repo in db.query(Repository.url).all()}
-        pending_urls = [url for url in urls if url not in processed_urls]
-        db.close()
-
-        if pending_urls:
-            batch = pending_urls[: config.repositories_per_batch]
-            print(f"Processing {len(batch)} repositories...")
-            results = processor.process_batch(batch)
-            print(f"Complete: {results['success']} success, {results['error']} errors")
-        else:
-            print("All repositories processed")
-
-        processor.close()
-
-    # Schedule the batch processing
-    schedule.every(config.batch_delay_minutes).minutes.do(run_batch)
-
-    # Run indefinitely
-    while True:
-        schedule.run_pending()
-        time.sleep(60)  # Check every minute
-
-
 def show_database_info(args=None):
     """Show database information useful for CI/CD workflows."""
     db_path = Path(config.database_url.replace("sqlite:///", ""))
@@ -305,70 +268,3 @@ def show_database_info(args=None):
             db.close()
     else:
         print("  ❌ Database not found - run init-db command")
-
-
-def main():
-    """Main CLI entry point with argparse."""
-    parser = argparse.ArgumentParser(
-        description="Swift Package Support Data Processing CLI",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-
-    subparsers = parser.add_subparsers(dest="command", help="Available commands")
-
-    # Init database command
-    init_parser = subparsers.add_parser("init-db", help="Initialize the database")
-    init_parser.set_defaults(func=init_database)
-
-    # Fetch data command
-    fetch_parser = subparsers.add_parser("fetch-data", help="Fetch repository data")
-    fetch_parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=config.repositories_per_batch,
-        help="Number of repositories to process in each batch",
-    )
-    fetch_parser.add_argument(
-        "--max-batches",
-        type=int,
-        default=None,
-        help="Maximum number of batches to process",
-    )
-    fetch_parser.set_defaults(func=fetch_data)
-
-    # Status command
-    status_parser = subparsers.add_parser("status", help="Show processing status")
-    status_parser.set_defaults(func=show_status)
-
-    # Database info command
-    db_info_parser = subparsers.add_parser("db-info", help="Show database information")
-    db_info_parser.set_defaults(func=show_database_info)
-
-    # Export command
-    export_parser = subparsers.add_parser("export", help="Export repository data")
-    export_parser.add_argument(
-        "--format", choices=["csv", "json"], default="csv", help="Export format"
-    )
-    export_parser.add_argument(
-        "--output", default="docs/repositories.csv", help="Output file path"
-    )
-    export_parser.set_defaults(func=export_data)
-
-    # Schedule runner command
-    schedule_parser = subparsers.add_parser(
-        "schedule-runner", help="Run scheduled processing"
-    )
-    schedule_parser.set_defaults(func=schedule_runner)
-
-    # Parse arguments and run appropriate function
-    args = parser.parse_args()
-
-    if args.command is None:
-        parser.print_help()
-        sys.exit(1)
-
-    args.func(args)
-
-
-if __name__ == "__main__":
-    main()

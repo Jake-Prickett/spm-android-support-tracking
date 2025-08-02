@@ -14,8 +14,7 @@ from swift_package_analyzer.cli.main import (
     show_status,
     export_data,
 )
-from swift_package_analyzer.data.incremental_processor import IncrementalDataProcessor
-from swift_package_analyzer.data.simple_processor import SimpleChunkedProcessor
+from swift_package_analyzer.data.fetcher import DataProcessor
 from swift_package_analyzer.cli.analyze import (
     show_stats,
     analyze_dependencies,
@@ -48,76 +47,41 @@ def collect_command(args):
     else:
         print(f"Using batch size: {args.batch_size}")
 
-    # Use simplified chunked processing if requested, incremental if requested, otherwise standard
-    if getattr(args, 'chunked', False):
+    # Use simplified chunked processing if requested, otherwise standard
+    if getattr(args, "chunked", False):
         chunked_collect_command(args)
-    elif getattr(args, 'incremental', False):
-        incremental_collect_command(args)
     else:
         # Call existing fetch_data function
         fetch_data(args)
 
 
-def incremental_collect_command(args):
-    """Fetch repository data using incremental processing with smart resume."""
-    print("Running incremental data collection with smart resume...")
-    
-    processor = IncrementalDataProcessor()
-    urls = processor.load_csv_repositories()
-    
-    if not urls:
-        print("No repositories found in source data")
-        return
-    
-    # Process incrementally
-    results = processor.process_incremental_batch(
-        urls=urls,
-        batch_size=args.batch_size,
-        max_batches=args.max_batches,
-        resume_from_checkpoint=not getattr(args, 'no_resume', False)
-    )
-    
-    processor.close()
-    
-    print(f"\nIncremental collection completed:")
-    print(f"  Processed: {results.get('processed', 0)} repositories")
-    print(f"  Success: {results['success']}")
-    print(f"  Errors: {results['error']}")
-    print(f"  Batches: {results.get('batches', 0)}")
-    
-    if results.get('processed', 0) > 0:
-        print(f"  Success rate: {(results['success'] / results.get('processed', 1)) * 100:.1f}%")
-    
-    # Show updated status
-    print("\nUpdated repository status:")
-    show_status(args)
-
-
 def chunked_collect_command(args):
     """Fetch repository data using simplified chunked processing."""
     print("Running simplified chunked data collection...")
-    
-    processor = SimpleChunkedProcessor()
+
+    processor = DataProcessor()
     urls = processor.load_csv_repositories()
-    
+
     if not urls:
         print("No repositories found in source data")
         return
-    
+
     # Process chunk (batch_size determines chunk size)
     results = processor.process_chunk(urls, chunk_size=args.batch_size)
-    
+
     processor.close()
-    
+
     print(f"\nChunked collection completed:")
     print(f"  Processed: {results.get('processed', 0)} repositories")
     print(f"  Success: {results['success']}")
     print(f"  Errors: {results['error']}")
     print(f"  Total available: {results.get('total_available', 0)}")
-    
-    if results.get('processed', 0) > 0:
-        print(f"  Success rate: {(results['success'] / results.get('processed', 1)) * 100:.1f}%")
-    
+
+    if results.get("processed", 0) > 0:
+        print(
+            f"  Success rate: {(results['success'] / results.get('processed', 1)) * 100:.1f}%"
+        )
+
     # Show freshness status
     status = processor.get_refresh_status()
     print(f"\nRepository freshness:")
@@ -125,7 +89,7 @@ def chunked_collect_command(args):
     print(f"  Recent (1-7 days): {status['freshness']['recent_1_week']}")
     print(f"  Stale (> 7 days): {status['freshness']['stale_older']}")
     print(f"  Never fetched: {status['freshness']['never_fetched']}")
-    
+
     # Show updated status
     print("\nUpdated repository status:")
     show_status(args)
@@ -194,7 +158,6 @@ Examples:
   swift-analyzer --collect                             # Fetch data with smart defaults
   swift-analyzer --collect --test                      # Test with small batch
   swift-analyzer --collect --chunked --batch-size 250  # Chunked refresh (recommended for automation)
-  swift-analyzer --collect --incremental               # Legacy incremental update with smart resume
   swift-analyzer --analyze                             # Generate all analysis and exports
   swift-analyzer --status                              # Check processing status
 
@@ -237,16 +200,9 @@ Automation:
         "--test", action="store_true", help="Run small test batch (3 repositories)"
     )
     parser.add_argument(
-        "--incremental", action="store_true", 
-        help="Use incremental processing with smart resume (legacy)"
-    )
-    parser.add_argument(
-        "--chunked", action="store_true",
-        help="Use simplified chunked processing (recommended for automation)"
-    )
-    parser.add_argument(
-        "--no-resume", action="store_true",
-        help="Don't resume from previous checkpoint (start fresh)"
+        "--chunked",
+        action="store_true",
+        help="Use simplified chunked processing (recommended for automation)",
     )
 
     # Analyze options

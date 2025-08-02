@@ -69,21 +69,6 @@ jobs:
           echo "collection_completed=true" >> $GITHUB_OUTPUT
         fi
 
-    - name: Get repository count
-      id: check_changes
-      run: |
-        # Get current repository count for reporting
-        REPO_COUNT=$(python -c "
-        from swift_package_analyzer.core.models import Repository, SessionLocal
-        db = SessionLocal()
-        completed = db.query(Repository).filter(Repository.processing_status == 'completed').count()
-        db.close()
-        print(completed)
-        ")
-        
-        echo "completed_repos=$REPO_COUNT" >> $GITHUB_OUTPUT
-        echo "Found $REPO_COUNT completed repositories - generating analysis"
-
     - name: Generate analysis and reports
       run: |
         echo "Generating comprehensive analysis..."
@@ -109,12 +94,10 @@ jobs:
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          # Create commit message with stats
-          REPO_COUNT="${{ steps.check_changes.outputs.completed_repos }}"
-          COMMIT_MSG="Update Swift package analysis - $REPO_COUNT repositories processed
+          # Create commit message
+          COMMIT_MSG="Update Swift package analysis
 
           🤖 Generated with nightly automation
-          📊 Completed repositories: $REPO_COUNT
           🕒 Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
           
           git commit -m "$COMMIT_MSG"
@@ -130,8 +113,7 @@ jobs:
         commit_message: |
           Deploy Swift package analysis update
           
-          📊 Repositories processed: ${{ steps.check_changes.outputs.completed_repos }}
-          🕒 Updated: ${{ steps.date.outputs.date }}
+          🕒 Updated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
     - name: Create workflow summary
       if: always()
@@ -139,17 +121,12 @@ jobs:
         echo "## Nightly Update Summary" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Processing Results" >> $GITHUB_STEP_SUMMARY
-        echo "- **Completed Repositories**: ${{ steps.check_changes.outputs.completed_repos || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Collection Status**: ${{ steps.collect_data.outputs.collection_completed == 'true' && '✅ Completed' || '❌ Failed/Timeout' }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Analysis Generated**: ✅ Yes" >> $GITHUB_STEP_SUMMARY
         echo "- **Database State**: ✅ Persisted" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
-        if [ "${{ steps.check_changes.outputs.completed_repos }}" -lt 1000 ]; then
-          echo "- 🔄 Continue nightly updates (~250 repos per run, ~4 day cycle)" >> $GITHUB_STEP_SUMMARY
-        else
-          echo "- ✅ Dataset substantially complete - monitoring for staleness" >> $GITHUB_STEP_SUMMARY
-        fi
+        echo "- 🔄 Continue nightly updates (~250 repos per run, ~4 day cycle)" >> $GITHUB_STEP_SUMMARY
         
         # Add logs summary if collection timed out
         if [ "${{ steps.collect_data.outputs.collection_timeout }}" = "true" ]; then

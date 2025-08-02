@@ -95,30 +95,6 @@ class ProcessingLog(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
-class ProcessingCheckpoint(Base):
-    """Model for tracking processing checkpoints to enable resume functionality."""
-
-    __tablename__ = "processing_checkpoints"
-
-    id = Column(Integer, primary_key=True)
-    session_id = Column(String(50), nullable=False)  # UUID for processing session
-    batch_number = Column(Integer, nullable=False)
-    repositories_processed = Column(Integer, default=0)
-    last_processed_url = Column(String(500))
-    processing_started_at = Column(DateTime, default=datetime.utcnow)
-    processing_ended_at = Column(DateTime)
-    status = Column(String(20), default="active")  # active, completed, interrupted
-    batch_size = Column(Integer, nullable=False)
-    total_repositories = Column(Integer, nullable=False)
-    success_count = Column(Integer, default=0)
-    error_count = Column(Integer, default=0)
-    api_requests_made = Column(Integer, default=0)
-    estimated_remaining_time = Column(Float)  # in minutes
-    
-    def __repr__(self):
-        return f"<ProcessingCheckpoint(session_id='{self.session_id}', batch={self.batch_number}, processed={self.repositories_processed})>"
-
-
 # Database setup
 engine = create_engine(config.database_url, echo=False)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
