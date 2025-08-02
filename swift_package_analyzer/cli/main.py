@@ -5,6 +5,7 @@ Main CLI script for Swift Package support data processing.
 import argparse
 import sys
 import time
+from datetime import datetime
 from pathlib import Path
 
 import schedule
@@ -12,6 +13,7 @@ import schedule
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.data.fetcher import DataProcessor
 from swift_package_analyzer.core.models import (
+    ProcessingCheckpoint,
     ProcessingLog,
     Repository,
     SessionLocal,

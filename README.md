@@ -20,6 +20,7 @@ python swift_analyzer.py --analyze
 - **Prioritizes migration targets** using GitHub stars, forks, and dependency impact
 - **Maps dependency networks** to identify high-impact packages
 - **Generates interactive reports** with visualizations and migration recommendations
+- **Automated nightly updates** via GitHub Actions (250 repos/night, ~4 day refresh cycle)
 - **Exports data** in HTML, JSON, and CSV formats for community use
 
 ## Data Flow Overview
@@ -67,13 +68,15 @@ echo "GITHUB_TOKEN=your_token_here" > .env
 |---------|-------------|
 | `--setup` | Initialize database |
 | `--collect` | Fetch GitHub data (`--test` for 3 repos) |
+| `--collect --chunked` | Chunked refresh (recommended for automation) |
 | `--analyze` | Generate reports |
-| `--status` | Show progress |
+| `--status` | Show progress and freshness |
 
 ```bash
 python swift_analyzer.py --setup
-python swift_analyzer.py --collect --test               # Test with 3 repos
-python swift_analyzer.py --collect --batch-size 10      # Custom batch size
+python swift_analyzer.py --collect --test                        # Test with 3 repos
+python swift_analyzer.py --collect --batch-size 10               # Custom batch size
+python swift_analyzer.py --collect --chunked --batch-size 250    # Chunked refresh (250 repos)
 python swift_analyzer.py --analyze --output-dir docs
 ```
 
@@ -128,11 +131,32 @@ python swift_analyzer.py --analyze --output-dir docs
 
 ```bash
 $ python swift_analyzer.py --status
-=== Processing Status ===
-📊 Repositories in database: 156 / 1065
-⭐ Average stars: 1,247
-📈 Processing complete: 14.6%
-🕒 Last update: 2 hours ago
+Repository Processing Status:
+  Total repositories: 1065
+  Completed: 1065
+  Errors: 0
+  Pending: 0
+
+Repository Insights:
+  Average stars: 321.5
+  Repositories with Package.swift: 1064
+  Package.swift coverage: 99.9%
+
+$ python swift_analyzer.py --collect --chunked --batch-size 250
+Running simplified chunked data collection...
+
+Chunked collection completed:
+  Processed: 250 repositories
+  Success: 248
+  Errors: 2
+  Total available: 1065
+  Success rate: 99.2%
+
+Repository freshness:
+  Fresh (< 1 day): 250
+  Recent (1-7 days): 815
+  Stale (> 7 days): 0
+  Never fetched: 0
 ```
 
 ---
