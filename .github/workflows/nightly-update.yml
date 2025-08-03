@@ -88,7 +88,7 @@ jobs:
         git config --local user.name "GitHub Action"
         
         # Add generated files and database
-        git add docs/ exports/ swift_packages.db -f
+        git add docs/ swift_packages.db -f
         
         # Check if there are changes to commit
         if git diff --staged --quiet; then

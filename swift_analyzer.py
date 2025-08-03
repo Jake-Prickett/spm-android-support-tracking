@@ -96,7 +96,7 @@ def analyze_command(args):
     """Generate comprehensive analysis, reports, and exports."""
     # Set output directory default
     if not hasattr(args, "output_dir") or not args.output_dir:
-        args.output_dir = "exports"
+        args.output_dir = "docs"
 
     print("Running comprehensive analysis with all outputs...")
 
@@ -228,8 +228,8 @@ Automation:
     # Analyze options
     parser.add_argument(
         "--output-dir",
-        default="exports",
-        help="Output directory for all outputs (default: exports)",
+        default="docs",
+        help="Output directory for all outputs (default: docs)",
     )
 
     # State management options

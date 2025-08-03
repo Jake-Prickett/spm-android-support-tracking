@@ -46,7 +46,7 @@ class Config:
         # Create necessary directories
         Path("logs").mkdir(exist_ok=True)
         Path("data").mkdir(exist_ok=True)
-        Path("exports").mkdir(exist_ok=True)
+        Path("docs").mkdir(exist_ok=True)
 
         if not self.github_token:
             print("Warning: GITHUB_TOKEN not found in environment variables.")
