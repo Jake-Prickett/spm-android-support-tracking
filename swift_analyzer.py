@@ -10,7 +10,6 @@ import sys
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.cli.main import (
     init_database,
-    fetch_data,
     show_status,
     export_data,
 )
@@ -47,12 +46,8 @@ def collect_command(args):
     else:
         print(f"Using batch size: {args.batch_size}")
 
-    # Use simplified chunked processing if requested, otherwise standard
-    if getattr(args, "chunked", False):
-        chunked_collect_command(args)
-    else:
-        # Call existing fetch_data function
-        fetch_data(args)
+    # Use chunked processing for all collection operations
+    chunked_collect_command(args)
 
 
 def chunked_collect_command(args):
@@ -154,15 +149,15 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  swift-analyzer --setup                               # One-time setup
-  swift-analyzer --collect                             # Fetch data with smart defaults
-  swift-analyzer --collect --test                      # Test with small batch
-  swift-analyzer --collect --chunked --batch-size 250  # Chunked refresh (recommended for automation)
-  swift-analyzer --analyze                             # Generate all analysis and exports
-  swift-analyzer --status                              # Check processing status
+  swift-analyzer --setup                              # One-time setup
+  swift-analyzer --collect                            # Fetch data with smart chunked processing
+  swift-analyzer --collect --test                     # Test with small batch
+  swift-analyzer --collect --batch-size 250           # Large batch refresh
+  swift-analyzer --analyze                            # Generate all analysis and exports
+  swift-analyzer --status                             # Check processing status
 
 Automation:
-  The --chunked flag processes the oldest repositories first, providing a simple
+  Collection automatically processes the oldest repositories first, providing a simple
   refresh mechanism suitable for nightly automation (~4 day refresh cycle at 250 repos/night).
         """,
     )
@@ -198,11 +193,6 @@ Automation:
     )
     parser.add_argument(
         "--test", action="store_true", help="Run small test batch (3 repositories)"
-    )
-    parser.add_argument(
-        "--chunked",
-        action="store_true",
-        help="Use simplified chunked processing (recommended for automation)",
     )
 
     # Analyze options

@@ -31,7 +31,6 @@ class Config:
         2  # 60 minutes / 29 batches = ~2.1 minutes (70% utilization)
     )
 
-
     # Data processing settings
     csv_file_path: str = "data/linux-compatible-android-incompatible.csv"
 

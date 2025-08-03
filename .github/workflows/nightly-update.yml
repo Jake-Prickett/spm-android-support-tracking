@@ -50,8 +50,8 @@ jobs:
       run: |
         echo "Starting chunked data collection (250 repositories)..."
         
-        # Run collection with chunked processing and timeout handling
-        timeout 35m python swift_analyzer.py --collect --chunked --batch-size 250 || {
+        # Run collection with timeout handling
+        timeout 35m python swift_analyzer.py --collect --batch-size 250 || {
           exit_code=$?
           if [ $exit_code -eq 124 ]; then
             echo "Collection timed out after 35 minutes - progress saved"

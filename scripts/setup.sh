@@ -40,4 +40,12 @@ fi
 
 # Initialize database
 echo "🗄️ Initializing database..."
-python swift_analyzer.py setup
+python swift_analyzer.py --setup
+
+echo ""
+echo "🎉 Setup complete!"
+echo ""
+echo "Next steps:"
+echo "1. Edit .env file to add your GitHub token (optional but recommended)"
+echo "2. Run: python swift_analyzer.py --collect"
+echo "3. Run: python swift_analyzer.py --analyze"
