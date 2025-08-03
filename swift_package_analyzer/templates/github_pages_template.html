@@ -248,6 +248,118 @@
             color: var(--warning-amber);
         }
         
+        /* Repository state indicators */
+        .state-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: 1px solid;
+        }
+        
+        .state-tracking {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border-color: #3b82f6;
+        }
+        
+        .state-in_progress {
+            background-color: #fef3c7;
+            color: #92400e;
+            border-color: #f59e0b;
+        }
+        
+        .state-android_supported {
+            background-color: #d1fae5;
+            color: #065f46;
+            border-color: #10b981;
+        }
+        
+        .state-archived {
+            background-color: #f3f4f6;
+            color: #374151;
+            border-color: #6b7280;
+        }
+        
+        .state-irrelevant {
+            background-color: #e1e5e9;
+            color: #4b5563;
+            border-color: #9ca3af;
+        }
+        
+        .state-blocked {
+            background-color: #fecaca;
+            color: #b91c1c;
+            border-color: #ef4444;
+        }
+        
+        .state-dependency {
+            background-color: #e0e7ff;
+            color: #3730a3;
+            border-color: #6366f1;
+        }
+        
+        .state-unknown {
+            background-color: #f9fafb;
+            color: #6b7280;
+            border-color: #d1d5db;
+        }
+        
+        /* Dark mode adjustments for state indicators */
+        @media (prefers-color-scheme: dark), :root {
+            .state-tracking {
+                background-color: #1e3a8a;
+                color: #bfdbfe;
+                border-color: #3b82f6;
+            }
+            
+            .state-in_progress {
+                background-color: #78350f;
+                color: #fcd34d;
+                border-color: #f59e0b;
+            }
+            
+            .state-android_supported {
+                background-color: #064e3b;
+                color: #6ee7b7;
+                border-color: #10b981;
+            }
+            
+            .state-archived {
+                background-color: #374151;
+                color: #d1d5db;
+                border-color: #6b7280;
+            }
+            
+            .state-irrelevant {
+                background-color: #4b5563;
+                color: #e5e7eb;
+                border-color: #9ca3af;
+            }
+            
+            .state-blocked {
+                background-color: #7f1d1d;
+                color: #fca5a5;
+                border-color: #ef4444;
+            }
+            
+            .state-dependency {
+                background-color: #312e81;
+                color: #c7d2fe;
+                border-color: #6366f1;
+            }
+            
+            .state-unknown {
+                background-color: #374151;
+                color: #9ca3af;
+                border-color: #6b7280;
+            }
+        }
+        
         /* Skip link for accessibility */
         .skip-link {
             position: absolute;
@@ -466,12 +578,67 @@
         let currentTab = 'overview';
         let filteredRepos = [];
         
+        // State mapping for display
+        const STATE_CONFIG = {
+            'tracking': { 
+                label: 'Tracking', 
+                icon: '🎯', 
+                description: 'Currently being tracked for migration' 
+            },
+            'in_progress': { 
+                label: 'In Progress', 
+                icon: '🚧', 
+                description: 'Migration work in progress' 
+            },
+            'android_supported': { 
+                label: 'Android Supported', 
+                icon: '✅', 
+                description: 'Successfully supports Android platform' 
+            },
+            'archived': { 
+                label: 'Archived', 
+                icon: '📦', 
+                description: 'Repository archived/no longer maintained' 
+            },
+            'irrelevant': { 
+                label: 'Irrelevant', 
+                icon: '❌', 
+                description: 'Not relevant for Android migration' 
+            },
+            'blocked': { 
+                label: 'Blocked', 
+                icon: '🚫', 
+                description: 'Migration blocked by dependencies or issues' 
+            },
+            'dependency': { 
+                label: 'Dependency', 
+                icon: '🔗', 
+                description: 'Second-tier dependency not in original CSV' 
+            },
+            'unknown': { 
+                label: 'Unknown', 
+                icon: '❓', 
+                description: 'State not yet determined' 
+            }
+        };
+        
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
             loadEmbeddedData();
             initializeInterface();
             renderCurrentTab();
         });
+        
+        // Helper function to render state indicator
+        function renderStateIndicator(state) {
+            const config = STATE_CONFIG[state] || STATE_CONFIG['unknown'];
+            return `
+                <div class="state-indicator state-${state}" title="${config.description}">
+                    <span class="mr-1">${config.icon}</span>
+                    ${config.label}
+                </div>
+            `;
+        }
         
         // Load and parse embedded data
         function loadEmbeddedData() {
@@ -602,10 +769,11 @@
                 <div class="repo-card p-6 border-2 border-transparent hover:border-blue-500" style="min-height: fit-content;">
                     <div class="flex items-center justify-between h-full">
                         <div class="flex-1 pr-4">
-                            <div class="mb-2">
+                            <div class="mb-2 flex items-center justify-between">
                                 <h3 class="text-lg font-semibold text-gray-900">
                                     ${index + 1}. ${repo.owner}/${repo.name}
                                 </h3>
+                                ${renderStateIndicator(repo.current_state || 'tracking')}
                             </div>
                             
                             <div class="flex items-center space-x-4 text-sm text-gray-500">
@@ -757,7 +925,24 @@
                 circle.setAttribute('cx', node.x);
                 circle.setAttribute('cy', node.y);
                 circle.setAttribute('r', node.radius);
-                circle.setAttribute('fill', node.android_compatible ? '#10b981' : '#ef4444');
+                // Color based on state or android compatibility
+                let nodeColor = '#ef4444'; // default red for no android support
+                if (node.android_compatible) {
+                    nodeColor = '#10b981'; // green for android support
+                } else if (node.current_state) {
+                    // Use state-specific colors
+                    switch(node.current_state) {
+                        case 'android_supported': nodeColor = '#10b981'; break;
+                        case 'in_progress': nodeColor = '#f59e0b'; break;
+                        case 'blocked': nodeColor = '#ef4444'; break;
+                        case 'archived': nodeColor = '#6b7280'; break;
+                        case 'irrelevant': nodeColor = '#9ca3af'; break;
+                        case 'dependency': nodeColor = '#6366f1'; break;
+                        case 'tracking': nodeColor = '#3b82f6'; break;
+                        default: nodeColor = '#d1d5db'; break; // unknown
+                    }
+                }
+                circle.setAttribute('fill', nodeColor);
                 circle.setAttribute('stroke', '#374151');
                 circle.setAttribute('stroke-width', '1');
                 circle.setAttribute('opacity', '0.8');
@@ -828,12 +1013,13 @@
                         circle.setAttribute('opacity', '1');
                         circle.setAttribute('stroke-width', '2');
                         
+                        const stateConfig = STATE_CONFIG[node.current_state] || STATE_CONFIG['unknown'];
                         tooltip.innerHTML = `
                             <div><strong>${node.owner}/${node.name}</strong></div>
                             <div>⭐ ${node.stars} stars</div>
                             <div>📦 ${node.total_impact} impact</div>
                             <div>👥 ${node.direct_dependents} dependents</div>
-                            <div>${node.android_compatible ? '🟢 Android Support' : '🔴 No Android Support'}</div>
+                            <div>${node.current_state ? `${stateConfig.icon} ${stateConfig.label}` : (node.android_compatible ? '🟢 Android Support' : '🔴 No Android Support')}</div>
                         `;
                         
                         const rect = container.getBoundingClientRect();
@@ -872,8 +1058,11 @@
             legend.style.border = '1px solid var(--border-color)';
             legend.innerHTML = `
                 <div style="margin-bottom: 5px;"><strong>Dependency Network</strong></div>
-                <div style="margin-bottom: 3px;">🟢 Android Support</div>
-                <div style="margin-bottom: 3px;">🔴 No Android Support</div>
+                <div style="margin-bottom: 3px;">🟢 Android Supported</div>
+                <div style="margin-bottom: 3px;">🟡 In Progress</div>
+                <div style="margin-bottom: 3px;">🔵 Tracking</div>
+                <div style="margin-bottom: 3px;">🔴 Blocked/No Support</div>
+                <div style="margin-bottom: 3px;">⚪ Other States</div>
                 <div style="margin-bottom: 3px;">Size = Stars + Impact</div>
                 <div style="margin-bottom: 3px;">🖱️ Drag nodes to rearrange</div>
                 <div>Click nodes to view on GitHub</div>

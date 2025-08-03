@@ -707,6 +707,14 @@ class DataProcessor:
                         repo.android_compatible = False  # Default for repos in our CSV
                     self.db.add(repo)
 
+                # Update current_state based on android_compatible
+                repo_obj = existing_repo if existing_repo else repo
+                if repo_obj.android_compatible:
+                    repo_obj.current_state = "android_supported"
+                elif repo_obj.current_state == "android_supported" and not repo_obj.android_compatible:
+                    # Reset incorrectly marked repositories
+                    repo_obj.current_state = "tracking"
+
                 self.db.commit()
 
                 # Log successful processing

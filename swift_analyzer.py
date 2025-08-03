@@ -12,6 +12,8 @@ from swift_package_analyzer.cli.main import (
     init_database,
     show_status,
     export_data,
+    set_package_state,
+    list_states,
 )
 from swift_package_analyzer.data.fetcher import DataProcessor
 from swift_package_analyzer.cli.analyze import (
@@ -141,6 +143,16 @@ def status_command(args):
     show_status(args)
 
 
+def set_state_command(args):
+    """Set package migration state."""
+    set_package_state(args)
+
+
+def list_states_command(args):
+    """List available package states."""
+    list_states(args)
+
+
 def main():
     """Main CLI entry point with flag-based commands."""
     parser = argparse.ArgumentParser(
@@ -155,6 +167,14 @@ Examples:
   swift-analyzer --collect --batch-size 250           # Large batch refresh
   swift-analyzer --analyze                            # Generate all analysis and exports
   swift-analyzer --status                             # Check processing status
+  
+  swift-analyzer --list-states                        # Show available package states
+  swift-analyzer --set-state --owner apple --name swift-format --state migrated --reason "Successfully ported"
+  swift-analyzer --set-state --url https://github.com/apple/swift-format --state in_progress
+
+State Management:
+  Available states: unknown, tracking, in_progress, migrated, archived, irrelevant, blocked, dependency
+  Use --list-states to see descriptions and current distribution.
 
 Automation:
   Collection automatically processes the oldest repositories first, providing a simple
@@ -180,6 +200,16 @@ Automation:
         action="store_true",
         help="Show processing status and database statistics",
     )
+    command_group.add_argument(
+        "--set-state",
+        action="store_true",
+        help="Set migration state for a package",
+    )
+    command_group.add_argument(
+        "--list-states",
+        action="store_true",
+        help="List available package states",
+    )
 
     # Collect options
     parser.add_argument(
@@ -202,6 +232,28 @@ Automation:
         help="Output directory for all outputs (default: exports)",
     )
 
+    # State management options
+    parser.add_argument(
+        "--state",
+        help="Package state to set (use --list-states to see available states)",
+    )
+    parser.add_argument(
+        "--url",
+        help="Repository URL to update",
+    )
+    parser.add_argument(
+        "--owner",
+        help="Repository owner (use with --name)",
+    )
+    parser.add_argument(
+        "--name",
+        help="Repository name (use with --owner)",
+    )
+    parser.add_argument(
+        "--reason",
+        help="Reason for state change",
+    )
+
     # Parse arguments and run appropriate function
     args = parser.parse_args()
 
@@ -215,6 +267,10 @@ Automation:
             analyze_command(args)
         elif args.status:
             status_command(args)
+        elif args.set_state:
+            set_state_command(args)
+        elif args.list_states:
+            list_states_command(args)
     except KeyboardInterrupt:
         print("\nOperation cancelled by user")
         sys.exit(1)
