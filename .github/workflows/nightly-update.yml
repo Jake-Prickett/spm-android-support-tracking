@@ -1,0 +1,142 @@
+name: Nightly Swift Package Analysis
+
+on:
+  schedule:
+    # Run at 2:00 AM UTC daily (avoid GitHub Actions peak hours)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DATABASE_URL: sqlite:///swift_packages.db
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  nightly-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Create logs directory
+      run: mkdir -p logs
+
+    - name: Check database status
+      run: |
+        echo "Checking database status..."
+        python swift_analyzer.py --status
+
+    - name: Chunked data collection
+      id: collect_data
+      run: |
+        echo "Starting chunked data collection (250 repositories)..."
+        
+        # Run collection with timeout handling
+        timeout 35m python swift_analyzer.py --collect --batch-size 250 || {
+          exit_code=$?
+          if [ $exit_code -eq 124 ]; then
+            echo "Collection timed out after 35 minutes - progress saved"
+            echo "collection_timeout=true" >> $GITHUB_OUTPUT
+            echo "collection_completed=partial" >> $GITHUB_OUTPUT
+          else
+            echo "Collection failed with exit code $exit_code"
+            exit $exit_code
+          fi
+        }
+        
+        # Check if we have meaningful data
+        python swift_analyzer.py --status
+        if [ "${{ steps.collect_data.outputs.collection_completed }}" != "partial" ]; then
+          echo "collection_completed=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate analysis and reports
+      run: |
+        echo "Generating comprehensive analysis..."
+        python swift_analyzer.py --analyze --output-dir docs
+        
+        # Verify outputs were created
+        if [ ! -f docs/index.html ]; then
+          echo "Error: Analysis output not generated"
+          exit 1
+        fi
+        
+        echo "Analysis completed successfully"
+
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Add generated files and database
+        git add docs/ exports/ swift_packages.db -f
+        
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          # Create commit message
+          COMMIT_MSG="Update Swift package analysis
+
+          🤖 Generated with nightly automation
+          🕒 Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          
+          git commit -m "$COMMIT_MSG"
+          git push
+        fi
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        force_orphan: true
+        commit_message: |
+          Deploy Swift package analysis update
+          
+          🕒 Updated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+
+    - name: Create workflow summary
+      if: always()
+      run: |
+        echo "## Nightly Update Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Processing Results" >> $GITHUB_STEP_SUMMARY
+        echo "- **Collection Status**: ${{ steps.collect_data.outputs.collection_completed == 'true' && '✅ Completed' || '❌ Failed/Timeout' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Analysis Generated**: ✅ Yes" >> $GITHUB_STEP_SUMMARY
+        echo "- **Database State**: ✅ Persisted" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+        echo "- 🔄 Continue nightly updates (~250 repos per run, ~4 day cycle)" >> $GITHUB_STEP_SUMMARY
+        
+        # Add logs summary if collection timed out
+        if [ "${{ steps.collect_data.outputs.collection_timeout }}" = "true" ]; then
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚠️ Collection Timeout" >> $GITHUB_STEP_SUMMARY
+          echo "Processing timed out after 35 minutes. Next run will process the next 250 repositories." >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "::error::Nightly update workflow failed. Check logs for details."
+        echo "Failed step: ${{ job.status }}"

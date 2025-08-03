@@ -10,10 +10,10 @@ import sys
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.cli.main import (
     init_database,
-    fetch_data,
     show_status,
     export_data,
 )
+from swift_package_analyzer.data.fetcher import DataProcessor
 from swift_package_analyzer.cli.analyze import (
     show_stats,
     analyze_dependencies,
@@ -46,8 +46,48 @@ def collect_command(args):
     else:
         print(f"Using batch size: {args.batch_size}")
 
-    # Call existing fetch_data function
-    fetch_data(args)
+    # Use chunked processing for all collection operations
+    chunked_collect_command(args)
+
+
+def chunked_collect_command(args):
+    """Fetch repository data using simplified chunked processing."""
+    print("Running simplified chunked data collection...")
+
+    processor = DataProcessor()
+    urls = processor.load_csv_repositories()
+
+    if not urls:
+        print("No repositories found in source data")
+        return
+
+    # Process chunk (batch_size determines chunk size)
+    results = processor.process_chunk(urls, chunk_size=args.batch_size)
+
+    processor.close()
+
+    print(f"\nChunked collection completed:")
+    print(f"  Processed: {results.get('processed', 0)} repositories")
+    print(f"  Success: {results['success']}")
+    print(f"  Errors: {results['error']}")
+    print(f"  Total available: {results.get('total_available', 0)}")
+
+    if results.get("processed", 0) > 0:
+        print(
+            f"  Success rate: {(results['success'] / results.get('processed', 1)) * 100:.1f}%"
+        )
+
+    # Show freshness status
+    status = processor.get_refresh_status()
+    print(f"\nRepository freshness:")
+    print(f"  Fresh (< 1 day): {status['freshness']['fresh_1_day']}")
+    print(f"  Recent (1-7 days): {status['freshness']['recent_1_week']}")
+    print(f"  Stale (> 7 days): {status['freshness']['stale_older']}")
+    print(f"  Never fetched: {status['freshness']['never_fetched']}")
+
+    # Show updated status
+    print("\nUpdated repository status:")
+    show_status(args)
 
 
 def analyze_command(args):
@@ -109,11 +149,16 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
-  swift-analyzer --setup                    # One-time setup
-  swift-analyzer --collect                  # Fetch data with smart defaults
-  swift-analyzer --collect --test           # Test with small batch
-  swift-analyzer --analyze                  # Generate all analysis and exports
-  swift-analyzer --status                   # Check processing status
+  swift-analyzer --setup                              # One-time setup
+  swift-analyzer --collect                            # Fetch data with smart chunked processing
+  swift-analyzer --collect --test                     # Test with small batch
+  swift-analyzer --collect --batch-size 250           # Large batch refresh
+  swift-analyzer --analyze                            # Generate all analysis and exports
+  swift-analyzer --status                             # Check processing status
+
+Automation:
+  Collection automatically processes the oldest repositories first, providing a simple
+  refresh mechanism suitable for nightly automation (~4 day refresh cycle at 250 repos/night).
         """,
     )
 

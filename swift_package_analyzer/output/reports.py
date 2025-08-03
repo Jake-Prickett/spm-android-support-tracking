@@ -379,9 +379,7 @@ class ReportGenerator:
         print(f"Priority CSV: {output_path}")
         return output_path
 
-    def generate_github_pages_site(
-        self, output_path: str = "docs/index.html"
-    ) -> str:
+    def generate_github_pages_site(self, output_path: str = "docs/index.html") -> str:
         """Generate a single-file GitHub Pages compatible site."""
         from pathlib import Path
         import json
