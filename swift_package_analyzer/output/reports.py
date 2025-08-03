@@ -390,7 +390,7 @@ class ReportGenerator:
         popularity = self.analyzer.generate_popularity_analysis()
         dependencies = self.analyzer.generate_dependency_analysis()
         languages = self.analyzer.generate_language_analysis()
-        priorities = self.analyzer.generate_priority_analysis()
+        priorities = self.analyzer.generate_display_analysis()  # Use display analysis to include android_supported
 
         # Generate dependency tree analysis
         print("Building dependency analysis...")

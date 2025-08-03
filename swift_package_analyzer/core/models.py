@@ -26,7 +26,7 @@ PACKAGE_STATES = {
     "unknown": "State not yet determined",
     "tracking": "Currently being tracked for migration",
     "in_progress": "Migration work in progress",
-    "migrated": "Successfully migrated to Android",
+    "android_supported": "Successfully supports Android platform",
     "archived": "Repository archived/no longer maintained",
     "irrelevant": "Not relevant for Android migration",
     "blocked": "Migration blocked by dependencies or issues",

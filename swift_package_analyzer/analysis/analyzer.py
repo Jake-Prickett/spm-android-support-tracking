@@ -66,6 +66,42 @@ class PackageAnalyzer:
             )
             .all()
         )
+        data = []
+        for repo in repos:
+            data.append(
+                {
+                    "owner": repo.owner,
+                    "name": repo.name,
+                    "stars": repo.stars or 0,
+                    "forks": repo.forks or 0,
+                    "watchers": repo.watchers or 0,
+                    "issues_count": repo.issues_count or 0,
+                    "open_issues_count": repo.open_issues_count or 0,
+                    "language": repo.language,
+                    "license_name": repo.license_name,
+                    "has_package_swift": repo.has_package_swift,
+                    "swift_tools_version": repo.swift_tools_version,
+                    "dependencies_count": repo.dependencies_count or 0,
+                    "linux_compatible": repo.linux_compatible,
+                    "android_compatible": repo.android_compatible,
+                    "current_state": repo.current_state,
+                    "created_at": repo.created_at,
+                    "updated_at": repo.updated_at,
+                    "pushed_at": repo.pushed_at,
+                }
+            )
+        return pd.DataFrame(data)
+
+    def get_all_repositories_for_display(self) -> pd.DataFrame:
+        """Get all repositories for web interface display, including android_supported ones."""
+        repos = (
+            self.db.query(Repository)
+            .filter(
+                Repository.processing_status == "completed",
+                Repository.current_state.in_(["tracking", "in_progress", "unknown", "android_supported"]),
+            )
+            .all()
+        )
 
         data = []
         for repo in repos:
@@ -91,7 +127,6 @@ class PackageAnalyzer:
                     "pushed_at": repo.pushed_at,
                 }
             )
-
         return pd.DataFrame(data)
 
     def generate_popularity_analysis(self) -> Dict[str, Any]:
@@ -286,7 +321,7 @@ class PackageAnalyzer:
 
     def generate_priority_analysis(self) -> List[Dict[str, Any]]:
         """Generate priority list for Android compatibility work."""
-        # Only analyze repositories that are still being tracked (not migrated, archived, etc.)
+        # Only analyze repositories that are still being tracked (not android_supported, archived, etc.)
         df = self.get_tracking_repositories()
 
         if df.empty:
@@ -347,6 +382,89 @@ class PackageAnalyzer:
 
         return result
 
+    def generate_display_analysis(self) -> List[Dict[str, Any]]:
+        """Generate analysis for web display including all relevant repositories (tracking + android_supported)."""
+        df = self.get_all_repositories_for_display()
+        
+        if df.empty:
+            return []
+
+        # Calculate priority score based on multiple factors (similar to priority_analysis but for display)
+        df["priority_score"] = 0
+
+        # Factor 1: Popularity (stars) - normalized to 0-1
+        max_stars = df["stars"].max()
+        if max_stars > 0:
+            df["popularity_score"] = df["stars"] / max_stars
+            df["priority_score"] += df["popularity_score"] * 0.4  # 40% weight
+
+        # Factor 2: Community engagement (forks + watchers) - normalized
+        df["engagement"] = df["forks"] + df["watchers"]
+        max_engagement = df["engagement"].max()
+        if max_engagement > 0:
+            df["engagement_score"] = df["engagement"] / max_engagement
+            df["priority_score"] += df["engagement_score"] * 0.3  # 30% weight
+
+        # Factor 3: Package.swift presence (binary: has it or not)
+        df["priority_score"] += df["has_package_swift"].astype(int) * 0.2  # 20% weight
+
+        # Factor 4: Recent activity (recency score)
+        if "pushed_at" in df.columns:
+            max_pushed = df["pushed_at"].max()
+            if pd.notna(max_pushed):
+                # Days since last push, converted to recency score (0-1, recent = higher)
+                df["days_since_push"] = (max_pushed - df["pushed_at"]).dt.days
+                max_days = df["days_since_push"].max()
+                if max_days > 0:
+                    df["recency_score"] = 1 - (df["days_since_push"] / max_days)
+                    df["priority_score"] += df["recency_score"] * 0.1  # 10% weight
+
+        # Sort by priority score (descending)
+        df_sorted = df.sort_values("priority_score", ascending=False)
+
+        # Format results
+        result = []
+        for _, repo in df_sorted.iterrows():
+            result.append(
+                {
+                    "owner": repo["owner"],
+                    "name": repo["name"],
+                    "stars": repo["stars"],
+                    "forks": repo["forks"],
+                    "dependencies_count": repo["dependencies_count"],
+                    "priority_score": round(repo["priority_score"], 3),
+                    "has_package_swift": repo["has_package_swift"],
+                    "swift_tools_version": repo["swift_tools_version"],
+                    "current_state": repo["current_state"],
+                    "rationale": self._generate_display_rationale(repo),
+                }
+            )
+
+        return result
+
+    def _generate_display_rationale(self, repo) -> str:
+        """Generate a rationale for display, including android_supported status."""
+        if repo["current_state"] == "android_supported":
+            return "Already supports Android platform"
+        
+        reasons = []
+        
+        if repo["stars"] > 1000:
+            reasons.append("High popularity")
+        elif repo["stars"] > 100:
+            reasons.append("Good community adoption")
+
+        if repo["forks"] > 50:
+            reasons.append("Active community contributions")
+
+        if repo["has_package_swift"]:
+            reasons.append("Swift Package Manager ready")
+
+        if repo["dependencies_count"] > 0:
+            reasons.append(f"Has {repo['dependencies_count']} dependencies")
+
+        return "; ".join(reasons) if reasons else "Standard migration candidate"
+
     def _generate_priority_rationale(self, repo) -> str:
         """Generate a rationale for why this repository is prioritized."""
         reasons = []
@@ -383,11 +501,11 @@ class PackageAnalyzer:
                 for state, count in state_counts.items()
             },
             "migration_progress": {
-                "migrated": state_counts.get("migrated", 0),
+                "android_supported": state_counts.get("android_supported", 0),
                 "in_progress": state_counts.get("in_progress", 0),
                 "tracking": state_counts.get("tracking", 0),
                 "total_active": (
-                    state_counts.get("migrated", 0)
+                    state_counts.get("android_supported", 0)
                     + state_counts.get("in_progress", 0)
                     + state_counts.get("tracking", 0)
                 ),
@@ -395,11 +513,11 @@ class PackageAnalyzer:
         }
 
         # Calculate completion percentage
-        migrated = state_counts.get("migrated", 0)
+        android_supported = state_counts.get("android_supported", 0)
         active_total = analysis["migration_progress"]["total_active"]
         if active_total > 0:
             analysis["migration_progress"]["completion_percentage"] = round(
-                (migrated / active_total) * 100, 1
+                (android_supported / active_total) * 100, 1
             )
         else:
             analysis["migration_progress"]["completion_percentage"] = 0
