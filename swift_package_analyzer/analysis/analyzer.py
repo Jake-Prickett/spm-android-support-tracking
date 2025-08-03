@@ -47,6 +47,45 @@ class PackageAnalyzer:
                     "dependencies_count": repo.dependencies_count or 0,
                     "linux_compatible": repo.linux_compatible,
                     "android_compatible": repo.android_compatible,
+                    "current_state": repo.current_state,
+                    "created_at": repo.created_at,
+                    "updated_at": repo.updated_at,
+                    "pushed_at": repo.pushed_at,
+                }
+            )
+
+        return pd.DataFrame(data)
+
+    def get_tracking_repositories(self) -> pd.DataFrame:
+        """Get repositories that are currently being tracked for migration."""
+        repos = (
+            self.db.query(Repository)
+            .filter(
+                Repository.processing_status == "completed",
+                Repository.current_state.in_(["tracking", "in_progress", "unknown"]),
+            )
+            .all()
+        )
+
+        data = []
+        for repo in repos:
+            data.append(
+                {
+                    "owner": repo.owner,
+                    "name": repo.name,
+                    "stars": repo.stars or 0,
+                    "forks": repo.forks or 0,
+                    "watchers": repo.watchers or 0,
+                    "issues_count": repo.issues_count or 0,
+                    "open_issues_count": repo.open_issues_count or 0,
+                    "language": repo.language,
+                    "license_name": repo.license_name,
+                    "has_package_swift": repo.has_package_swift,
+                    "swift_tools_version": repo.swift_tools_version,
+                    "dependencies_count": repo.dependencies_count or 0,
+                    "linux_compatible": repo.linux_compatible,
+                    "android_compatible": repo.android_compatible,
+                    "current_state": repo.current_state,
                     "created_at": repo.created_at,
                     "updated_at": repo.updated_at,
                     "pushed_at": repo.pushed_at,
@@ -247,7 +286,8 @@ class PackageAnalyzer:
 
     def generate_priority_analysis(self) -> List[Dict[str, Any]]:
         """Generate priority list for Android compatibility work."""
-        df = self.get_completed_repositories()
+        # Only analyze repositories that are still being tracked (not migrated, archived, etc.)
+        df = self.get_tracking_repositories()
 
         if df.empty:
             return []
@@ -300,6 +340,7 @@ class PackageAnalyzer:
                     "priority_score": round(repo["priority_score"], 3),
                     "has_package_swift": repo["has_package_swift"],
                     "swift_tools_version": repo["swift_tools_version"],
+                    "current_state": repo["current_state"],
                     "rationale": self._generate_priority_rationale(repo),
                 }
             )
@@ -323,6 +364,47 @@ class PackageAnalyzer:
             reasons.append("Modern Swift package")
 
         return "; ".join(reasons) if reasons else "General priority"
+
+    def generate_state_analysis(self) -> Dict[str, Any]:
+        """Analyze migration state distribution."""
+        df = self.get_completed_repositories()
+
+        if df.empty:
+            return {"error": "No data available"}
+
+        state_counts = df["current_state"].value_counts()
+        total_repos = len(df)
+
+        analysis = {
+            "total_repositories": total_repos,
+            "state_distribution": state_counts.to_dict(),
+            "state_percentages": {
+                state: round((count / total_repos) * 100, 1)
+                for state, count in state_counts.items()
+            },
+            "migration_progress": {
+                "migrated": state_counts.get("migrated", 0),
+                "in_progress": state_counts.get("in_progress", 0),
+                "tracking": state_counts.get("tracking", 0),
+                "total_active": (
+                    state_counts.get("migrated", 0)
+                    + state_counts.get("in_progress", 0)
+                    + state_counts.get("tracking", 0)
+                ),
+            },
+        }
+
+        # Calculate completion percentage
+        migrated = state_counts.get("migrated", 0)
+        active_total = analysis["migration_progress"]["total_active"]
+        if active_total > 0:
+            analysis["migration_progress"]["completion_percentage"] = round(
+                (migrated / active_total) * 100, 1
+            )
+        else:
+            analysis["migration_progress"]["completion_percentage"] = 0
+
+        return analysis
 
     def close(self):
         """Close database connection."""

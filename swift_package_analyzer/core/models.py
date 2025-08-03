@@ -21,6 +21,20 @@ from swift_package_analyzer.core.config import config
 
 Base = declarative_base()
 
+# Package state constants
+PACKAGE_STATES = {
+    "unknown": "State not yet determined",
+    "tracking": "Currently being tracked for migration",
+    "in_progress": "Migration work in progress",
+    "migrated": "Successfully migrated to Android",
+    "archived": "Repository archived/no longer maintained",
+    "irrelevant": "Not relevant for Android migration",
+    "blocked": "Migration blocked by dependencies or issues",
+    "dependency": "Second-tier dependency not in original CSV",
+}
+
+DEFAULT_STATE = "tracking"
+
 
 class Repository(Base):
     """Model for storing repository information."""
@@ -67,6 +81,11 @@ class Repository(Base):
         Boolean, default=False
     )  # From CSV, these are NOT android compatible
 
+    # Migration state tracking
+    current_state = Column(
+        String(20), default=DEFAULT_STATE
+    )  # tracking, migrated, in_progress, unknown, archived, irrelevant, blocked, dependency
+
     # Processing metadata
     last_fetched = Column(DateTime)
     fetch_error = Column(Text)
@@ -76,6 +95,29 @@ class Repository(Base):
 
     def __repr__(self):
         return f"<Repository(name='{self.owner}/{self.name}', stars={self.stars})>"
+
+    def transition_state(self, new_state, reason=None, session=None):
+        """Transition to a new state and log the change."""
+        if new_state not in PACKAGE_STATES:
+            raise ValueError(
+                f"Invalid state: {new_state}. Valid states: {list(PACKAGE_STATES.keys())}"
+            )
+
+        old_state = self.current_state
+        self.current_state = new_state
+
+        # Log the transition
+        if session:
+            transition = StateTransition(
+                repository_id=self.id,
+                repository_url=self.url,
+                from_state=old_state,
+                to_state=new_state,
+                reason=reason,
+            )
+            session.add(transition)
+
+        return old_state, new_state
 
 
 class ProcessingLog(Base):
@@ -92,6 +134,20 @@ class ProcessingLog(Base):
     status = Column(String(20), nullable=False)  # success, error, warning
     message = Column(Text)
     duration_seconds = Column(Float)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class StateTransition(Base):
+    """Model for tracking package state transitions."""
+
+    __tablename__ = "state_transitions"
+
+    id = Column(Integer, primary_key=True)
+    repository_id = Column(Integer, nullable=False)
+    repository_url = Column(String(500))
+    from_state = Column(String(20))
+    to_state = Column(String(20), nullable=False)
+    reason = Column(Text)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 

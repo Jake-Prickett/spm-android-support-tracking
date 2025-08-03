@@ -143,6 +143,48 @@ def show_status(args):
             f"  Package.swift coverage: {(has_package_swift/completed_repos)*100:.1f}%"
         )
 
+        # Package state statistics
+        from swift_package_analyzer.core.models import PACKAGE_STATES
+
+        print("\nPackage Migration States:")
+        for state in PACKAGE_STATES.keys():
+            count = (
+                db.query(Repository)
+                .filter(
+                    Repository.processing_status == "completed",
+                    Repository.current_state == state,
+                )
+                .count()
+            )
+            if count > 0:
+                percentage = (count / completed_repos) * 100
+                print(f"  {state.capitalize()}: {count} ({percentage:.1f}%)")
+
+        # Show migrated vs tracking counts
+        migrated_count = (
+            db.query(Repository)
+            .filter(
+                Repository.processing_status == "completed",
+                Repository.current_state == "migrated",
+            )
+            .count()
+        )
+        tracking_count = (
+            db.query(Repository)
+            .filter(
+                Repository.processing_status == "completed",
+                Repository.current_state == "tracking",
+            )
+            .count()
+        )
+
+        print(f"\nMigration Progress:")
+        print(f"  Migrated packages: {migrated_count}")
+        print(f"  Still tracking: {tracking_count}")
+        if migrated_count + tracking_count > 0:
+            progress = (migrated_count / (migrated_count + tracking_count)) * 100
+            print(f"  Migration progress: {progress:.1f}%")
+
     # Recent processing logs
     recent_logs = (
         db.query(ProcessingLog).order_by(ProcessingLog.created_at.desc()).limit(5).all()
@@ -192,6 +234,7 @@ def export_data(args):
             "dependencies_count": repo.dependencies_count,
             "linux_compatible": repo.linux_compatible,
             "android_compatible": repo.android_compatible,
+            "current_state": repo.current_state,
             "created_at": repo.created_at.isoformat() if repo.created_at else None,
             "updated_at": repo.updated_at.isoformat() if repo.updated_at else None,
             "last_fetched": (
@@ -213,6 +256,91 @@ def export_data(args):
 
     print(f"Exported {len(data)} repositories to {args.output}")
     db.close()
+
+
+def set_package_state(args):
+    """Set the migration state for a package."""
+    from swift_package_analyzer.core.models import PACKAGE_STATES
+
+    if args.state not in PACKAGE_STATES:
+        print(f"Invalid state: {args.state}")
+        print(f"Valid states: {', '.join(PACKAGE_STATES.keys())}")
+        return
+
+    db = SessionLocal()
+    try:
+        # Find repository by URL or owner/name
+        if args.url:
+            repo = db.query(Repository).filter(Repository.url == args.url).first()
+        elif args.owner and args.name:
+            repo = (
+                db.query(Repository)
+                .filter(Repository.owner == args.owner, Repository.name == args.name)
+                .first()
+            )
+        else:
+            print("Must specify either --url or both --owner and --name")
+            return
+
+        if not repo:
+            print("Repository not found")
+            return
+
+        old_state, new_state = repo.transition_state(args.state, args.reason, db)
+        db.commit()
+
+        print(f"Updated {repo.owner}/{repo.name}")
+        print(f"  State: {old_state} → {new_state}")
+        if args.reason:
+            print(f"  Reason: {args.reason}")
+
+    except Exception as e:
+        db.rollback()
+        print(f"Error updating state: {e}")
+    finally:
+        db.close()
+
+
+def list_states(args):
+    """List all available package states."""
+    from swift_package_analyzer.core.models import PACKAGE_STATES
+
+    print("Available Package States:")
+    print("=" * 50)
+    for state, description in PACKAGE_STATES.items():
+        print(f"  {state:<12} : {description}")
+
+    # Show current state distribution
+    print("\nCurrent State Distribution:")
+    print("=" * 50)
+
+    db = SessionLocal()
+    try:
+        completed_repos = (
+            db.query(Repository)
+            .filter(Repository.processing_status == "completed")
+            .count()
+        )
+
+        if completed_repos > 0:
+            for state in PACKAGE_STATES.keys():
+                count = (
+                    db.query(Repository)
+                    .filter(
+                        Repository.processing_status == "completed",
+                        Repository.current_state == state,
+                    )
+                    .count()
+                )
+                percentage = (
+                    (count / completed_repos) * 100 if completed_repos > 0 else 0
+                )
+                print(f"  {state:<12} : {count:4d} repos ({percentage:5.1f}%)")
+        else:
+            print("  No completed repositories found")
+
+    finally:
+        db.close()
 
 
 def show_database_info(args=None):
