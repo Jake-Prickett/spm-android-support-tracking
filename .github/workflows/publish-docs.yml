@@ -128,34 +128,30 @@ jobs:
         echo "✅ Frontend build completed successfully"
         echo "Build output size: $(du -sh out | cut -f1)"
 
-    - name: Prepare deployment structure
+    - name: Deploy to docs folder
       if: steps.check_changes.outputs.should_deploy == 'true'
       run: |
-        # Create deployment directory structure
-        mkdir -p deploy/docs
+        # Create frontend subdirectory in docs
+        mkdir -p docs/frontend
         
-        # Copy frontend build to docs subdirectory
-        cp -r frontend/out/* deploy/docs/
+        # Copy frontend build to docs/frontend
+        cp -r frontend/out/* docs/frontend/
         
-        # Copy the root redirect file
-        cp docs/index.html deploy/
+        echo "✅ Frontend deployed to docs/frontend"
         
-        echo "✅ Deployment structure prepared"
-
-    - name: Setup Pages
+    - name: Commit and push changes
       if: steps.check_changes.outputs.should_deploy == 'true'
-      uses: actions/configure-pages@v5
-
-    - name: Upload to GitHub Pages
-      if: steps.check_changes.outputs.should_deploy == 'true'
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./deploy
-
-    - name: Deploy to GitHub Pages
-      if: steps.check_changes.outputs.should_deploy == 'true'
-      id: deployment
-      uses: actions/deploy-pages@v4
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/frontend/
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update frontend build in docs/frontend"
+          git push
+          echo "✅ Changes committed and pushed"
+        fi
 
     - name: Create workflow summary
       if: always()
