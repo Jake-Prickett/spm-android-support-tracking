@@ -125,6 +125,20 @@ jobs:
         echo "✅ Frontend build completed successfully"
         echo "Build output size: $(du -sh out | cut -f1)"
 
+    - name: Prepare deployment structure
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      run: |
+        # Create deployment directory structure
+        mkdir -p deploy/docs
+        
+        # Copy frontend build to docs subdirectory
+        cp -r frontend/out/* deploy/docs/
+        
+        # Copy the root redirect file
+        cp docs/index.html deploy/
+        
+        echo "✅ Deployment structure prepared"
+
     - name: Setup Pages
       if: steps.check_changes.outputs.should_deploy == 'true'
       uses: actions/configure-pages@v5
@@ -133,7 +147,7 @@ jobs:
       if: steps.check_changes.outputs.should_deploy == 'true'
       uses: actions/upload-pages-artifact@v3
       with:
-        path: ./frontend/out
+        path: ./deploy
 
     - name: Deploy to GitHub Pages
       if: steps.check_changes.outputs.should_deploy == 'true'
