@@ -109,13 +109,12 @@ def analyze_command(args):
         print("\nAnalyzing dependencies...")
         dependency_analyzer.build_dependency_tree()
         impact_analysis = dependency_analyzer.get_impact_analysis()
-        
+
         # Save impact analysis
         deps_output_dir = Path(f"{args.output_dir}/dependencies")
         deps_output_dir.mkdir(parents=True, exist_ok=True)
         with open(deps_output_dir / "impact_analysis.json", "w") as f:
             json.dump(impact_analysis, f, indent=2)
-        
 
         # Generate web-ready site
         print("\nGenerating web-ready site...")
@@ -123,7 +122,7 @@ def analyze_command(args):
 
         # Export data in both formats
         print("\nExporting data...")
-        
+
         # Export CSV
         csv_args = argparse.Namespace(
             format="csv", output=f"{args.output_dir}/swift_packages.csv"

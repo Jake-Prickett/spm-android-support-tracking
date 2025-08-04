@@ -532,7 +532,6 @@ class DependencyTreeAnalyzer:
         self.db.close()
 
 
-
 def main():
     """Main entry point for dependency analysis."""
     import argparse

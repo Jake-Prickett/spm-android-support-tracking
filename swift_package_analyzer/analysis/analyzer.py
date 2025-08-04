@@ -98,7 +98,9 @@ class PackageAnalyzer:
             self.db.query(Repository)
             .filter(
                 Repository.processing_status == "completed",
-                Repository.current_state.in_(["tracking", "in_progress", "unknown", "android_supported"]),
+                Repository.current_state.in_(
+                    ["tracking", "in_progress", "unknown", "android_supported"]
+                ),
             )
             .all()
         )
@@ -419,7 +421,7 @@ class PackageAnalyzer:
     def generate_display_analysis(self) -> List[Dict[str, Any]]:
         """Generate analysis for web display including all relevant repositories (tracking + android_supported)."""
         df = self.get_all_repositories_for_display()
-        
+
         if df.empty:
             return []
 
@@ -479,7 +481,7 @@ class PackageAnalyzer:
     def generate_unfiltered_data_dump(self) -> List[Dict[str, Any]]:
         """Generate pure data dump of ALL repositories without any filtering or processing for frontend consumption."""
         df = self.get_all_repositories_unfiltered()
-        
+
         if df.empty:
             return []
 
@@ -515,9 +517,9 @@ class PackageAnalyzer:
         """Generate a rationale for display, including android_supported status."""
         if repo["current_state"] == "android_supported":
             return "Already supports Android platform"
-        
+
         reasons = []
-        
+
         if repo["stars"] > 1000:
             reasons.append("High popularity")
         elif repo["stars"] > 100:

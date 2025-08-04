@@ -711,7 +711,10 @@ class DataProcessor:
                 repo_obj = existing_repo if existing_repo else repo
                 if repo_obj.android_compatible:
                     repo_obj.current_state = "android_supported"
-                elif repo_obj.current_state == "android_supported" and not repo_obj.android_compatible:
+                elif (
+                    repo_obj.current_state == "android_supported"
+                    and not repo_obj.android_compatible
+                ):
                     # Reset incorrectly marked repositories
                     repo_obj.current_state = "tracking"
 

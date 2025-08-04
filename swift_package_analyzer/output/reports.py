@@ -162,7 +162,6 @@ class ReportGenerator:
         finally:
             db.close()
 
-
     def generate_priority_csv(
         self, output_path: str = "docs/priority_analysis.csv", limit: int = 50
     ) -> str:
@@ -220,7 +219,9 @@ class ReportGenerator:
         popularity = self.analyzer.generate_popularity_analysis()
         dependencies = self.analyzer.generate_dependency_analysis()
         languages = self.analyzer.generate_language_analysis()
-        all_repositories = self.analyzer.generate_unfiltered_data_dump()  # Use unfiltered data dump for frontend
+        all_repositories = (
+            self.analyzer.generate_unfiltered_data_dump()
+        )  # Use unfiltered data dump for frontend
 
         # Generate dependency tree analysis
         print("Building dependency analysis...")
@@ -275,9 +276,9 @@ class ReportGenerator:
         json_output_path = Path(output_path).parent / "swift_packages.json"
         with open(json_output_path, "w", encoding="utf-8") as f:
             json.dump(web_data, f, indent=2, default=str)
-        
+
         print(f"📊 Data exported to: {json_output_path}")
-        
+
         # Generate a simple redirect HTML page
         html_content = f"""<!DOCTYPE html>
 <html>

@@ -15,14 +15,10 @@ from swift_package_analyzer.core.models import (
 )
 
 
-
-
 def init_database(args):
     """Initialize the database with required tables."""
     create_tables()
     print("Database initialized")
-
-
 
 
 def show_status(args):
