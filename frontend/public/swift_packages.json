@@ -2391,7 +2391,7 @@
     "created_at": "2017-11-26T10:45:27",
     "updated_at": "2024-04-19T13:12:27",
     "pushed_at": "2022-05-04T06:58:51",
-    "last_fetched": "2025-07-27T17:11:18.401454"
+    "last_fetched": "2025-08-03T21:50:58.442224"
   },
   {
     "url": "https://swiftpackageindex.com/RxSwiftCommunity/RxGRDB.git",
@@ -2412,7 +2412,7 @@
     "created_at": "2017-04-03T18:24:45",
     "updated_at": "2025-06-25T17:36:21",
     "pushed_at": "2025-03-15T10:12:52",
-    "last_fetched": "2025-07-27T17:11:21.647371"
+    "last_fetched": "2025-08-03T21:51:04.417486"
   },
   {
     "url": "https://swiftpackageindex.com/hectr/swift-elementary-cycles.git",
@@ -2424,16 +2424,16 @@
     "watchers": 1,
     "language": "Swift",
     "license_name": null,
-    "has_package_swift": false,
-    "swift_tools_version": null,
-    "dependencies_count": 0,
+    "has_package_swift": true,
+    "swift_tools_version": "5.0",
+    "dependencies_count": 1,
     "linux_compatible": true,
     "android_compatible": false,
     "current_state": "tracking",
     "created_at": "2018-09-24T01:12:52",
     "updated_at": "2022-12-27T22:18:32",
     "pushed_at": "2019-08-11T17:45:44",
-    "last_fetched": "2025-07-27T17:19:43.371443"
+    "last_fetched": "2025-08-03T21:51:07.482570"
   },
   {
     "url": "https://swiftpackageindex.com/mrackwitz/Version.git",
@@ -2454,7 +2454,7 @@
     "created_at": "2014-09-08T13:16:52",
     "updated_at": "2025-07-14T19:32:31",
     "pushed_at": "2023-08-15T15:19:17",
-    "last_fetched": "2025-07-27T17:19:46.814514"
+    "last_fetched": "2025-08-03T22:17:57.743841"
   },
   {
     "url": "https://swiftpackageindex.com/millertechnologyperu/hcitool.git",
@@ -2475,16 +2475,16 @@
     "created_at": "2018-03-26T14:10:08",
     "updated_at": "2025-07-22T10:41:24",
     "pushed_at": "2022-05-28T19:30:26",
-    "last_fetched": "2025-07-27T17:19:50.192555"
+    "last_fetched": "2025-08-03T22:18:01.031942"
   },
   {
     "url": "https://swiftpackageindex.com/swift-server/swift-aws-lambda-runtime.git",
     "owner": "swift-server",
     "name": "swift-aws-lambda-runtime",
     "description": "Swift implementation of AWS Lambda Runtime",
-    "stars": 1175,
-    "forks": 114,
-    "watchers": 1175,
+    "stars": 1177,
+    "forks": 115,
+    "watchers": 1177,
     "language": "Swift",
     "license_name": null,
     "has_package_swift": true,
@@ -2494,9 +2494,9 @@
     "android_compatible": false,
     "current_state": "tracking",
     "created_at": "2020-03-03T19:55:32",
-    "updated_at": "2025-07-25T16:13:12",
-    "pushed_at": "2025-07-25T16:13:08",
-    "last_fetched": "2025-07-27T17:19:53.408807"
+    "updated_at": "2025-08-03T12:30:21",
+    "pushed_at": "2025-08-03T12:30:17",
+    "last_fetched": "2025-08-03T22:18:04.381268"
   },
   {
     "url": "https://swiftpackageindex.com/ukitaka/XCTAssertUnrecoverable.git",
