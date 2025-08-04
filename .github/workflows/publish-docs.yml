@@ -131,24 +131,31 @@ jobs:
     - name: Deploy to docs folder
       if: steps.check_changes.outputs.should_deploy == 'true'
       run: |
-        # Create frontend subdirectory in docs
-        mkdir -p docs/frontend
+        # Backup existing data files
+        mkdir -p backup
+        cp docs/*.json docs/*.csv backup/ 2>/dev/null || true
+        cp -r docs/dependencies backup/ 2>/dev/null || true
         
-        # Copy frontend build to docs/frontend
-        cp -r frontend/out/* docs/frontend/
+        # Clear docs folder and copy frontend build to root
+        rm -rf docs/*
+        cp -r frontend/out/* docs/
         
-        echo "✅ Frontend deployed to docs/frontend"
+        # Restore data files
+        cp backup/*.json backup/*.csv docs/ 2>/dev/null || true
+        cp -r backup/dependencies docs/ 2>/dev/null || true
+        
+        echo "✅ Frontend deployed to docs root with data files preserved"
         
     - name: Commit and push changes
       if: steps.check_changes.outputs.should_deploy == 'true'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add docs/frontend/
+        git add docs/
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Update frontend build in docs/frontend"
+          git commit -m "Update frontend build in docs root"
           git push
           echo "✅ Changes committed and pushed"
         fi
