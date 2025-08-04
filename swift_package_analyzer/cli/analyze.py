@@ -27,7 +27,7 @@ def generate_report(args):
     popularity = analyzer.generate_popularity_analysis()
     dependencies = analyzer.generate_dependency_analysis()
     languages = analyzer.generate_language_analysis()
-    priorities = analyzer.generate_priority_analysis()
+    all_repositories = analyzer.generate_unfiltered_data_dump()
 
     # Combine into comprehensive report
     report_data = {
@@ -35,7 +35,7 @@ def generate_report(args):
         "popularity_analysis": popularity,
         "dependency_analysis": dependencies,
         "language_analysis": languages,
-        "priority_repositories": priorities[:20],  # Top 20 priorities
+        "all_repositories": all_repositories,  # Complete unfiltered dataset
         "summary": {
             "total_repositories_analyzed": popularity.get("total_repositories", 0),
             "avg_stars": round(popularity.get("star_statistics", {}).get("mean", 0), 1),

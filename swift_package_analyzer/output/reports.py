@@ -390,7 +390,7 @@ class ReportGenerator:
         popularity = self.analyzer.generate_popularity_analysis()
         dependencies = self.analyzer.generate_dependency_analysis()
         languages = self.analyzer.generate_language_analysis()
-        priorities = self.analyzer.generate_display_analysis()  # Use display analysis to include android_supported
+        all_repositories = self.analyzer.generate_unfiltered_data_dump()  # Use unfiltered data dump for frontend
 
         # Generate dependency tree analysis
         print("Building dependency analysis...")
@@ -415,7 +415,7 @@ class ReportGenerator:
             "popularity_analysis": popularity,
             "dependency_analysis": dependencies,
             "language_analysis": languages,
-            "priority_repositories": priorities,  # All repositories for complete dataset
+            "all_repositories": all_repositories,  # Complete unfiltered dataset for frontend
             "dependency_impact_analysis": {
                 "packages": impact_analysis.get("packages", [])[:50],  # Top 50 for web
                 "summary": impact_analysis.get("summary", {}),

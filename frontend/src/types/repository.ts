@@ -16,5 +16,6 @@ export interface Repository {
   current_state: string;
   created_at: string;
   updated_at: string;
+  pushed_at: string | null;
   last_fetched: string;
 }

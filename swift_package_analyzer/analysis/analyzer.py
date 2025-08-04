@@ -129,6 +129,40 @@ class PackageAnalyzer:
             )
         return pd.DataFrame(data)
 
+    def get_all_repositories_unfiltered(self) -> pd.DataFrame:
+        """Get ALL repositories without any filtering - pure data dump for frontend consumption."""
+        repos = (
+            self.db.query(Repository)
+            .filter(Repository.processing_status == "completed")
+            .all()
+        )
+
+        data = []
+        for repo in repos:
+            data.append(
+                {
+                    "owner": repo.owner,
+                    "name": repo.name,
+                    "stars": repo.stars or 0,
+                    "forks": repo.forks or 0,
+                    "watchers": repo.watchers or 0,
+                    "issues_count": repo.issues_count or 0,
+                    "open_issues_count": repo.open_issues_count or 0,
+                    "language": repo.language,
+                    "license_name": repo.license_name,
+                    "has_package_swift": repo.has_package_swift,
+                    "swift_tools_version": repo.swift_tools_version,
+                    "dependencies_count": repo.dependencies_count or 0,
+                    "linux_compatible": repo.linux_compatible,
+                    "android_compatible": repo.android_compatible,
+                    "current_state": repo.current_state,
+                    "created_at": repo.created_at,
+                    "updated_at": repo.updated_at,
+                    "pushed_at": repo.pushed_at,
+                }
+            )
+        return pd.DataFrame(data)
+
     def generate_popularity_analysis(self) -> Dict[str, Any]:
         """Analyze repository popularity metrics."""
         df = self.get_completed_repositories()
@@ -437,6 +471,41 @@ class PackageAnalyzer:
                     "swift_tools_version": repo["swift_tools_version"],
                     "current_state": repo["current_state"],
                     "rationale": self._generate_display_rationale(repo),
+                }
+            )
+
+        return result
+
+    def generate_unfiltered_data_dump(self) -> List[Dict[str, Any]]:
+        """Generate pure data dump of ALL repositories without any filtering or processing for frontend consumption."""
+        df = self.get_all_repositories_unfiltered()
+        
+        if df.empty:
+            return []
+
+        # Return raw data without any scoring or filtering - just convert to dict format
+        result = []
+        for _, repo in df.iterrows():
+            result.append(
+                {
+                    "owner": repo["owner"],
+                    "name": repo["name"],
+                    "stars": repo["stars"],
+                    "forks": repo["forks"],
+                    "watchers": repo["watchers"],
+                    "issues_count": repo["issues_count"],
+                    "open_issues_count": repo["open_issues_count"],
+                    "language": repo["language"],
+                    "license_name": repo["license_name"],
+                    "has_package_swift": repo["has_package_swift"],
+                    "swift_tools_version": repo["swift_tools_version"],
+                    "dependencies_count": repo["dependencies_count"],
+                    "linux_compatible": repo["linux_compatible"],
+                    "android_compatible": repo["android_compatible"],
+                    "current_state": repo["current_state"],
+                    "created_at": repo["created_at"],
+                    "updated_at": repo["updated_at"],
+                    "pushed_at": repo["pushed_at"],
                 }
             )
 

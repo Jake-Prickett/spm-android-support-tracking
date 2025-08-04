@@ -237,6 +237,7 @@ def export_data(args):
             "current_state": repo.current_state,
             "created_at": repo.created_at.isoformat() if repo.created_at else None,
             "updated_at": repo.updated_at.isoformat() if repo.updated_at else None,
+            "pushed_at": repo.pushed_at.isoformat() if repo.pushed_at else None,
             "last_fetched": (
                 repo.last_fetched.isoformat() if repo.last_fetched else None
             ),
