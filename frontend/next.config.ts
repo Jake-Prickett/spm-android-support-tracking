@@ -4,7 +4,6 @@ const isProd = process.env.NODE_ENV === 'production';
 
 const nextConfig: NextConfig = {
   output: 'export',
-  distDir: '../docs',
   basePath: isProd ? '/spm-android-support-tracking' : '',
   assetPrefix: isProd ? '/spm-android-support-tracking/' : '',
   trailingSlash: true,
