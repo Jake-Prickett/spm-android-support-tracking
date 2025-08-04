@@ -2,12 +2,8 @@
 """
 Main CLI script for Swift Package support data processing.
 """
-import argparse
-import sys
-import time
 from datetime import datetime
 from pathlib import Path
-
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.data.fetcher import DataProcessor
@@ -19,15 +15,6 @@ from swift_package_analyzer.core.models import (
 )
 
 
-def _countdown_timer(total_seconds):
-    """Display a countdown timer for the specified number of seconds."""
-    for remaining in range(total_seconds, 0, -1):
-        minutes, seconds = divmod(remaining, 60)
-        timer_display = f"\rNext batch in: {minutes:02d}:{seconds:02d}"
-        print(timer_display, end="", flush=True)
-        time.sleep(1)
-
-    print("\r" + " " * 20 + "\r", end="")
 
 
 def init_database(args):
@@ -36,61 +23,6 @@ def init_database(args):
     print("Database initialized")
 
 
-def fetch_data(args):
-    """Fetch repository data from GitHub API."""
-    batch_size = args.batch_size
-    max_batches = args.max_batches
-
-    print(f"Processing repositories: batch size {batch_size}")
-
-    processor = DataProcessor()
-    urls = processor.load_csv_repositories()
-
-    if not urls:
-        print("No repositories found in source data")
-        return
-
-    total_urls = len(urls)
-    processed_count = 0
-    batch_count = 0
-
-    print(f"Found {total_urls} repositories to process")
-
-    # Process in batches
-    for i in range(0, total_urls, batch_size):
-        if max_batches and batch_count >= max_batches:
-            break
-
-        batch = urls[i : i + batch_size]
-        batch_count += 1
-
-        print(f"\nProcessing batch {batch_count} ({len(batch)} repositories)...")
-
-        results = processor.process_batch(batch)
-        processed_count += len(batch)
-
-        print(
-            f"Batch {batch_count}: {results['success']} success, {results['error']} errors ({processed_count}/{total_urls})"
-        )
-
-        fetched_count = results["success"] + results["error"]
-        if (
-            i + batch_size < total_urls
-            and (not max_batches or batch_count < max_batches)
-            and fetched_count > 0
-        ):
-            _countdown_timer(config.batch_delay_minutes * 60)
-        elif fetched_count == 0:
-            print("Batch skipped - no new data to fetch")
-
-    final_stats = processor.get_processing_stats()
-    processor.close()
-
-    print(f"\nCompleted: {processed_count} repositories, {batch_count} batches")
-    print(
-        f"Success rate: {final_stats['success_rate']:.1f}% ({final_stats['fetcher_stats']['request_count']} API calls)"
-    )
-    print(f"Rate: {final_stats['repos_per_minute']:.1f} repos/minute")
 
 
 def show_status(args):

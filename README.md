@@ -20,7 +20,8 @@ python swift_analyzer.py --analyze
 - **Prioritizes migration targets** using GitHub stars, forks, and dependency impact
 - **Maps dependency networks** to identify high-impact packages
 - **Generates interactive reports** with visualizations and migration recommendations
-- **Automated nightly updates** via GitHub Actions (250 repos/night, ~4 day refresh cycle)
+- **Automated nightly analysis** via GitHub Actions (250 repos/night, ~4 day refresh cycle)
+- **Automatic documentation publishing** when analysis data is updated
 - **Exports data** in HTML, JSON, and CSV formats for community use
 
 ## Data Flow Overview
@@ -67,16 +68,16 @@ echo "GITHUB_TOKEN=your_token_here" > .env
 | Command | Description |
 |---------|-------------|
 | `--setup` | Initialize database |
-| `--collect` | Fetch GitHub data (`--test` for 3 repos) |
-| `--collect --chunked` | Chunked refresh (recommended for automation) |
-| `--analyze` | Generate reports |
-| `--status` | Show progress and freshness |
+| `--collect` | Fetch GitHub data with smart chunked processing |
+| `--collect --test` | Test run with 3 repositories |
+| `--analyze` | Generate comprehensive analysis and reports |
+| `--status` | Show processing status and repository freshness |
 
 ```bash
 python swift_analyzer.py --setup
-python swift_analyzer.py --collect --test                        # Test with 3 repos
-python swift_analyzer.py --collect --batch-size 10               # Custom batch size
-python swift_analyzer.py --collect --chunked --batch-size 250    # Chunked refresh (250 repos)
+python swift_analyzer.py --collect --test                 # Test with 3 repos
+python swift_analyzer.py --collect --batch-size 10        # Custom batch size
+python swift_analyzer.py --collect --batch-size 250       # Large batch refresh (250 repos)
 python swift_analyzer.py --analyze --output-dir docs
 ```
 
@@ -112,9 +113,8 @@ python swift_analyzer.py --analyze --output-dir docs
 │   ├── cli/                       # Command interfaces
 │   ├── core/                      # Config & models
 │   ├── data/                      # GitHub API integration
-│   ├── analysis/                  # Analysis logic
-│   ├── output/                    # Report generation
-│   └── templates/                 # HTML templates
+│   ├── analysis/                  # Analysis logic & dependency trees
+│   └── output/                    # Report generation
 ├── data/linux-compatible-android-incompatible.csv
 ├── requirements.txt
 └── docs/                          # Generated outputs
@@ -142,7 +142,7 @@ Repository Insights:
   Repositories with Package.swift: 1064
   Package.swift coverage: 99.9%
 
-$ python swift_analyzer.py --collect --chunked --batch-size 250
+$ python swift_analyzer.py --collect --batch-size 250
 Running simplified chunked data collection...
 
 Chunked collection completed:

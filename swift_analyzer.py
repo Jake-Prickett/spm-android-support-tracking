@@ -5,7 +5,9 @@ Simplified command-line interface for Swift package Android migration analysis.
 """
 
 import argparse
+import json
 import sys
+from pathlib import Path
 
 from swift_package_analyzer.core.config import config
 from swift_package_analyzer.cli.main import (
@@ -16,11 +18,9 @@ from swift_package_analyzer.cli.main import (
     list_states,
 )
 from swift_package_analyzer.data.fetcher import DataProcessor
-from swift_package_analyzer.cli.analyze import (
-    show_stats,
-    analyze_dependencies,
-    generate_github_pages,
-)
+from swift_package_analyzer.analysis.analyzer import PackageAnalyzer
+from swift_package_analyzer.analysis.dependencies import DependencyTreeAnalyzer
+from swift_package_analyzer.output.reports import ReportGenerator
 
 
 def setup_command(args):
@@ -35,11 +35,10 @@ def setup_command(args):
 
 
 def collect_command(args):
-    """Fetch repository data with smart defaults."""
+    """Fetch repository data using simplified chunked processing."""
     # Apply smart defaults
     if args.test:
         args.batch_size = 3
-        args.max_batches = 1
         print("Running test collection (3 repositories)")
     elif not config.github_token and args.batch_size == config.repositories_per_batch:
         # Reduce batch size if using default with no token
@@ -48,12 +47,6 @@ def collect_command(args):
     else:
         print(f"Using batch size: {args.batch_size}")
 
-    # Use chunked processing for all collection operations
-    chunked_collect_command(args)
-
-
-def chunked_collect_command(args):
-    """Fetch repository data using simplified chunked processing."""
     print("Running simplified chunked data collection...")
 
     processor = DataProcessor()
@@ -100,42 +93,56 @@ def analyze_command(args):
 
     print("Running comprehensive analysis with all outputs...")
 
-    # Show current statistics
-    print("\nCurrent Statistics:")
-    show_stats(args)
+    analyzer = PackageAnalyzer()
+    dependency_analyzer = DependencyTreeAnalyzer()
+    generator = ReportGenerator()
 
-    # Generate dependency analysis
-    print("\nAnalyzing dependencies...")
-    deps_args = argparse.Namespace(
-        output_dir=f"{args.output_dir}/dependencies",
-        package=None,
-        max_nodes=250,
-        max_depth=3,
-    )
-    analyze_dependencies(deps_args)
+    try:
+        # Show current statistics
+        print("\nCurrent Statistics:")
+        popularity = analyzer.generate_popularity_analysis()
+        if "error" not in popularity:
+            print(f"📊 Total Repositories: {popularity['total_repositories']}")
+            print(f"⭐ Average Stars: {popularity['star_statistics']['mean']:.1f}")
 
-    # Generate web-ready site
-    print("\nGenerating web-ready site...")
-    pages_args = argparse.Namespace(output_dir=args.output_dir)
-    generate_github_pages(pages_args)
+        # Generate dependency analysis
+        print("\nAnalyzing dependencies...")
+        dependency_analyzer.build_dependency_tree()
+        impact_analysis = dependency_analyzer.get_impact_analysis()
+        
+        # Save impact analysis
+        deps_output_dir = Path(f"{args.output_dir}/dependencies")
+        deps_output_dir.mkdir(parents=True, exist_ok=True)
+        with open(deps_output_dir / "impact_analysis.json", "w") as f:
+            json.dump(impact_analysis, f, indent=2)
+        
 
-    # Export data in both formats
-    print("\nExporting data...")
+        # Generate web-ready site
+        print("\nGenerating web-ready site...")
+        generator.generate_github_pages_site(f"{args.output_dir}/index.html")
 
-    # Export CSV
-    csv_args = argparse.Namespace(
-        format="csv", output=f"{args.output_dir}/swift_packages.csv"
-    )
-    export_data(csv_args)
+        # Export data in both formats
+        print("\nExporting data...")
+        
+        # Export CSV
+        csv_args = argparse.Namespace(
+            format="csv", output=f"{args.output_dir}/swift_packages.csv"
+        )
+        export_data(csv_args)
 
-    # Export JSON
-    json_args = argparse.Namespace(
-        format="json", output=f"{args.output_dir}/swift_packages.json"
-    )
-    export_data(json_args)
+        # Export JSON
+        json_args = argparse.Namespace(
+            format="json", output=f"{args.output_dir}/swift_packages.json"
+        )
+        export_data(json_args)
 
-    print(f"\nAnalysis complete! All outputs available in: {args.output_dir}/")
-    print(f"Web site ready at: {args.output_dir}/index.html")
+        print(f"\nAnalysis complete! All outputs available in: {args.output_dir}/")
+        print(f"Web site ready at: {args.output_dir}/index.html")
+
+    finally:
+        analyzer.close()
+        dependency_analyzer.close()
+        generator.close()
 
 
 def status_command(args):
@@ -217,9 +224,6 @@ Automation:
         type=int,
         default=config.repositories_per_batch,
         help=f"Repositories per batch (default: {config.repositories_per_batch})",
-    )
-    parser.add_argument(
-        "--max-batches", type=int, help="Maximum number of batches to process"
     )
     parser.add_argument(
         "--test", action="store_true", help="Run small test batch (3 repositories)"

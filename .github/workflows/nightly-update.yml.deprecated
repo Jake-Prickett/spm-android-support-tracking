@@ -32,10 +32,22 @@ jobs:
         python-version: '3.11'
         cache: 'pip'
 
-    - name: Install dependencies
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Python dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Install Node.js dependencies
+      run: |
+        cd frontend
+        npm ci
 
     - name: Create logs directory
       run: mkdir -p logs
@@ -69,33 +81,53 @@ jobs:
           echo "collection_completed=true" >> $GITHUB_OUTPUT
         fi
 
-    - name: Generate analysis and reports
+    - name: Generate analysis data
       run: |
-        echo "Generating comprehensive analysis..."
+        echo "Generating analysis data for frontend..."
         python swift_analyzer.py --analyze --output-dir docs
         
-        # Verify outputs were created
-        if [ ! -f docs/index.html ]; then
-          echo "Error: Analysis output not generated"
+        # Verify data was created
+        if [ ! -f docs/swift_packages.json ]; then
+          echo "Error: Analysis data not generated"
           exit 1
         fi
         
-        echo "Analysis completed successfully"
+        echo "Analysis data generated successfully"
+
+    - name: Copy data to frontend
+      run: |
+        # Copy the generated data to frontend public directory
+        cp docs/swift_packages.json frontend/public/
+        echo "Data copied to frontend"
+
+    - name: Build Next.js frontend
+      run: |
+        cd frontend
+        echo "Building Next.js application..."
+        npm run build
+        
+        # Verify build output
+        if [ ! -d out ]; then
+          echo "Error: Frontend build failed"
+          exit 1
+        fi
+        
+        echo "Frontend build completed successfully"
 
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         
-        # Add generated files and database
-        git add docs/ swift_packages.db -f
+        # Add generated files, database, and frontend build
+        git add docs/ frontend/out/ swift_packages.db -f
         
         # Check if there are changes to commit
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
           # Create commit message
-          COMMIT_MSG="Update Swift package analysis
+          COMMIT_MSG="Update Swift package analysis and frontend
 
           🤖 Generated with nightly automation
           🕒 Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
@@ -108,10 +140,10 @@ jobs:
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs
+        publish_dir: ./frontend/out
         force_orphan: true
         commit_message: |
-          Deploy Swift package analysis update
+          Deploy Next.js frontend update
           
           🕒 Updated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
 
@@ -122,7 +154,7 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Processing Results" >> $GITHUB_STEP_SUMMARY
         echo "- **Collection Status**: ${{ steps.collect_data.outputs.collection_completed == 'true' && '✅ Completed' || '❌ Failed/Timeout' }}" >> $GITHUB_STEP_SUMMARY
-        echo "- **Analysis Generated**: ✅ Yes" >> $GITHUB_STEP_SUMMARY
+        echo "- **Frontend Built**: ✅ Yes" >> $GITHUB_STEP_SUMMARY
         echo "- **Database State**: ✅ Persisted" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
