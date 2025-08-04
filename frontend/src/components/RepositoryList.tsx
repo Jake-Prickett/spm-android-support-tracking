@@ -87,10 +87,10 @@ export default function RepositoryList({ repositories }: RepositoryListProps) {
         {/* Filter and Sort Controls */}
         <div className="flex flex-col sm:flex-row gap-3">
           {/* Status Filter */}
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+          <label className="flex items-center gap-2">
+            <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
               Status:
-            </label>
+            </span>
             <select
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value as FilterOption)}
@@ -105,13 +105,13 @@ export default function RepositoryList({ repositories }: RepositoryListProps) {
               <option value="android-compatible">Android compatible</option>
               <option value="android-incompatible">Android incompatible</option>
             </select>
-          </div>
+          </label>
 
           {/* Sort Options */}
-          <div className="flex items-center gap-2">
-            <label className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
+          <label className="flex items-center gap-2">
+            <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
               Sort by:
-            </label>
+            </span>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -127,7 +127,7 @@ export default function RepositoryList({ repositories }: RepositoryListProps) {
               <option value="updated">Recently updated</option>
               <option value="pushed">Recently pushed</option>
             </select>
-          </div>
+          </label>
         </div>
       </div>
 

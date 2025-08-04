@@ -54,7 +54,7 @@ flowchart TD
 **Requirements:** Python 3.11+
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Jake-Prickett/spm-android-support-tracking.git
 cd spm-android-support-tracking
 echo "GITHUB_TOKEN=your_token_here" > .env
 
@@ -97,6 +97,26 @@ python swift_analyzer.py --analyze --output-dir docs
 - Executive summary with key metrics
 - Complete data exports for further analysis
 
+## Interactive Frontend
+
+The project includes a **Next.js web interface** that provides an interactive way to explore the analysis results:
+
+```bash
+cd frontend
+npm install
+npm run dev    # Development server at http://localhost:3000
+npm run build  # Production build for GitHub Pages
+```
+
+**Frontend Features:**
+- 🔍 **Search and filter** repositories by name, description, or criteria
+- 📊 **Interactive repository cards** with GitHub stars, forks, and Android status
+- 🏷️ **Status tagging** system to visualize Android compatibility
+- 📱 **Responsive design** optimized for desktop and mobile
+- 🚀 **Auto-deployment** to GitHub Pages when analysis data updates
+
+The frontend automatically loads data from the Python analysis tool and provides a user-friendly interface for exploring migration opportunities.
+
 ## Configuration
 
 **Environment variables** (`.env`):
@@ -109,15 +129,19 @@ python swift_analyzer.py --analyze --output-dir docs
 
 ```
 ├── swift_analyzer.py               # Single entry point CLI
-├── swift_package_analyzer/         # Core package
+├── swift_package_analyzer/         # Core Python package
 │   ├── cli/                       # Command interfaces
 │   ├── core/                      # Config & models
 │   ├── data/                      # GitHub API integration
 │   ├── analysis/                  # Analysis logic & dependency trees
 │   └── output/                    # Report generation
+├── frontend/                       # Next.js web interface
+│   ├── src/components/            # React components
+│   ├── src/app/                   # Next.js app router
+│   └── public/                    # Static assets
 ├── data/linux-compatible-android-incompatible.csv
 ├── requirements.txt
-└── docs/                          # Generated outputs
+└── docs/                          # Generated analysis outputs
 ```
 
 ## Troubleshooting
