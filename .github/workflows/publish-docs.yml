@@ -140,6 +140,9 @@ jobs:
         rm -rf docs/*
         cp -r frontend/out/* docs/
         
+        # Copy .nojekyll file to docs root (GitHub Pages requirement)
+        cp frontend/public/.nojekyll docs/
+        
         # Restore data files
         cp backup/*.json backup/*.csv docs/ 2>/dev/null || true
         cp -r backup/dependencies docs/ 2>/dev/null || true
@@ -170,7 +173,7 @@ jobs:
         if [ "${{ steps.check_changes.outputs.should_deploy }}" = "true" ]; then
           echo "- **Status**: ✅ Deployed Successfully" >> $GITHUB_STEP_SUMMARY
           echo "- **Reason**: ${{ steps.check_changes.outputs.reason }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Site URL**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Site URL**: https://jake-prickett.github.io/spm-android-support-tracking/" >> $GITHUB_STEP_SUMMARY
           echo "- **Deployment Time**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
         else
           echo "- **Status**: ⏭️ Skipped" >> $GITHUB_STEP_SUMMARY
