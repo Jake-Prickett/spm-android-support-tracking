@@ -1,0 +1,188 @@
+name: Nightly Swift Package Analysis
+
+on:
+  schedule:
+    # Run at 2:00 AM UTC daily (avoid GitHub Actions peak hours)
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    inputs:
+      batch_size:
+        description: 'Number of repositories to process (default: 250)'
+        required: false
+        default: '250'
+        type: string
+      test_mode:
+        description: 'Run in test mode (process only 3 repositories)'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DATABASE_URL: sqlite:///swift_packages.db
+
+permissions:
+  contents: write
+
+jobs:
+  analysis:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Create logs directory
+      run: mkdir -p logs
+
+    - name: Check database status
+      run: |
+        echo "Checking database status..."
+        python swift_analyzer.py --status
+
+    - name: Set collection parameters
+      id: set_params
+      run: |
+        if [ "${{ inputs.test_mode }}" = "true" ]; then
+          echo "batch_size=3" >> $GITHUB_OUTPUT
+          echo "test_flag=--test" >> $GITHUB_OUTPUT
+          echo "timeout_minutes=5" >> $GITHUB_OUTPUT
+          echo "Running in test mode (3 repositories)"
+        else
+          batch_size="${{ inputs.batch_size || '250' }}"
+          echo "batch_size=$batch_size" >> $GITHUB_OUTPUT
+          echo "test_flag=" >> $GITHUB_OUTPUT
+          echo "timeout_minutes=35" >> $GITHUB_OUTPUT
+          echo "Running with batch size: $batch_size"
+        fi
+
+    - name: Chunked data collection
+      id: collect_data
+      run: |
+        echo "Starting data collection..."
+        
+        # Set timeout based on test mode
+        timeout_cmd="timeout ${{ steps.set_params.outputs.timeout_minutes }}m"
+        
+        # Build collection command
+        if [ "${{ inputs.test_mode }}" = "true" ]; then
+          collection_cmd="python swift_analyzer.py --collect --test"
+        else
+          collection_cmd="python swift_analyzer.py --collect --batch-size ${{ steps.set_params.outputs.batch_size }}"
+        fi
+        
+        # Run collection with timeout handling
+        $timeout_cmd $collection_cmd || {
+          exit_code=$?
+          if [ $exit_code -eq 124 ]; then
+            echo "Collection timed out - progress saved"
+            echo "collection_timeout=true" >> $GITHUB_OUTPUT
+            echo "collection_completed=partial" >> $GITHUB_OUTPUT
+          else
+            echo "Collection failed with exit code $exit_code"
+            exit $exit_code
+          fi
+        }
+        
+        # Check final status
+        python swift_analyzer.py --status
+        if [ "${{ steps.collect_data.outputs.collection_completed }}" != "partial" ]; then
+          echo "collection_completed=true" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate analysis data
+      run: |
+        echo "Generating comprehensive analysis and reports..."
+        python swift_analyzer.py --analyze --output-dir docs
+        
+        # Verify data was created
+        if [ ! -f docs/swift_packages.json ]; then
+          echo "Error: Analysis data not generated"
+          exit 1
+        fi
+        
+        echo "Analysis data generated successfully"
+        echo "Generated files:"
+        ls -la docs/
+        if [ -d docs/dependencies ]; then
+          echo "Dependency analysis files:"
+          ls -la docs/dependencies/
+        fi
+
+    - name: Commit and push changes  
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Add generated files and database
+        git add docs/ swift_packages.db -f
+        
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          # Create commit message based on mode
+          if [ "${{ inputs.test_mode }}" = "true" ]; then
+            COMMIT_MSG="Test analysis update (3 repositories)
+            
+            🧪 Test run completed
+            🕒 Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          else
+            COMMIT_MSG="Update Swift package analysis data
+            
+            🤖 Nightly analysis: ${{ steps.set_params.outputs.batch_size }} repositories
+            🕒 Generated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+          fi
+          
+          git commit -m "$COMMIT_MSG"
+          git push
+        fi
+
+    - name: Create workflow summary
+      if: always()
+      run: |
+        echo "## Analysis Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Configuration" >> $GITHUB_STEP_SUMMARY
+        echo "- **Mode**: ${{ inputs.test_mode == 'true' && '🧪 Test Mode' || '🤖 Production' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Batch Size**: ${{ steps.set_params.outputs.batch_size }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Processing Results" >> $GITHUB_STEP_SUMMARY
+        echo "- **Collection Status**: ${{ steps.collect_data.outputs.collection_completed == 'true' && '✅ Completed' || '❌ Failed/Timeout' }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Analysis Generated**: ✅ Yes" >> $GITHUB_STEP_SUMMARY
+        echo "- **Database State**: ✅ Persisted" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+        if [ "${{ inputs.test_mode }}" = "true" ]; then
+          echo "- 🧪 Test run completed - no further automation" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- 🔄 Continue nightly updates (~${{ steps.set_params.outputs.batch_size }} repos per run)" >> $GITHUB_STEP_SUMMARY
+          echo "- 📄 Docs will be published when pushed to main branch" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        # Add timeout notice if applicable
+        if [ "${{ steps.collect_data.outputs.collection_timeout }}" = "true" ]; then
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚠️ Collection Timeout" >> $GITHUB_STEP_SUMMARY
+          echo "Processing timed out. Next run will continue with remaining repositories." >> $GITHUB_STEP_SUMMARY
+        fi
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "::error::Analysis workflow failed. Check logs for details."
+        echo "Failed at step: ${{ job.status }}"

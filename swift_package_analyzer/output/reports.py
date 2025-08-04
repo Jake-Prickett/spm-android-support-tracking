@@ -10,14 +10,10 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional
 
 import pandas as pd
-from jinja2 import Template
 
 from swift_package_analyzer.analysis.analyzer import PackageAnalyzer
 from swift_package_analyzer.core.models import Repository, SessionLocal
-from swift_package_analyzer.analysis.dependencies import (
-    DependencyTreeAnalyzer,
-    DependencyVisualizer,
-)
+from swift_package_analyzer.analysis.dependencies import DependencyTreeAnalyzer
 
 
 class ReportGenerator:
@@ -166,173 +162,6 @@ class ReportGenerator:
         finally:
             db.close()
 
-    def _generate_html_report(self, report_data: Dict, output_path: Path):
-        """Generate an HTML report with embedded visualizations."""
-
-        html_template = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Swift Package Android Compatibility Analysis Report</title>
-    <meta charset="utf-8">
-    <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            line-height: 1.6; 
-            color: #333; 
-            max-width: 1200px; 
-            margin: 0 auto; 
-            padding: 20px; 
-            background-color: #f8f9fa;
-        }
-        .header { 
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-            color: white; 
-            padding: 30px; 
-            border-radius: 10px; 
-            margin-bottom: 30px; 
-            text-align: center;
-        }
-        .summary-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 20px; 
-            margin-bottom: 30px; 
-        }
-        .summary-card { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            border-left: 4px solid #667eea;
-        }
-        .metric-value { 
-            font-size: 2em; 
-            font-weight: bold; 
-            color: #667eea; 
-        }
-        .section { 
-            background: white; 
-            margin: 20px 0; 
-            padding: 25px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-        }
-        .priority-repo { 
-            border: 1px solid #e9ecef; 
-            margin: 10px 0; 
-            padding: 15px; 
-            border-radius: 5px; 
-            background: #f8f9fa;
-        }
-        .repo-title { 
-            font-weight: bold; 
-            color: #495057; 
-            font-size: 1.1em; 
-        }
-        .repo-stats { 
-            color: #6c757d; 
-            margin: 5px 0; 
-        }
-        .recommendation { 
-            background: #e3f2fd; 
-            border-left: 4px solid #2196f3; 
-            padding: 10px 15px; 
-            margin: 10px 0; 
-            border-radius: 4px; 
-        }
-        h1, h2, h3 { color: #495057; }
-        .generated-info { 
-            text-align: center; 
-            color: #6c757d; 
-            font-size: 0.9em; 
-            margin-top: 30px; 
-            padding-top: 20px; 
-            border-top: 1px solid #e9ecef; 
-        }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Swift Package Android Compatibility Analysis</h1>
-        <p>Comprehensive analysis of {{ report_data.metadata.total_repositories }} Swift packages</p>
-        <p>Generated on {{ report_data.metadata.generated_at[:19] | replace('T', ' ') }}</p>
-    </div>
-
-    <div class="summary-grid">
-        <div class="summary-card">
-            <div class="metric-value">{{ report_data.statistics.total_analyzed }}</div>
-            <div>Total Repositories Analyzed</div>
-        </div>
-        <div class="summary-card">
-            <div class="metric-value">{{ "%.0f"|format(report_data.statistics.avg_stars) }}</div>
-            <div>Average Stars per Repository</div>
-        </div>
-        <div class="summary-card">
-        <div class="summary-card">
-            <div class="metric-value">{{ report_data.statistics.primary_language }}</div>
-            <div>Primary Programming Language</div>
-        </div>
-        <div class="summary-card">
-            <div class="metric-value">{{ report_data.statistics.api_usage.total_api_calls }}</div>
-            <div>GitHub API Calls Made</div>
-        </div>
-        <div class="summary-card">
-            <div class="metric-value">{{ "%.1f"|format(report_data.statistics.api_usage.success_rate) }}%</div>
-            <div>API Success Rate</div>
-        </div>
-    </div>
-
-    <div class="section">
-        <h2>📋 Executive Summary</h2>
-        <p><strong>Overview:</strong> {{ report_data.executive_summary.overview }}</p>
-        
-        <h3>Key Metrics</h3>
-        <ul>
-            <li><strong>Average Popularity:</strong> {{ report_data.executive_summary.key_metrics.average_popularity }}</li>
-            <li><strong>Most Popular Repository:</strong> {{ report_data.executive_summary.key_metrics.most_popular }}</li>
-        </ul>
-
-        <h3>🎯 Recommendations</h3>
-        {% for rec in report_data.executive_summary.recommendations %}
-        <div class="recommendation">{{ rec }}</div>
-        {% endfor %}
-    </div>
-
-    <div class="section">
-        <h2>🏆 Top Priority Repositories for Android Migration</h2>
-        {% for repo in report_data.priority_repositories[:10] %}
-        <div class="priority-repo">
-            <div class="repo-title">{{ loop.index }}. {{ repo.owner }}/{{ repo.name }}</div>
-            <div class="repo-stats">
-                ⭐ {{ repo.stars }} stars | 🍴 {{ repo.forks }} forks | 📦 {{ repo.dependencies_count }} dependencies
-            </div>
-            <div class="repo-stats">
-                Priority Score: {{ "%.3f"|format(repo.priority_score) }} | {{ repo.rationale }}
-            </div>
-            <div class="repo-stats">
-                Package.swift: {{ "✅" if repo.has_package_swift else "❌" }} | 
-                Swift Version: {{ repo.swift_tools_version or "Unknown" }}
-            </div>
-        </div>
-        {% endfor %}
-    </div>
-
-
-    <div class="generated-info">
-        <p>Report generated by {{ report_data.metadata.generation_tool }}</p>
-        <p>For detailed data, see the accompanying JSON report and dependency visualization files.</p>
-    </div>
-</body>
-</html>
-        """
-
-        template = Template(html_template)
-        html_content = template.render(report_data=report_data)
-
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write(html_content)
-
     def generate_priority_csv(
         self, output_path: str = "docs/priority_analysis.csv", limit: int = 50
     ) -> str:
@@ -390,7 +219,9 @@ class ReportGenerator:
         popularity = self.analyzer.generate_popularity_analysis()
         dependencies = self.analyzer.generate_dependency_analysis()
         languages = self.analyzer.generate_language_analysis()
-        priorities = self.analyzer.generate_display_analysis()  # Use display analysis to include android_supported
+        all_repositories = (
+            self.analyzer.generate_unfiltered_data_dump()
+        )  # Use unfiltered data dump for frontend
 
         # Generate dependency tree analysis
         print("Building dependency analysis...")
@@ -415,7 +246,7 @@ class ReportGenerator:
             "popularity_analysis": popularity,
             "dependency_analysis": dependencies,
             "language_analysis": languages,
-            "priority_repositories": priorities,  # All repositories for complete dataset
+            "all_repositories": all_repositories,  # Complete unfiltered dataset for frontend
             "dependency_impact_analysis": {
                 "packages": impact_analysis.get("packages", [])[:50],  # Top 50 for web
                 "summary": impact_analysis.get("summary", {}),
@@ -441,20 +272,26 @@ class ReportGenerator:
 
         print(f"📊 Embedded data size: {data_size_kb:.1f} KB")
 
-        # Load template
-        template_path = (
-            Path(__file__).parent.parent / "templates" / "github_pages_template.html"
-        )
-        if not template_path.exists():
-            raise FileNotFoundError(f"Template not found: {template_path}")
+        # Generate JSON data file for Next.js frontend
+        json_output_path = Path(output_path).parent / "swift_packages.json"
+        with open(json_output_path, "w", encoding="utf-8") as f:
+            json.dump(web_data, f, indent=2, default=str)
 
-        with open(template_path, "r", encoding="utf-8") as f:
-            template_content = f.read()
+        print(f"📊 Data exported to: {json_output_path}")
 
-        # Embed data in template
-        html_content = template_content.replace(
-            "{{ EMBEDDED_DATA }}", json.dumps(web_data, default=str)
-        )
+        # Generate a simple redirect HTML page
+        html_content = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=./frontend/">
+    <title>Swift Package Analysis - Redirecting...</title>
+</head>
+<body>
+    <p>Redirecting to the analysis dashboard...</p>
+    <p>If you are not redirected automatically, <a href="./frontend/">click here</a>.</p>
+</body>
+</html>"""
 
         # Save the final file
         output_file = Path(output_path)
@@ -464,9 +301,9 @@ class ReportGenerator:
             f.write(html_content)
 
         final_size_kb = output_file.stat().st_size / 1024
-        print(f"✅ GitHub Pages site generated: {output_path}")
+        print(f"✅ Redirect page generated: {output_path}")
         print(f"📄 Final file size: {final_size_kb:.1f} KB")
-        print(f"🚀 Ready for GitHub Pages deployment!")
+        print(f"🚀 Data ready for Next.js frontend!")
 
         return str(output_path)
 

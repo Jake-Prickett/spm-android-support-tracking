@@ -12,11 +12,7 @@ from typing import Dict, List, Set, Tuple, Optional, Any
 from collections import deque
 from dataclasses import dataclass
 
-import pandas as pd
-import plotly.graph_objects as go
-from plotly.offline import plot
 import networkx as nx
-from jinja2 import Template
 
 from swift_package_analyzer.core.models import Repository, SessionLocal
 
@@ -536,257 +532,6 @@ class DependencyTreeAnalyzer:
         self.db.close()
 
 
-class DependencyVisualizer:
-    """Creates visualizations for dependency relationships."""
-
-    def __init__(self, analyzer: DependencyTreeAnalyzer):
-        self.analyzer = analyzer
-        self.logger = logging.getLogger(self.__class__.__name__)
-
-    def generate_dependency_network_visualization(
-        self, output_path: str, max_nodes: int = 100
-    ) -> str:
-        """Generate interactive network visualization of dependencies."""
-        self.logger.info(
-            f"Generating dependency network visualization with max {max_nodes} nodes"
-        )
-
-        # Get top packages by impact
-        impact_analysis = self.analyzer.get_impact_analysis()
-        top_packages = impact_analysis["packages"][:max_nodes]
-
-        # Build subgraph
-        package_ids = [p["package_id"] for p in top_packages]
-        subgraph = self.analyzer._dependency_graph.subgraph(package_ids)
-
-        # Calculate layout
-        pos = nx.spring_layout(subgraph, k=3, iterations=50)
-
-        # Create edges
-        edge_x = []
-        edge_y = []
-        edge_info = []
-
-        for edge in subgraph.edges():
-            x0, y0 = pos[edge[0]]
-            x1, y1 = pos[edge[1]]
-            edge_x.extend([x0, x1, None])
-            edge_y.extend([y0, y1, None])
-            edge_info.append(f"{edge[0]} → {edge[1]}")
-
-        # Create nodes
-        node_x = []
-        node_y = []
-        node_text = []
-        node_size = []
-        node_color = []
-        node_info = []
-
-        for node in subgraph.nodes():
-            x, y = pos[node]
-            node_x.append(x)
-            node_y.append(y)
-
-            # Get node data
-            node_data = subgraph.nodes[node]
-            package_data = next(
-                (p for p in top_packages if p["package_id"] == node), {}
-            )
-
-            stars = package_data.get("stars", 0)
-            impact = package_data.get("total_impact", 0)
-
-            node_text.append(node.split("/")[-1])  # Show just repo name
-            node_size.append(max(10, min(50, stars / 100)))  # Size by stars
-
-            # Color by compatibility status
-            if package_data.get("android_compatible"):
-                node_color.append("green")
-            elif package_data.get("linux_compatible"):
-                node_color.append("orange")
-            else:
-                node_color.append("red")
-
-            node_info.append(
-                f"<b>{node}</b><br>"
-                f"Stars: {stars}<br>"
-                f"Impact: {impact} packages<br>"
-                f"Direct dependents: {package_data.get('direct_dependents', 0)}<br>"
-                f"Linux: {'✅' if package_data.get('linux_compatible') else '❌'}<br>"
-                f"Android: {'✅' if package_data.get('android_compatible') else '❌'}"
-            )
-
-        # Create Plotly figure
-        fig = go.Figure()
-
-        # Add edges
-        fig.add_trace(
-            go.Scatter(
-                x=edge_x,
-                y=edge_y,
-                line=dict(width=1, color="rgba(125,125,125,0.3)"),
-                hoverinfo="none",
-                mode="lines",
-                showlegend=False,
-            )
-        )
-
-        # Add nodes
-        fig.add_trace(
-            go.Scatter(
-                x=node_x,
-                y=node_y,
-                mode="markers+text",
-                hoverinfo="text",
-                text=node_text,
-                textposition="middle center",
-                hovertext=node_info,
-                marker=dict(
-                    size=node_size,
-                    color=node_color,
-                    line=dict(width=2, color="white"),
-                    opacity=0.8,
-                ),
-                textfont=dict(size=8),
-                showlegend=False,
-            )
-        )
-
-        fig.update_layout(
-            title="Swift Package Dependency Network<br><sub>Orange: Linux-only, Green: Android-compatible, Red: Neither</sub>",
-            titlefont_size=16,
-            showlegend=False,
-            hovermode="closest",
-            margin=dict(b=20, l=5, r=5, t=40),
-            annotations=[
-                dict(
-                    text="Node size = GitHub stars, Color = compatibility status",
-                    showarrow=False,
-                    xref="paper",
-                    yref="paper",
-                    x=0.005,
-                    y=-0.002,
-                    xanchor="left",
-                    yanchor="bottom",
-                    font=dict(color="gray", size=12),
-                )
-            ],
-            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-            plot_bgcolor="white",
-        )
-
-        # Save visualization
-        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-        plot(fig, filename=output_path, auto_open=False)
-
-        self.logger.info(f"Dependency network visualization saved to {output_path}")
-        return output_path
-
-    def generate_dependency_tree_html(
-        self, package_id: str, output_path: str, max_depth: int = 3
-    ) -> str:
-        """Generate HTML visualization of a specific package's dependency tree."""
-        tree_data = self.analyzer.get_dependency_tree_for_package(package_id, max_depth)
-
-        if "error" in tree_data:
-            raise ValueError(tree_data["error"])
-
-        html_template = """
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Dependency Tree: {{ package_id }}</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; margin: 20px; background: #f5f5f5; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .tree { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .tree-node { margin: 10px 0; padding: 10px; border-left: 3px solid #ddd; margin-left: 20px; }
-        .tree-node.depth-0 { border-left-color: #007acc; margin-left: 0; }
-        .tree-node.depth-1 { border-left-color: #28a745; }
-        .tree-node.depth-2 { border-left-color: #ffc107; }
-        .tree-node.depth-3 { border-left-color: #dc3545; }
-        .package-name { font-weight: bold; color: #333; }
-        .package-stats { color: #666; font-size: 0.9em; margin-top: 5px; }
-        .compatibility { display: inline-block; margin-right: 10px; }
-        .compatible { color: green; }
-        .incompatible { color: red; }
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
-        .stat-card { background: #f8f9fa; padding: 15px; border-radius: 5px; text-align: center; }
-        .stat-value { font-size: 1.5em; font-weight: bold; color: #007acc; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h1>Dependency Tree Analysis</h1>
-            <h2>{{ package_id }}</h2>
-            
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">{{ stats.total_packages }}</div>
-                    <div>Total Packages</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">{{ stats.max_depth }}</div>
-                    <div>Maximum Depth</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">{{ stats.linux_compatible }}</div>
-                    <div>Linux Compatible</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">{{ stats.android_compatible }}</div>
-                    <div>Android Compatible</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="tree">
-            {{ render_tree_node(tree, 0) }}
-        </div>
-    </div>
-</body>
-</html>
-        """
-
-        def render_tree_node(node, depth):
-            """Recursively render tree nodes."""
-            html = f'<div class="tree-node depth-{depth}">'
-            html += (
-                f'<div class="package-name">{node.get("package_id", "Unknown")}</div>'
-            )
-
-            if node.get("stars") is not None:
-                html += '<div class="package-stats">'
-                html += f'⭐ {node["stars"]} stars | '
-                html += f'<span class="compatibility {"compatible" if node.get("linux_compatible") else "incompatible"}">Linux: {"✅" if node.get("linux_compatible") else "❌"}</span> | '
-                html += f'<span class="compatibility {"compatible" if node.get("android_compatible") else "incompatible"}">Android: {"✅" if node.get("android_compatible") else "❌"}</span>'
-                html += "</div>"
-
-            # Render dependencies
-            for dep in node.get("dependencies", []):
-                html += render_tree_node(dep, depth + 1)
-
-            html += "</div>"
-            return html
-
-        template = Template(html_template)
-        template.globals["render_tree_node"] = render_tree_node
-
-        html_content = template.render(
-            package_id=package_id, tree=tree_data["tree"], stats=tree_data["stats"]
-        )
-
-        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-        with open(output_path, "w", encoding="utf-8") as f:
-            f.write(html_content)
-
-        self.logger.info(f"Dependency tree HTML saved to {output_path}")
-        return output_path
-
-
 def main():
     """Main entry point for dependency analysis."""
     import argparse
@@ -795,16 +540,6 @@ def main():
     parser.add_argument(
         "--output-dir", default="docs/dependencies", help="Output directory"
     )
-    parser.add_argument("--package", help="Specific package to analyze (owner/repo)")
-    parser.add_argument(
-        "--max-nodes",
-        type=int,
-        default=100,
-        help="Maximum nodes in network visualization",
-    )
-    parser.add_argument(
-        "--max-depth", type=int, default=3, help="Maximum depth for tree analysis"
-    )
 
     args = parser.parse_args()
 
@@ -812,7 +547,6 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     analyzer = DependencyTreeAnalyzer()
-    visualizer = DependencyVisualizer(analyzer)
 
     try:
         print("🔍 Building dependency tree...")
@@ -828,23 +562,6 @@ def main():
         with open(output_dir / "impact_analysis.json", "w") as f:
             json.dump(impact_analysis, f, indent=2)
         print(f"✅ Impact analysis saved to {output_dir / 'impact_analysis.json'}")
-
-        print("🕸️ Generating network visualization...")
-        network_path = visualizer.generate_dependency_network_visualization(
-            str(output_dir / "dependency_network.html"), args.max_nodes
-        )
-
-        # Generate tree visualization for specific package if requested
-        if args.package:
-            print(f"🌳 Generating dependency tree for {args.package}...")
-            tree_path = visualizer.generate_dependency_tree_html(
-                args.package,
-                str(
-                    output_dir
-                    / f"dependency_tree_{args.package.replace('/', '_')}.html"
-                ),
-                args.max_depth,
-            )
 
         # Show top impact packages
         print("\n🎯 Top 10 Packages by Dependency Impact:")

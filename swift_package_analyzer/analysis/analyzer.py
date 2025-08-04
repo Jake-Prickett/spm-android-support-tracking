@@ -98,8 +98,44 @@ class PackageAnalyzer:
             self.db.query(Repository)
             .filter(
                 Repository.processing_status == "completed",
-                Repository.current_state.in_(["tracking", "in_progress", "unknown", "android_supported"]),
+                Repository.current_state.in_(
+                    ["tracking", "in_progress", "unknown", "android_supported"]
+                ),
             )
+            .all()
+        )
+
+        data = []
+        for repo in repos:
+            data.append(
+                {
+                    "owner": repo.owner,
+                    "name": repo.name,
+                    "stars": repo.stars or 0,
+                    "forks": repo.forks or 0,
+                    "watchers": repo.watchers or 0,
+                    "issues_count": repo.issues_count or 0,
+                    "open_issues_count": repo.open_issues_count or 0,
+                    "language": repo.language,
+                    "license_name": repo.license_name,
+                    "has_package_swift": repo.has_package_swift,
+                    "swift_tools_version": repo.swift_tools_version,
+                    "dependencies_count": repo.dependencies_count or 0,
+                    "linux_compatible": repo.linux_compatible,
+                    "android_compatible": repo.android_compatible,
+                    "current_state": repo.current_state,
+                    "created_at": repo.created_at,
+                    "updated_at": repo.updated_at,
+                    "pushed_at": repo.pushed_at,
+                }
+            )
+        return pd.DataFrame(data)
+
+    def get_all_repositories_unfiltered(self) -> pd.DataFrame:
+        """Get ALL repositories without any filtering - pure data dump for frontend consumption."""
+        repos = (
+            self.db.query(Repository)
+            .filter(Repository.processing_status == "completed")
             .all()
         )
 
@@ -385,7 +421,7 @@ class PackageAnalyzer:
     def generate_display_analysis(self) -> List[Dict[str, Any]]:
         """Generate analysis for web display including all relevant repositories (tracking + android_supported)."""
         df = self.get_all_repositories_for_display()
-        
+
         if df.empty:
             return []
 
@@ -442,13 +478,48 @@ class PackageAnalyzer:
 
         return result
 
+    def generate_unfiltered_data_dump(self) -> List[Dict[str, Any]]:
+        """Generate pure data dump of ALL repositories without any filtering or processing for frontend consumption."""
+        df = self.get_all_repositories_unfiltered()
+
+        if df.empty:
+            return []
+
+        # Return raw data without any scoring or filtering - just convert to dict format
+        result = []
+        for _, repo in df.iterrows():
+            result.append(
+                {
+                    "owner": repo["owner"],
+                    "name": repo["name"],
+                    "stars": repo["stars"],
+                    "forks": repo["forks"],
+                    "watchers": repo["watchers"],
+                    "issues_count": repo["issues_count"],
+                    "open_issues_count": repo["open_issues_count"],
+                    "language": repo["language"],
+                    "license_name": repo["license_name"],
+                    "has_package_swift": repo["has_package_swift"],
+                    "swift_tools_version": repo["swift_tools_version"],
+                    "dependencies_count": repo["dependencies_count"],
+                    "linux_compatible": repo["linux_compatible"],
+                    "android_compatible": repo["android_compatible"],
+                    "current_state": repo["current_state"],
+                    "created_at": repo["created_at"],
+                    "updated_at": repo["updated_at"],
+                    "pushed_at": repo["pushed_at"],
+                }
+            )
+
+        return result
+
     def _generate_display_rationale(self, repo) -> str:
         """Generate a rationale for display, including android_supported status."""
         if repo["current_state"] == "android_supported":
             return "Already supports Android platform"
-        
+
         reasons = []
-        
+
         if repo["stars"] > 1000:
             reasons.append("High popularity")
         elif repo["stars"] > 100:

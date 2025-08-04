@@ -1,0 +1,176 @@
+name: Publish Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'docs/**'
+      - 'frontend/**'
+  workflow_dispatch:
+    inputs:
+      force_rebuild:
+        description: 'Force rebuild even if no docs changes detected'
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Check for documentation changes
+      id: check_changes
+      run: |
+        if [ "${{ inputs.force_rebuild }}" = "true" ]; then
+          echo "Force rebuild requested"
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+          echo "reason=force_rebuild" >> $GITHUB_OUTPUT
+        elif [ ! -f docs/swift_packages.json ]; then
+          echo "No analysis data found - skipping deployment"
+          echo "should_deploy=false" >> $GITHUB_OUTPUT  
+          echo "reason=no_data" >> $GITHUB_OUTPUT
+        else
+          echo "Documentation changes detected - proceeding with deployment"
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+          echo "reason=docs_updated" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Set up Node.js
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Node.js dependencies
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      run: |
+        cd frontend
+        npm ci
+
+    - name: Verify data availability
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      run: |
+        echo "Checking analysis data..."
+        if [ ! -f docs/swift_packages.json ]; then
+          echo "::error::No analysis data found at docs/swift_packages.json"
+          exit 1
+        fi
+        
+        # Check data size and validity
+        data_size=$(wc -c < docs/swift_packages.json)
+        echo "Analysis data size: $data_size bytes"
+        
+        if [ "$data_size" -lt 1000 ]; then
+          echo "::error::Analysis data appears to be incomplete (less than 1KB)"
+          exit 1
+        fi
+        
+        # Verify JSON is valid
+        if ! python -m json.tool docs/swift_packages.json > /dev/null; then
+          echo "::error::Analysis data is not valid JSON"
+          exit 1
+        fi
+        
+        echo "✅ Analysis data verified"
+
+    - name: Copy data to frontend
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      run: |
+        # Copy the generated data to frontend public directory
+        cp docs/swift_packages.json frontend/public/
+        echo "Data copied to frontend public directory"
+        
+        # Show data summary
+        echo "Data summary:"
+        echo "- Size: $(wc -c < docs/swift_packages.json) bytes"
+        echo "- Modified: $(stat -c %y docs/swift_packages.json 2>/dev/null || stat -f %Sm docs/swift_packages.json)"
+
+    - name: Build Next.js frontend
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      run: |
+        cd frontend
+        echo "Building Next.js application..."
+        npm run build
+        
+        # Verify build output
+        if [ ! -d out ]; then
+          echo "::error::Frontend build failed - no output directory created"
+          exit 1
+        fi
+        
+        # Check if build output contains expected files
+        if [ ! -f out/index.html ]; then
+          echo "::error::Frontend build incomplete - no index.html found"
+          exit 1
+        fi
+        
+        echo "✅ Frontend build completed successfully"
+        echo "Build output size: $(du -sh out | cut -f1)"
+
+    - name: Setup Pages
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      uses: actions/configure-pages@v3
+
+    - name: Upload to GitHub Pages
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: ./frontend/out
+
+    - name: Deploy to GitHub Pages
+      if: steps.check_changes.outputs.should_deploy == 'true'
+      id: deployment
+      uses: actions/deploy-pages@v2
+
+    - name: Create workflow summary
+      if: always()
+      run: |
+        echo "## Documentation Deployment Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Deployment Status" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ steps.check_changes.outputs.should_deploy }}" = "true" ]; then
+          echo "- **Status**: ✅ Deployed Successfully" >> $GITHUB_STEP_SUMMARY
+          echo "- **Reason**: ${{ steps.check_changes.outputs.reason }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Site URL**: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Deployment Time**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "- **Status**: ⏭️ Skipped" >> $GITHUB_STEP_SUMMARY
+          echo "- **Reason**: ${{ steps.check_changes.outputs.reason }}" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+        echo "- 🔄 Site will auto-update when analysis data changes" >> $GITHUB_STEP_SUMMARY
+        echo "- 📊 Analysis runs nightly via separate workflow" >> $GITHUB_STEP_SUMMARY
+
+    - name: Notify on failure
+      if: failure()
+      run: |
+        echo "::error::Documentation deployment failed. Check logs for details."
+        echo "Failed at step: ${{ job.status }}"
+        
+        # Provide helpful debugging info
+        if [ -f docs/swift_packages.json ]; then
+          echo "Analysis data exists ($(wc -c < docs/swift_packages.json) bytes)"
+        else
+          echo "::warning::No analysis data found - may need to run analysis workflow first"
+        fi

@@ -20,7 +20,8 @@ python swift_analyzer.py --analyze
 - **Prioritizes migration targets** using GitHub stars, forks, and dependency impact
 - **Maps dependency networks** to identify high-impact packages
 - **Generates interactive reports** with visualizations and migration recommendations
-- **Automated nightly updates** via GitHub Actions (250 repos/night, ~4 day refresh cycle)
+- **Automated nightly analysis** via GitHub Actions (250 repos/night, ~4 day refresh cycle)
+- **Automatic documentation publishing** when analysis data is updated
 - **Exports data** in HTML, JSON, and CSV formats for community use
 
 ## Data Flow Overview
@@ -53,7 +54,7 @@ flowchart TD
 **Requirements:** Python 3.11+
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Jake-Prickett/spm-android-support-tracking.git
 cd spm-android-support-tracking
 echo "GITHUB_TOKEN=your_token_here" > .env
 
@@ -67,16 +68,16 @@ echo "GITHUB_TOKEN=your_token_here" > .env
 | Command | Description |
 |---------|-------------|
 | `--setup` | Initialize database |
-| `--collect` | Fetch GitHub data (`--test` for 3 repos) |
-| `--collect --chunked` | Chunked refresh (recommended for automation) |
-| `--analyze` | Generate reports |
-| `--status` | Show progress and freshness |
+| `--collect` | Fetch GitHub data with smart chunked processing |
+| `--collect --test` | Test run with 3 repositories |
+| `--analyze` | Generate comprehensive analysis and reports |
+| `--status` | Show processing status and repository freshness |
 
 ```bash
 python swift_analyzer.py --setup
-python swift_analyzer.py --collect --test                        # Test with 3 repos
-python swift_analyzer.py --collect --batch-size 10               # Custom batch size
-python swift_analyzer.py --collect --chunked --batch-size 250    # Chunked refresh (250 repos)
+python swift_analyzer.py --collect --test                 # Test with 3 repos
+python swift_analyzer.py --collect --batch-size 10        # Custom batch size
+python swift_analyzer.py --collect --batch-size 250       # Large batch refresh (250 repos)
 python swift_analyzer.py --analyze --output-dir docs
 ```
 
@@ -96,6 +97,26 @@ python swift_analyzer.py --analyze --output-dir docs
 - Executive summary with key metrics
 - Complete data exports for further analysis
 
+## Interactive Frontend
+
+The project includes a **Next.js web interface** that provides an interactive way to explore the analysis results:
+
+```bash
+cd frontend
+npm install
+npm run dev    # Development server at http://localhost:3000
+npm run build  # Production build for GitHub Pages
+```
+
+**Frontend Features:**
+- 🔍 **Search and filter** repositories by name, description, or criteria
+- 📊 **Interactive repository cards** with GitHub stars, forks, and Android status
+- 🏷️ **Status tagging** system to visualize Android compatibility
+- 📱 **Responsive design** optimized for desktop and mobile
+- 🚀 **Auto-deployment** to GitHub Pages when analysis data updates
+
+The frontend automatically loads data from the Python analysis tool and provides a user-friendly interface for exploring migration opportunities.
+
 ## Configuration
 
 **Environment variables** (`.env`):
@@ -108,16 +129,19 @@ python swift_analyzer.py --analyze --output-dir docs
 
 ```
 ├── swift_analyzer.py               # Single entry point CLI
-├── swift_package_analyzer/         # Core package
+├── swift_package_analyzer/         # Core Python package
 │   ├── cli/                       # Command interfaces
 │   ├── core/                      # Config & models
 │   ├── data/                      # GitHub API integration
-│   ├── analysis/                  # Analysis logic
-│   ├── output/                    # Report generation
-│   └── templates/                 # HTML templates
+│   ├── analysis/                  # Analysis logic & dependency trees
+│   └── output/                    # Report generation
+├── frontend/                       # Next.js web interface
+│   ├── src/components/            # React components
+│   ├── src/app/                   # Next.js app router
+│   └── public/                    # Static assets
 ├── data/linux-compatible-android-incompatible.csv
 ├── requirements.txt
-└── docs/                          # Generated outputs
+└── docs/                          # Generated analysis outputs
 ```
 
 ## Troubleshooting
@@ -142,7 +166,7 @@ Repository Insights:
   Repositories with Package.swift: 1064
   Package.swift coverage: 99.9%
 
-$ python swift_analyzer.py --collect --chunked --batch-size 250
+$ python swift_analyzer.py --collect --batch-size 250
 Running simplified chunked data collection...
 
 Chunked collection completed:

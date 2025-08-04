@@ -1503,7 +1503,7 @@
       "direct_dependents": 0,
       "indirect_impact": 0,
       "total_impact": 0,
-      "has_package_swift": false,
+      "has_package_swift": true,
       "linux_compatible": true,
       "android_compatible": false,
       "dependency_count": 0
@@ -1538,7 +1538,7 @@
       "package_id": "swift-server/swift-aws-lambda-runtime",
       "name": "swift-aws-lambda-runtime",
       "owner": "swift-server",
-      "stars": 1175,
+      "stars": 1177,
       "direct_dependents": 0,
       "indirect_impact": 0,
       "total_impact": 0,
