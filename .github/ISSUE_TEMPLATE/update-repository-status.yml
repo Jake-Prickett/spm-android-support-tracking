@@ -1,0 +1,120 @@
+name: Update Repository Status
+description: Request to update the migration status of a Swift package in the analysis
+title: "[STATUS UPDATE] "
+labels: ["status-update", "community-input"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Update Repository Status
+        
+        Help keep the Swift Android migration analysis up to date by suggesting a status change for a repository.
+        
+        **Before submitting:**
+        - Confirm the repository is in our [dataset](https://jake-prickett.github.io/spm-android-support-tracking/)
+        - You know its current state
+        - Your update is accurate and useful
+        
+  - type: input
+    id: repository_owner
+    attributes:
+      label: Repository Owner
+      description: The GitHub username or organization that owns the repository
+      placeholder: "e.g., apple, swiftlang, vapor"
+    validations:
+      required: true
+      
+  - type: input
+    id: repository_name
+    attributes:
+      label: Repository Name
+      description: The name of the repository (without the owner)
+      placeholder: "e.g., swift-format, swift-nio, vapor"
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: new_status
+    attributes:
+      label: New Status
+      description: What should the repository status be updated to?
+      options:
+        - unknown
+        - tracking
+        - in_progress
+        - android_supported
+        - archived
+        - irrelevant
+        - blocked
+        - dependency
+    validations:
+      required: true
+      
+  - type: dropdown
+    id: status_reason
+    attributes:
+      label: Reason for Status Change
+      description: Why should this repository status be updated?
+      options:
+        - "Repository has been archived by maintainer"
+        - "Package is no longer maintained"
+        - "Package is not relevant for Android migration"
+        - "Package is a duplicate of another package"
+        - "Package has been superseded by another package"
+        - "Package already supports Android"
+        - "Migration work is in progress"
+        - "Migration is blocked by dependencies"
+        - "Package is a dependency not in original dataset"
+        - "Status was incorrectly classified"
+        - "Other (please explain in additional context)"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: |
+        Add any extra details, links, or evidence for this update.
+      placeholder: |
+        Example: "Archived on 2023-06-15. Maintainer recommends 'swift-xyz-v2'. See: https://github.com/owner/repo/issues/123"
+    validations:
+      required: false
+      
+  - type: checkboxes
+    id: verification
+    attributes:
+      label: Verification
+      description: Please confirm the following before submitting
+      options:
+        - label: I have verified this repository is included in the [Swift Android migration analysis](https://jake-prickett.github.io/spm-android-support-tracking/)
+          required: true
+        - label: I have specific knowledge about this repository's current status
+          required: true
+        - label: The proposed status update will improve the accuracy of migration recommendations
+          required: true
+        - label: I understand this request will be reviewed before being applied to the analysis
+          required: true
+          
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        
+        **Next steps:**
+        
+        1. We check the repository in our dataset
+        2. Maintainers review your request
+        3. If approved, the status updates in the next analysis
+        4. All changes are tracked and visible
+        
+        **Status options:**
+        
+        - **unknown**: Not yet checked
+        - **tracking**: Being tracked (default)
+        - **in_progress**: Migration is happening
+        - **android_supported**: Android is supported
+        - **archived**: No longer maintained
+        - **irrelevant**: Not for Android migration
+        - **blocked**: Migration blocked
+        - **dependency**: Not in original dataset

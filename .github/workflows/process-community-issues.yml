@@ -1,0 +1,157 @@
+name: Process Community Status Updates
+
+on:
+  # issues:
+  #   types: [opened, edited]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Dry run mode'
+        default: true
+        type: boolean
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  process-status-updates:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: contains(github.event.issue.labels.*.name, 'status-update') || github.event_name == 'workflow_dispatch'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Setup database
+      run: |
+        if [ ! -f swift_packages.db ]; then
+          echo "Database not found - initializing..."
+          python swift_analyzer.py --setup
+        else
+          echo "Database found"
+        fi
+
+    - name: Validate issue format
+      if: github.event_name == 'issues'
+      id: validate
+      run: |
+        echo "Validating issue #${{ github.event.issue.number }}..."
+        body="${{ github.event.issue.body }}"
+        if [[ "$body" == *"### Repository Owner"* && "$body" == *"### Repository Name"* && "$body" == *"### New Status"* ]]; then
+          echo "valid=true" >> $GITHUB_OUTPUT
+          echo "✅ Issue format is valid"
+        else
+          echo "valid=false" >> $GITHUB_OUTPUT
+          echo "❌ Issue format is invalid"
+        fi
+
+    - name: Process updates (dry run)
+      run: |
+        echo "Running dry-run validation..."
+        python swift_analyzer.py --set-state --process-issues --dry-run --repo ${{ github.repository }}
+
+    - name: Process updates (live)
+      if: (github.event_name == 'workflow_dispatch' && !inputs.dry_run) || (github.event_name == 'issues' && steps.validate.outputs.valid == 'true')
+      id: process
+      run: |
+        echo "Processing community status updates..."
+        python swift_analyzer.py --set-state --process-issues --repo ${{ github.repository }}
+
+    - name: Comment on invalid issue
+      if: github.event_name == 'issues' && steps.validate.outputs.valid == 'false'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## ❌ Invalid Format
+            
+            This issue doesn't use the required template format.
+            
+            **Please:**
+            1. Use the [Update Repository Status](https://github.com/${{ github.repository }}/issues/new?template=update-repository-status.yml) template
+            2. Fill in all required fields
+            3. Ensure the repository exists in our dataset
+            
+            The issue will be processed once the format is corrected.`
+          });
+
+    - name: Comment on processed issue  
+      if: github.event_name == 'issues' && steps.process.conclusion == 'success'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## ✅ Status Updated
+            
+            Thanks for your contribution! The repository status has been updated and will appear in the next analysis.
+            
+            **Next steps:**
+            - Changes will show in the published analysis report
+            - This issue will be automatically closed
+            
+            [View Dashboard](https://jake-prickett.github.io/spm-android-support-tracking/)`
+          });
+
+    - name: Close processed issue
+      if: github.event_name == 'issues' && steps.process.conclusion == 'success'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed',
+            labels: ['status-update', 'community-input', 'processed']
+          });
+
+    - name: Commit database changes
+      if: steps.process.conclusion == 'success'
+      run: |
+        git config user.email "action@github.com"
+        git config user.name "GitHub Action"
+        git add swift_packages.db -f
+        
+        if git diff --staged --quiet; then
+          echo "No database changes to commit"
+        else
+          echo "Committing database changes..."
+          git commit -m "Update repository status from community input"
+          git push
+        fi
+
+    - name: Create workflow summary
+      if: always()
+      run: |
+        echo "## Status Update Processing" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ github.event_name }}" = "issues" ]; then
+          echo "**Issue:** #${{ github.event.issue.number }} - ${{ github.event.issue.title }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ steps.validate.outputs.valid == 'true' && '✅ Processed' || '❌ Invalid format' }}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "**Mode:** ${{ inputs.dry_run == true && 'Dry run' || 'Live processing' }}" >> $GITHUB_STEP_SUMMARY
+        fi
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Updates will appear in the next analysis report" >> $GITHUB_STEP_SUMMARY
+        echo "[View Dashboard](https://jake-prickett.github.io/spm-android-support-tracking/)" >> $GITHUB_STEP_SUMMARY

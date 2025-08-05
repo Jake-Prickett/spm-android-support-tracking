@@ -234,6 +234,24 @@ Automation:
         "--reason",
         help="Reason for state change",
     )
+    parser.add_argument(
+        "--process-issues",
+        action="store_true",
+        help="Process GitHub issues for community status updates (use with --set-state)",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Show what would be done without making changes",
+    )
+    parser.add_argument(
+        "--issue-number",
+        help="GitHub issue number for community update tracking",
+    )
+    parser.add_argument(
+        "--repo",
+        help="GitHub repository name (owner/repo) for issue processing",
+    )
 
     # Parse arguments and run appropriate function
     args = parser.parse_args()
