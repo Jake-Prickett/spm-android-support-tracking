@@ -175,21 +175,70 @@ def export_data(args):
     # Create output directory
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
+    # Add community contributions metadata if any exist
+    community_repos = (
+        db.query(Repository).filter(Repository.community_status.isnot(None)).all()
+    )
+
+    if community_repos:
+        community_summary = {
+            "total_community_updates": len(community_repos),
+            "community_breakdown": {},
+            "updated_repositories": [],
+        }
+
+        for repo in community_repos:
+            status = repo.community_status
+            if status not in community_summary["community_breakdown"]:
+                community_summary["community_breakdown"][status] = 0
+            community_summary["community_breakdown"][status] += 1
+
+            community_summary["updated_repositories"].append(
+                {
+                    "owner": repo.owner,
+                    "name": repo.name,
+                    "community_status": repo.community_status,
+                    "issue_number": repo.marked_by_issue,
+                    "reason": repo.status_reason,
+                    "marked_date": repo.marked_date.isoformat()
+                    if repo.marked_date
+                    else None,
+                }
+            )
+
     # Export data
     if args.format == "csv":
         df = pd.DataFrame(data)
         df.to_csv(args.output, index=False)
     elif args.format == "json":
+        export_data = {
+            "repositories": data,
+            "metadata": {
+                "export_date": datetime.now().isoformat(),
+                "total_repositories": len(data),
+            },
+        }
+
+        # Add community contributions if any
+        if community_repos:
+            export_data["community_contributions"] = community_summary
+
         with open(args.output, "w") as f:
-            json.dump(data, f, indent=2, default=str)
+            json.dump(export_data, f, indent=2, default=str)
 
     print(f"Exported {len(data)} repositories to {args.output}")
+    if community_repos:
+        print(f"Included {len(community_repos)} community contributions")
     db.close()
 
 
 def set_package_state(args):
     """Set the migration state for a package."""
     from src.models import PACKAGE_STATES
+
+    # Process GitHub issues if requested
+    if hasattr(args, "process_issues") and args.process_issues:
+        return process_github_issues(args)
 
     if args.state not in PACKAGE_STATES:
         print(f"Invalid state: {args.state}")
@@ -215,6 +264,15 @@ def set_package_state(args):
             print("Repository not found")
             return
 
+        # Check if this is a community update (has issue number)
+        if hasattr(args, "issue_number") and args.issue_number:
+            # Update community tracking fields
+            repo.community_status = args.state
+            repo.marked_by_issue = str(args.issue_number)
+            repo.status_reason = args.reason or "Updated via GitHub issue"
+            repo.marked_date = datetime.now()
+            print(f"Applying community update from issue #{args.issue_number}")
+
         old_state, new_state = repo.transition_state(args.state, args.reason, db)
         db.commit()
 
@@ -222,12 +280,64 @@ def set_package_state(args):
         print(f"  State: {old_state} → {new_state}")
         if args.reason:
             print(f"  Reason: {args.reason}")
+        if hasattr(args, "issue_number") and args.issue_number:
+            print(f"  Source: GitHub issue #{args.issue_number}")
 
     except Exception as e:
         db.rollback()
         print(f"Error updating state: {e}")
     finally:
         db.close()
+
+
+def process_github_issues(args):
+    """Process GitHub issues for repository status updates."""
+    from src.community_input import CommunityStatusProcessor
+
+    processor = CommunityStatusProcessor()
+    try:
+        if args.dry_run:
+            print("Running in dry-run mode - no changes will be made")
+
+        results = processor.process_status_update_issues(
+            repo_name=getattr(args, "repo", None), dry_run=args.dry_run
+        )
+
+        print(f"\nCommunity Input Processing Results:")
+        print(f"  Total issues processed: {results['processed']}")
+        print(f"  Successful updates: {results['successful']}")
+        print(f"  Failed updates: {results['failed']}")
+        print(f"  Skipped: {results['skipped']}")
+
+        if results["details"]:
+            print("\nDetailed Results:")
+            for detail in results["details"]:
+                status_icon = (
+                    "✅"
+                    if detail["status"] == "success"
+                    else "❌"
+                    if detail["status"] == "failed"
+                    else "🔍"
+                )
+                print(
+                    f"  {status_icon} Issue #{detail['issue_number']} - {detail['repository']}: {detail['message']}"
+                )
+
+        # Show community contributions summary
+        if not args.dry_run and results["successful"] > 0:
+            print("\nUpdated Community Contributions Summary:")
+            summary = processor.get_community_contributions_summary()
+            if "error" not in summary:
+                print(
+                    f"  Total community updates: {summary['total_community_updates']}"
+                )
+                for status, repos in summary["status_breakdown"].items():
+                    print(f"  {status.capitalize()}: {len(repos)} repositories")
+
+    except Exception as e:
+        print(f"Error processing community input: {e}")
+    finally:
+        processor.close()
 
 
 def list_states(args):
@@ -265,6 +375,34 @@ def list_states(args):
                     (count / completed_repos) * 100 if completed_repos > 0 else 0
                 )
                 print(f"  {state:<12} : {count:4d} repos ({percentage:5.1f}%)")
+
+            # Show community contributions summary
+            community_count = (
+                db.query(Repository)
+                .filter(Repository.community_status.isnot(None))
+                .count()
+            )
+
+            if community_count > 0:
+                print(f"\nCommunity Contributions:")
+                print(f"  Total community updates: {community_count}")
+
+                # Show breakdown by community status
+                community_breakdown = {}
+                community_repos = (
+                    db.query(Repository)
+                    .filter(Repository.community_status.isnot(None))
+                    .all()
+                )
+
+                for repo in community_repos:
+                    status = repo.community_status
+                    if status not in community_breakdown:
+                        community_breakdown[status] = 0
+                    community_breakdown[status] += 1
+
+                for status, count in community_breakdown.items():
+                    print(f"    {status.capitalize()}: {count} repositories")
         else:
             print("  No completed repositories found")
 

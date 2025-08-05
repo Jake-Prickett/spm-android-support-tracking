@@ -93,6 +93,12 @@ class Repository(Base):
         String(20), default="pending"
     )  # pending, processing, completed, error
 
+    # Community input tracking
+    community_status = Column(String(20))  # community-provided status override
+    marked_by_issue = Column(String(20))  # GitHub issue number that updated status
+    status_reason = Column(String(100))  # reason for community status change
+    marked_date = Column(DateTime)  # when community status was applied
+
     def __repr__(self):
         return f"<Repository(name='{self.owner}/{self.name}', stars={self.stars})>"
 
