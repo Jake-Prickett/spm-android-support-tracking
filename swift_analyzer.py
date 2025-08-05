@@ -9,16 +9,16 @@ import json
 import sys
 from pathlib import Path
 
-from swift_package_analyzer.core.config import config
-from swift_package_analyzer.cli.main import (
+from src.config import config
+from src.cli import (
     init_database,
     show_status,
     export_data,
     set_package_state,
     list_states,
 )
-from swift_package_analyzer.data.fetcher import DataProcessor
-from swift_package_analyzer.analysis.analyzer import PackageAnalyzer
+from src.fetcher import DataProcessor
+from src.analyzer import PackageAnalyzer
 
 
 def setup_command(args):

@@ -15,5 +15,5 @@ if ! python -m black --version &> /dev/null; then
     exit 1
 fi
 
-python -m black swift_package_analyzer/ swift_analyzer.py
+python -m black src/ swift_analyzer.py
 echo "Code formatting complete."

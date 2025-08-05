@@ -17,7 +17,7 @@ from sqlalchemy import (
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from swift_package_analyzer.core.config import config
+from src.config import config
 
 Base = declarative_base()
 

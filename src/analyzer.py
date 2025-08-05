@@ -6,7 +6,7 @@ from typing import Any, Dict, List
 
 import pandas as pd
 
-from swift_package_analyzer.core.models import Repository, SessionLocal
+from src.models import Repository, SessionLocal
 
 
 class PackageAnalyzer:

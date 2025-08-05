@@ -5,9 +5,9 @@ Main CLI script for Swift Package support data processing.
 from datetime import datetime
 from pathlib import Path
 
-from swift_package_analyzer.core.config import config
-from swift_package_analyzer.data.fetcher import DataProcessor
-from swift_package_analyzer.core.models import (
+from src.config import config
+from src.fetcher import DataProcessor
+from src.models import (
     ProcessingLog,
     Repository,
     SessionLocal,
@@ -72,7 +72,7 @@ def show_status(args):
         )
 
         # Package state statistics
-        from swift_package_analyzer.core.models import PACKAGE_STATES
+        from src.models import PACKAGE_STATES
 
         print("\nPackage Migration States:")
         for state in PACKAGE_STATES.keys():
@@ -189,7 +189,7 @@ def export_data(args):
 
 def set_package_state(args):
     """Set the migration state for a package."""
-    from swift_package_analyzer.core.models import PACKAGE_STATES
+    from src.models import PACKAGE_STATES
 
     if args.state not in PACKAGE_STATES:
         print(f"Invalid state: {args.state}")
@@ -232,7 +232,7 @@ def set_package_state(args):
 
 def list_states(args):
     """List all available package states."""
-    from swift_package_analyzer.core.models import PACKAGE_STATES
+    from src.models import PACKAGE_STATES
 
     print("Available Package States:")
     print("=" * 50)
