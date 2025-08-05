@@ -18,7 +18,6 @@ python swift_analyzer.py --analyze
 
 - **Analyzes 1065 Swift packages** that support Linux but not Android
 - **Prioritizes migration targets** using GitHub stars, forks, and dependency impact
-- **Maps dependency networks** to identify high-impact packages
 - **Generates comprehensive reports** with data exports and migration recommendations
 - **Automated nightly analysis** via GitHub Actions
 - **Exports data** in HTML, JSON, and CSV formats for community use
@@ -30,11 +29,9 @@ flowchart TD
     A[CSV Input<br/>1065 Packages] --> B[GitHub API<br/>Repository Metadata]
     B --> C[SQLite Database<br/>Structured Storage]
     C --> D[Analysis Engine<br/>Priority Scoring]
-    D --> E[Dependency Network<br/>Impact Analysis]
     D --> F[Multi-Format Reports<br/>HTML, JSON, CSV]
     
     G[Package.swift Files] --> C
-    H[Dependency Data] --> E
     
     F --> I[Interactive Website<br/>GitHub Pages Ready]
     F --> J[Priority Rankings<br/>Migration Recommendations]
@@ -44,7 +41,6 @@ flowchart TD
     style B fill:#1e293b,stroke:#10b981,stroke-width:2px,color:#f9fafb
     style C fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#f9fafb
     style D fill:#334155,stroke:#ef4444,stroke-width:2px,color:#f9fafb
-    style E fill:#1e293b,stroke:#8b5cf6,stroke-width:2px,color:#f9fafb
     style F fill:#0f172a,stroke:#06b6d4,stroke-width:2px,color:#f9fafb
 ```
 
@@ -85,10 +81,8 @@ python swift_analyzer.py --analyze
 - `docs/index.html` - GitHub Pages redirect to Next.js frontend
 - `docs/swift_packages.csv` - Complete repository data export (1066 lines)
 - `docs/swift_packages.json` - Repository data in JSON format (22K+ lines)
-- `docs/dependencies/impact_analysis.json` - Dependency network analysis
 
 **Features:**
-- Interactive dependency network graphs
 - Priority rankings with detailed rationale
 - Repository cards with GitHub/Swift Package Index links
 - Executive summary with key metrics
@@ -128,8 +122,7 @@ The frontend automatically loads data from the Python analysis tool and provides
 │   ├── cli/                       # Command interfaces
 │   ├── core/                      # Config & models
 │   ├── data/                      # GitHub API integration
-│   ├── analysis/                  # Analysis logic & dependency trees
-│   └── output/                    # Report generation
+│   └── analysis/                  # Analysis logic
 ├── frontend/                       # Next.js web interface
 │   ├── src/components/            # React components
 │   ├── src/app/                   # Next.js app router

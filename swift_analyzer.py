@@ -19,8 +19,6 @@ from swift_package_analyzer.cli.main import (
 )
 from swift_package_analyzer.data.fetcher import DataProcessor
 from swift_package_analyzer.analysis.analyzer import PackageAnalyzer
-from swift_package_analyzer.analysis.dependencies import DependencyTreeAnalyzer
-from swift_package_analyzer.output.reports import ReportGenerator
 
 
 def setup_command(args):
@@ -94,8 +92,6 @@ def analyze_command(args):
     print("Running comprehensive analysis with all outputs...")
 
     analyzer = PackageAnalyzer()
-    dependency_analyzer = DependencyTreeAnalyzer()
-    generator = ReportGenerator()
 
     try:
         # Show current statistics
@@ -104,21 +100,6 @@ def analyze_command(args):
         if "error" not in popularity:
             print(f"📊 Total Repositories: {popularity['total_repositories']}")
             print(f"⭐ Average Stars: {popularity['star_statistics']['mean']:.1f}")
-
-        # Generate dependency analysis
-        print("\nAnalyzing dependencies...")
-        dependency_analyzer.build_dependency_tree()
-        impact_analysis = dependency_analyzer.get_impact_analysis()
-
-        # Save impact analysis
-        deps_output_dir = Path(f"{args.output_dir}/dependencies")
-        deps_output_dir.mkdir(parents=True, exist_ok=True)
-        with open(deps_output_dir / "impact_analysis.json", "w") as f:
-            json.dump(impact_analysis, f, indent=2)
-
-        # Generate web-ready site
-        print("\nGenerating web-ready site...")
-        generator.generate_github_pages_site(f"{args.output_dir}/index.html")
 
         # Export data in both formats
         print("\nExporting data...")
@@ -136,12 +117,9 @@ def analyze_command(args):
         export_data(json_args)
 
         print(f"\nAnalysis complete! All outputs available in: {args.output_dir}/")
-        print(f"Web site ready at: {args.output_dir}/index.html")
 
     finally:
         analyzer.close()
-        dependency_analyzer.close()
-        generator.close()
 
 
 def status_command(args):
