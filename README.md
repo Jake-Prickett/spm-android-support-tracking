@@ -1,6 +1,6 @@
 # Swift Package Android Migration Analysis
 
-A data analysis tool for the [Swift Android Working Group](https://www.swift.org/android-workgroup/) that analyzes **1065 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
+A data analysis tool for the [Swift Android Working Group](https://www.swift.org/android-workgroup/) that analyzes **1064 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
 
 ## Quick Start
 
@@ -16,7 +16,7 @@ python swift_analyzer.py --analyze
 
 ## Features
 
-- **Analyzes 1065 Swift packages** that support Linux but not Android
+- **Analyzes 1064 Swift packages** that support Linux but not Android
 - **Prioritizes migration targets** using GitHub stars, forks, and dependency impact
 - **Generates comprehensive reports** with data exports and migration recommendations
 - **Automated nightly analysis** via GitHub Actions
@@ -26,7 +26,7 @@ python swift_analyzer.py --analyze
 
 ```mermaid
 flowchart TD
-    A[CSV Input<br/>1065 Packages] --> B[GitHub API<br/>Repository Metadata]
+    A[CSV Input<br/>1064 Packages] --> B[GitHub API<br/>Repository Metadata]
     B --> C[SQLite Database<br/>Structured Storage]
     C --> D[Analysis Engine<br/>Priority Scoring]
     D --> F[Multi-Format Reports<br/>HTML, JSON, CSV]
@@ -55,7 +55,7 @@ echo "GITHUB_TOKEN=your_token_here" > .env
 
 # Setup
 ./scripts/setup.sh
-# OR: python3.11 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+# OR: python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
 ```
 
 ## Usage
@@ -79,8 +79,8 @@ python swift_analyzer.py --analyze
 
 **Generated files:**
 - `docs/index.html` - GitHub Pages redirect to Next.js frontend
-- `docs/swift_packages.csv` - Complete repository data export (1066 lines)
-- `docs/swift_packages.json` - Repository data in JSON format (22K+ lines)
+- `docs/swift_packages.csv` - Complete repository data export (1065 lines)
+- `docs/swift_packages.json` - Repository data in JSON format (20K+ lines)
 
 **Features:**
 - Priority rankings with detailed rationale
@@ -118,11 +118,13 @@ The frontend automatically loads data from the Python analysis tool and provides
 
 ```
 ├── swift_analyzer.py               # Single entry point CLI
-├── swift_package_analyzer/         # Core Python package
-│   ├── cli/                       # Command interfaces
-│   ├── core/                      # Config & models
-│   ├── data/                      # GitHub API integration
-│   └── analysis/                  # Analysis logic
+├── src/                            # Core Python modules
+│   ├── config.py                  # Configuration management
+│   ├── models.py                  # Data models
+│   ├── fetcher.py                 # GitHub API integration
+│   ├── analyzer.py                # Analysis algorithms
+│   ├── dependencies.py            # Dependency analysis
+│   └── cli.py                     # CLI utilities
 ├── frontend/                       # Next.js web interface
 │   ├── src/components/            # React components
 │   ├── src/app/                   # Next.js app router
@@ -144,8 +146,8 @@ The frontend automatically loads data from the Python analysis tool and provides
 ```bash
 $ python swift_analyzer.py --status
 Repository Processing Status:
-  Total repositories: 1065
-  Completed: 1065
+  Total repositories: 1064
+  Completed: 1064
   Errors: 0
   Pending: 0
 
