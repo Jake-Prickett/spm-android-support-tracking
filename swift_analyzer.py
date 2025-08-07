@@ -237,7 +237,7 @@ Automation:
     parser.add_argument(
         "--process-issues",
         action="store_true",
-        help="Process GitHub issues for community status updates (use with --set-state)",
+        help="Process GitHub issues for status updates (use with --set-state)",
     )
     parser.add_argument(
         "--dry-run",
@@ -246,7 +246,7 @@ Automation:
     )
     parser.add_argument(
         "--issue-number",
-        help="GitHub issue number for community update tracking",
+        help="GitHub issue number for status update tracking",
     )
     parser.add_argument(
         "--repo",

@@ -93,16 +93,12 @@ class Repository(Base):
         String(20), default="pending"
     )  # pending, processing, completed, error
 
-    # Community input tracking
-    community_status = Column(String(20))  # community-provided status override
-    marked_by_issue = Column(String(20))  # GitHub issue number that updated status
-    status_reason = Column(String(100))  # reason for community status change
-    marked_date = Column(DateTime)  # when community status was applied
-
     def __repr__(self):
         return f"<Repository(name='{self.owner}/{self.name}', stars={self.stars})>"
 
-    def transition_state(self, new_state, reason=None, session=None):
+    def transition_state(
+        self, new_state, reason=None, changed_by=None, issue_number=None, session=None
+    ):
         """Transition to a new state and log the change."""
         if new_state not in PACKAGE_STATES:
             raise ValueError(
@@ -120,6 +116,8 @@ class Repository(Base):
                 from_state=old_state,
                 to_state=new_state,
                 reason=reason,
+                changed_by=changed_by,
+                issue_number=issue_number,
             )
             session.add(transition)
 
@@ -154,6 +152,8 @@ class StateTransition(Base):
     from_state = Column(String(20))
     to_state = Column(String(20), nullable=False)
     reason = Column(Text)
+    changed_by = Column(String(100))  # Who made the change (e.g., GitHub username)
+    issue_number = Column(String(20))  # GitHub issue number if applicable
     created_at = Column(DateTime, default=datetime.utcnow)
 
 

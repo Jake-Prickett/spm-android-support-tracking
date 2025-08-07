@@ -175,36 +175,51 @@ def export_data(args):
     # Create output directory
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
-    # Add community contributions metadata if any exist
-    community_repos = (
-        db.query(Repository).filter(Repository.community_status.isnot(None)).all()
-    )
+    # Add status change transactions metadata
+    from src.models import StateTransition
 
-    if community_repos:
-        community_summary = {
-            "total_community_updates": len(community_repos),
-            "community_breakdown": {},
-            "updated_repositories": [],
+    status_transactions = db.query(StateTransition).all()
+
+    transactions_metadata = None
+    if status_transactions:
+        github_transactions = [t for t in status_transactions if t.issue_number]
+        transactions_metadata = {
+            "total_transactions": len(status_transactions),
+            "github_issue_transactions": len(github_transactions),
+            "status_breakdown": {},
+            "recent_transactions": [],
         }
 
-        for repo in community_repos:
-            status = repo.community_status
-            if status not in community_summary["community_breakdown"]:
-                community_summary["community_breakdown"][status] = 0
-            community_summary["community_breakdown"][status] += 1
+        for transition in status_transactions:
+            status = transition.to_state
+            if status not in transactions_metadata["status_breakdown"]:
+                transactions_metadata["status_breakdown"][status] = 0
+            transactions_metadata["status_breakdown"][status] += 1
 
-            community_summary["updated_repositories"].append(
-                {
+            # Get repository info
+            repo = (
+                db.query(Repository)
+                .filter(Repository.id == transition.repository_id)
+                .first()
+            )
+            if repo:
+                transaction_data = {
                     "owner": repo.owner,
                     "name": repo.name,
-                    "community_status": repo.community_status,
-                    "issue_number": repo.marked_by_issue,
-                    "reason": repo.status_reason,
-                    "marked_date": repo.marked_date.isoformat()
-                    if repo.marked_date
+                    "from_state": transition.from_state,
+                    "to_state": transition.to_state,
+                    "reason": transition.reason,
+                    "changed_by": transition.changed_by,
+                    "date": transition.created_at.isoformat()
+                    if transition.created_at
                     else None,
                 }
-            )
+
+                # Add GitHub issue metadata if present
+                if transition.issue_number:
+                    transaction_data["github_issue"] = transition.issue_number
+
+                transactions_metadata["recent_transactions"].append(transaction_data)
 
     # Export data
     if args.format == "csv":
@@ -219,16 +234,18 @@ def export_data(args):
             },
         }
 
-        # Add community contributions if any
-        if community_repos:
-            export_data["community_contributions"] = community_summary
+        # Add status change transactions if any
+        if transactions_metadata:
+            export_data["status_transactions"] = transactions_metadata
 
         with open(args.output, "w") as f:
             json.dump(export_data, f, indent=2, default=str)
 
     print(f"Exported {len(data)} repositories to {args.output}")
-    if community_repos:
-        print(f"Included {len(community_repos)} community contributions")
+    if transactions_metadata:
+        print(
+            f"Included {transactions_metadata['total_transactions']} status change transactions ({transactions_metadata['github_issue_transactions']} from GitHub issues)"
+        )
     db.close()
 
 
@@ -264,16 +281,21 @@ def set_package_state(args):
             print("Repository not found")
             return
 
-        # Check if this is a community update (has issue number)
+        # Check if this is a status change from GitHub issue (has issue number)
+        changed_by = None
+        issue_number = None
         if hasattr(args, "issue_number") and args.issue_number:
-            # Update community tracking fields
-            repo.community_status = args.state
-            repo.marked_by_issue = str(args.issue_number)
-            repo.status_reason = args.reason or "Updated via GitHub issue"
-            repo.marked_date = datetime.now()
-            print(f"Applying community update from issue #{args.issue_number}")
+            issue_number = str(args.issue_number)
+            changed_by = getattr(args, "changed_by", "cli")
+            print(f"Creating status change transaction from issue #{args.issue_number}")
 
-        old_state, new_state = repo.transition_state(args.state, args.reason, db)
+        old_state, new_state = repo.transition_state(
+            args.state,
+            reason=args.reason,
+            changed_by=changed_by,
+            issue_number=issue_number,
+            session=db,
+        )
         db.commit()
 
         print(f"Updated {repo.owner}/{repo.name}")
@@ -292,9 +314,9 @@ def set_package_state(args):
 
 def process_github_issues(args):
     """Process GitHub issues for repository status updates."""
-    from src.community_input import CommunityStatusProcessor
+    from src.community_input import TransactionProcessor
 
-    processor = CommunityStatusProcessor()
+    processor = TransactionProcessor()
     try:
         if args.dry_run:
             print("Running in dry-run mode - no changes will be made")
@@ -303,11 +325,10 @@ def process_github_issues(args):
             repo_name=getattr(args, "repo", None), dry_run=args.dry_run
         )
 
-        print(f"\nCommunity Input Processing Results:")
+        print(f"\nStatus Update Processing Results:")
         print(f"  Total issues processed: {results['processed']}")
-        print(f"  Successful updates: {results['successful']}")
-        print(f"  Failed updates: {results['failed']}")
-        print(f"  Skipped: {results['skipped']}")
+        print(f"  Successful transactions: {results['successful']}")
+        print(f"  Failed transactions: {results['failed']}")
 
         if results["details"]:
             print("\nDetailed Results:")
@@ -323,19 +344,20 @@ def process_github_issues(args):
                     f"  {status_icon} Issue #{detail['issue_number']} - {detail['repository']}: {detail['message']}"
                 )
 
-        # Show community contributions summary
+        # Show transactions summary
         if not args.dry_run and results["successful"] > 0:
-            print("\nUpdated Community Contributions Summary:")
-            summary = processor.get_community_contributions_summary()
+            print("\nUpdated Transaction Summary:")
+            summary = processor.get_transactions_summary()
             if "error" not in summary:
+                print(f"  Total transactions: {summary['total_transactions']}")
                 print(
-                    f"  Total community updates: {summary['total_community_updates']}"
+                    f"  GitHub issue transactions: {summary['github_issue_transactions']}"
                 )
                 for status, repos in summary["status_breakdown"].items():
-                    print(f"  {status.capitalize()}: {len(repos)} repositories")
+                    print(f"  {status.capitalize()}: {len(repos)} transitions")
 
     except Exception as e:
-        print(f"Error processing community input: {e}")
+        print(f"Error processing status updates: {e}")
     finally:
         processor.close()
 
@@ -376,33 +398,27 @@ def list_states(args):
                 )
                 print(f"  {state:<12} : {count:4d} repos ({percentage:5.1f}%)")
 
-            # Show community contributions summary
-            community_count = (
-                db.query(Repository)
-                .filter(Repository.community_status.isnot(None))
-                .count()
-            )
+            # Show status change transactions summary
+            from src.models import StateTransition
 
-            if community_count > 0:
-                print(f"\nCommunity Contributions:")
-                print(f"  Total community updates: {community_count}")
+            all_transitions = db.query(StateTransition).all()
+            github_transitions = [t for t in all_transitions if t.issue_number]
 
-                # Show breakdown by community status
-                community_breakdown = {}
-                community_repos = (
-                    db.query(Repository)
-                    .filter(Repository.community_status.isnot(None))
-                    .all()
-                )
+            if all_transitions:
+                print(f"\nStatus Change Transactions:")
+                print(f"  Total transactions: {len(all_transitions)}")
+                print(f"  GitHub issue transactions: {len(github_transitions)}")
 
-                for repo in community_repos:
-                    status = repo.community_status
-                    if status not in community_breakdown:
-                        community_breakdown[status] = 0
-                    community_breakdown[status] += 1
+                # Show breakdown by new status
+                status_breakdown = {}
+                for transition in all_transitions:
+                    status = transition.to_state
+                    if status not in status_breakdown:
+                        status_breakdown[status] = 0
+                    status_breakdown[status] += 1
 
-                for status, count in community_breakdown.items():
-                    print(f"    {status.capitalize()}: {count} repositories")
+                for status, count in status_breakdown.items():
+                    print(f"    {status.capitalize()}: {count} transactions")
         else:
             print("  No completed repositories found")
 

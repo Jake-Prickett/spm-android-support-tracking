@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """
-Community Input Processing for Swift Package Analysis
-Processes GitHub issues to update repository status based on community feedback.
+Transaction-based Status Updates for Swift Package Analysis
+Processes GitHub issues to create status change transactions with metadata.
 """
 
-import json
 import logging
 import re
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
 
-import requests
 from github import Github, GithubException
 
 from src.config import config
@@ -138,21 +136,23 @@ class GitHubIssueParser:
             return []
 
 
-class CommunityStatusProcessor:
-    """Processes community input to update repository status."""
+class TransactionProcessor:
+    """Processes status update transactions with metadata."""
 
     def __init__(self):
         self.db = SessionLocal()
         self.parser = GitHubIssueParser()
 
-    def update_repository_status(self, issue_data: Dict) -> Tuple[bool, str]:
-        """Update repository status based on community input."""
+    def create_status_transaction(self, issue_data: Dict) -> Tuple[bool, str]:
+        """Create a status change transaction with metadata."""
         try:
             owner = issue_data["repository_owner"]
             name = issue_data["repository_name"]
             new_status = issue_data["new_status"]
             reason = issue_data["status_reason"]
             issue_number = issue_data["issue_number"]
+            author = issue_data.get("author", "unknown")
+            issue_url = issue_data.get("issue_url")
 
             # Find repository
             repo = (
@@ -164,46 +164,56 @@ class CommunityStatusProcessor:
             if not repo:
                 return False, f"Repository {owner}/{name} not found in dataset"
 
-            # Check if already has community status
-            if repo.community_status:
-                return (
-                    False,
-                    f"Repository {owner}/{name} already has community status: {repo.community_status} (issue #{repo.marked_by_issue})",
+            # Create transaction with metadata
+            old_status, new_state = repo.transition_state(
+                new_status,
+                reason=reason,
+                changed_by=author,
+                issue_number=str(issue_number),
+                session=self.db,
+            )
+
+            # Add GitHub issue URL to the transaction log for reference
+            if issue_url:
+                from src.models import StateTransition
+
+                latest_transition = (
+                    self.db.query(StateTransition)
+                    .filter(StateTransition.repository_id == repo.id)
+                    .order_by(StateTransition.created_at.desc())
+                    .first()
                 )
-
-            # Update repository with community input
-            old_status = repo.current_state
-            repo.community_status = new_status
-            repo.marked_by_issue = str(issue_number)
-            repo.status_reason = reason
-            repo.marked_date = datetime.utcnow()
-
-            # Also update the current_state to reflect community input
-            repo.current_state = new_status
+                if latest_transition and latest_transition.issue_number == str(
+                    issue_number
+                ):
+                    # Store the issue URL in the reason field along with the original reason
+                    latest_transition.reason = f"{reason} | GitHub Issue: {issue_url}"
 
             self.db.commit()
 
             logger.info(
-                f"Updated {owner}/{name}: {old_status} → {new_status} (issue #{issue_number})"
+                f"Transaction created: {owner}/{name}: {old_status} → {new_state} (issue #{issue_number} by {author})"
             )
-            return True, f"Successfully updated {owner}/{name} status to {new_status}"
+            return (
+                True,
+                f"Successfully created transaction for {owner}/{name} status change to {new_state}",
+            )
 
         except Exception as e:
             self.db.rollback()
-            logger.error(f"Error updating repository status: {e}")
-            return False, f"Database error: {str(e)}"
+            logger.error(f"Error creating status transaction: {e}")
+            return False, f"Transaction error: {str(e)}"
 
     def process_status_update_issues(
         self, repo_name: str = None, dry_run: bool = False
     ) -> Dict:
-        """Process all open status update issues."""
+        """Process all open status update issues and create transactions."""
         issues = self.parser.get_status_update_issues(repo_name)
 
         results = {
             "processed": 0,
             "successful": 0,
             "failed": 0,
-            "skipped": 0,
             "details": [],
         }
 
@@ -229,13 +239,13 @@ class CommunityStatusProcessor:
                     "issue_number": issue_data["issue_number"],
                     "repository": f"{issue_data['repository_owner']}/{issue_data['repository_name']}",
                     "status": "dry_run",
-                    "message": f"Would update to: {issue_data['new_status']}",
+                    "message": f"Would create transaction for status: {issue_data['new_status']}",
                 }
                 results["details"].append(result)
                 results["successful"] += 1
             else:
-                # Process the update
-                success, message = self.update_repository_status(issue_data)
+                # Create the transaction
+                success, message = self.create_status_transaction(issue_data)
 
                 result = {
                     "issue_number": issue_data["issue_number"],
@@ -252,49 +262,63 @@ class CommunityStatusProcessor:
 
         return results
 
-    def get_community_contributions_summary(self) -> Dict:
-        """Get summary of all community contributions."""
+    def get_transactions_summary(self) -> Dict:
+        """Get summary of all status change transactions."""
         try:
-            # Count repositories with community status
-            total_community_updates = (
-                self.db.query(Repository)
-                .filter(Repository.community_status.isnot(None))
-                .count()
-            )
+            from src.models import StateTransition
 
-            # Group by community status
-            status_counts = {}
-            community_repos = (
-                self.db.query(Repository)
-                .filter(Repository.community_status.isnot(None))
-                .all()
-            )
+            # Get all state transitions with metadata
+            transactions = self.db.query(StateTransition).all()
 
-            for repo in community_repos:
-                status = repo.community_status
-                if status not in status_counts:
-                    status_counts[status] = []
+            # Separate GitHub issue-based transactions from others
+            github_transactions = [t for t in transactions if t.issue_number]
+            total_transactions = len(transactions)
+            github_transaction_count = len(github_transactions)
 
-                status_counts[status].append(
-                    {
-                        "owner": repo.owner,
-                        "name": repo.name,
-                        "reason": repo.status_reason,
-                        "issue": repo.marked_by_issue,
-                        "date": repo.marked_date.isoformat()
-                        if repo.marked_date
-                        else None,
-                    }
+            # Group by new status
+            status_breakdown = {}
+            for transition in transactions:
+                status = transition.to_state
+                if status not in status_breakdown:
+                    status_breakdown[status] = []
+
+                # Get repository info
+                repo = (
+                    self.db.query(Repository)
+                    .filter(Repository.id == transition.repository_id)
+                    .first()
                 )
 
+                transaction_data = {
+                    "repository_url": transition.repository_url,
+                    "from_state": transition.from_state,
+                    "reason": transition.reason,
+                    "changed_by": transition.changed_by,
+                    "date": transition.created_at.isoformat()
+                    if transition.created_at
+                    else None,
+                }
+
+                # Add GitHub issue metadata if present
+                if transition.issue_number:
+                    transaction_data["github_issue"] = transition.issue_number
+
+                # Add repository details if available
+                if repo:
+                    transaction_data["owner"] = repo.owner
+                    transaction_data["name"] = repo.name
+
+                status_breakdown[status].append(transaction_data)
+
             return {
-                "total_community_updates": total_community_updates,
-                "status_breakdown": status_counts,
+                "total_transactions": total_transactions,
+                "github_issue_transactions": github_transaction_count,
+                "status_breakdown": status_breakdown,
                 "last_updated": datetime.utcnow().isoformat(),
             }
 
         except Exception as e:
-            logger.error(f"Error generating community summary: {e}")
+            logger.error(f"Error generating transactions summary: {e}")
             return {"error": str(e)}
 
     def close(self):
