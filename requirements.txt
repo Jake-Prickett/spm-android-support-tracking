@@ -6,3 +6,4 @@ schedule==1.2.0
 sqlalchemy>=2.0.25
 beautifulsoup4>=4.12.2
 black>=23.12.1
+pandas
