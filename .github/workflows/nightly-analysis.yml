@@ -49,9 +49,15 @@ jobs:
     - name: Create logs directory
       run: mkdir -p logs
 
-    - name: Check database status
+    - name: Setup database
       run: |
-        echo "Checking database status..."
+        if [ ! -f swift_packages.db ]; then
+          ./scripts/recreate-db.sh
+        fi
+        repo_count=$(sqlite3 swift_packages.db "SELECT COUNT(*) FROM repositories;" 2>/dev/null || echo "0")
+        if [ "$repo_count" -lt 1000 ]; then
+          ./scripts/recreate-db.sh
+        fi
         python swift_analyzer.py --status
 
     - name: Set collection parameters

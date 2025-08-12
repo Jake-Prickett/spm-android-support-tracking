@@ -369,11 +369,20 @@ def process_github_issues(args):
 def process_single_github_issue(args):
     """Process a single GitHub issue for repository status update."""
     from src.community_input import GitHubIssueParser, TransactionProcessor
+    import sys
+    import os
 
     issue_number = args.process_issue
     repo_name = getattr(args, "repo", None)
 
     print(f"Processing GitHub issue #{issue_number}...")
+
+    # Check if database exists first
+    db_path = "swift_packages.db"
+    if not os.path.exists(db_path):
+        print(f"❌ Database not found at {db_path}")
+        print("   Run `python swift_analyzer.py --setup` to initialize the database")
+        sys.exit(1)
 
     parser = GitHubIssueParser()
     processor = TransactionProcessor()
@@ -392,7 +401,7 @@ def process_single_github_issue(args):
         parsed_data = parser.parse_issue_body(issue.body)
         if not parsed_data:
             print(f"❌ Could not parse issue #{issue_number} - invalid format")
-            return False
+            sys.exit(1)
 
         # Add issue metadata
         parsed_data["issue_number"] = issue.number
@@ -408,7 +417,7 @@ def process_single_github_issue(args):
             print(
                 f"❌ Repository {parsed_data['repository_owner']}/{parsed_data['repository_name']} not found in dataset"
             )
-            return False
+            sys.exit(1)
 
         # Create the transaction
         success, message = processor.create_status_transaction(parsed_data)
@@ -432,11 +441,11 @@ def process_single_github_issue(args):
 
         else:
             print(f"❌ Failed to process issue #{issue_number}: {message}")
-            return False
+            sys.exit(1)
 
     except Exception as e:
         print(f"❌ Error processing issue #{issue_number}: {e}")
-        return False
+        sys.exit(1)
     finally:
         processor.close()
 

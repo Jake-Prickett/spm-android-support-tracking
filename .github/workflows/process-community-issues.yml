@@ -33,10 +33,11 @@ jobs:
       - name: Setup database
         run: |
           if [ ! -f swift_packages.db ]; then
-            echo "Database not found - initializing..."
-            python swift_analyzer.py --setup
-          else
-            echo "Database found"
+            ./scripts/recreate-db.sh
+          fi
+          repo_count=$(sqlite3 swift_packages.db "SELECT COUNT(*) FROM repositories;" 2>/dev/null || echo "0")
+          if [ "$repo_count" -lt 1000 ]; then
+            ./scripts/recreate-db.sh
           fi
 
       - name: Process approved issue
