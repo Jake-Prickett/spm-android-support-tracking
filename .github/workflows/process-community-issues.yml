@@ -1,0 +1,137 @@
+name: Process Approved Status Updates
+
+on:
+  issues:
+    types: [labeled]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  contents: write
+  issues: write
+  actions: write
+
+jobs:
+  process-approved-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event.label.name == 'approved' && contains(github.event.issue.labels.*.name, 'status-update')
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        cache: 'pip'
+    
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Setup database
+      run: |
+        if [ ! -f swift_packages.db ]; then
+          echo "Database not found - initializing..."
+          python swift_analyzer.py --setup
+        else
+          echo "Database found"
+        fi
+
+    - name: Process approved issue
+      id: process
+      run: |
+        echo "Processing approved status update for issue #${{ github.event.issue.number }}..."
+        python swift_analyzer.py --set-state --process-issue ${{ github.event.issue.number }} --repo ${{ github.repository }}
+
+    - name: Comment on success
+      if: steps.process.outcome == 'success'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## ✅ Status Updated Successfully
+            
+            The repository status has been updated and the persistent store has been modified.
+            
+            **Next steps:**
+            - Website will be redeployed automatically
+            - Changes will appear in the live dashboard shortly
+            
+            [View Dashboard](https://jake-prickett.github.io/spm-android-support-tracking/)`
+          });
+
+    - name: Comment on failure
+      if: steps.process.outcome == 'failure'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: `## ❌ Update Failed
+            
+            There was an error processing this status update request.
+            
+            **Please check:**
+            - The repository exists in our dataset
+            - The requested status is valid
+            - All required fields are properly formatted
+            
+            A maintainer will review this issue and provide assistance.`
+          });
+
+    - name: Close successful issue
+      if: steps.process.outcome == 'success'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          github.rest.issues.update({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'closed',
+            labels: ['status-update', 'community-input', 'processed', 'approved']
+          });
+
+    - name: Commit and trigger redeploy
+      if: steps.process.outcome == 'success'
+      run: |
+        git config user.email "action@github.com"
+        git config user.name "GitHub Action"
+        git add swift_packages.db docs/swift_packages.json -f
+        
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          echo "Committing database and JSON export changes..."
+          git commit -m "Update repository status from approved issue #${{ github.event.issue.number }}"
+          git push
+        fi
+
+    - name: Trigger website redeploy
+      if: steps.process.outcome == 'success'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          await github.rest.actions.createWorkflowDispatch({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            workflow_id: 'publish-docs.yml',
+            ref: 'main'
+          });
+
+    - name: Create workflow summary
+      if: always()
+      run: |
+        echo "## Approved Status Update Processing" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Issue:** #${{ github.event.issue.number }} - ${{ github.event.issue.title }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Status:** ${{ steps.process.outcome == 'success' && '✅ Successfully processed' || '❌ Processing failed' }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "[View Dashboard](https://jake-prickett.github.io/spm-android-support-tracking/)" >> $GITHUB_STEP_SUMMARY

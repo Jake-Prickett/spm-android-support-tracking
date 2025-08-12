@@ -210,10 +210,12 @@ __marimo__/
 # Environment variables
 .env
 
-# Database files (except main database for CI/CD persistence)
-# *.db
-# *.sqlite
-# *.sqlite3
+# Database files (recreated from JSON exports)
+swift_packages.db
+swift_packages.db.*
+*.db
+*.sqlite
+*.sqlite3
 *.db.backup*
 *.sqlite.backup*
 *.sqlite3.backup*
@@ -231,6 +233,9 @@ exports/visualizations/*.svg
 # Temporary data processing files
 data/temp/
 data/*.tmp
+
+# Database backups (created by recreate-db.sh)
+backups/
 
 # Local Claude.md file (avoid committing personal instructions)
 CLAUDE.md

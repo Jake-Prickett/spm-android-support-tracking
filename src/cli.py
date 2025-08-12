@@ -175,21 +175,93 @@ def export_data(args):
     # Create output directory
     Path(args.output).parent.mkdir(parents=True, exist_ok=True)
 
+    # Add status change transactions metadata
+    from src.models import StateTransition
+
+    status_transactions = db.query(StateTransition).all()
+
+    transactions_metadata = None
+    if status_transactions:
+        github_transactions = [t for t in status_transactions if t.issue_number]
+        transactions_metadata = {
+            "total_transactions": len(status_transactions),
+            "github_issue_transactions": len(github_transactions),
+            "status_breakdown": {},
+            "recent_transactions": [],
+        }
+
+        for transition in status_transactions:
+            status = transition.to_state
+            if status not in transactions_metadata["status_breakdown"]:
+                transactions_metadata["status_breakdown"][status] = 0
+            transactions_metadata["status_breakdown"][status] += 1
+
+            # Get repository info
+            repo = (
+                db.query(Repository)
+                .filter(Repository.id == transition.repository_id)
+                .first()
+            )
+            if repo:
+                transaction_data = {
+                    "owner": repo.owner,
+                    "name": repo.name,
+                    "from_state": transition.from_state,
+                    "to_state": transition.to_state,
+                    "reason": transition.reason,
+                    "changed_by": transition.changed_by,
+                    "date": (
+                        transition.created_at.isoformat()
+                        if transition.created_at
+                        else None
+                    ),
+                }
+
+                # Add GitHub issue metadata if present
+                if transition.issue_number:
+                    transaction_data["github_issue"] = transition.issue_number
+
+                transactions_metadata["recent_transactions"].append(transaction_data)
+
     # Export data
     if args.format == "csv":
         df = pd.DataFrame(data)
         df.to_csv(args.output, index=False)
     elif args.format == "json":
+        export_data = {
+            "repositories": data,
+            "metadata": {
+                "export_date": datetime.now().isoformat(),
+                "total_repositories": len(data),
+            },
+        }
+
+        # Add status change transactions if any
+        if transactions_metadata:
+            export_data["status_transactions"] = transactions_metadata
+
         with open(args.output, "w") as f:
-            json.dump(data, f, indent=2, default=str)
+            json.dump(export_data, f, indent=2, default=str)
 
     print(f"Exported {len(data)} repositories to {args.output}")
+    if transactions_metadata:
+        print(
+            f"Included {transactions_metadata['total_transactions']} status change transactions ({transactions_metadata['github_issue_transactions']} from GitHub issues)"
+        )
     db.close()
 
 
 def set_package_state(args):
     """Set the migration state for a package."""
     from src.models import PACKAGE_STATES
+
+    # Process GitHub issues if requested
+    if hasattr(args, "process_issues") and args.process_issues:
+        return process_github_issues(args)
+
+    # Process single GitHub issue if requested
+    if hasattr(args, "process_issue") and args.process_issue:
+        return process_single_github_issue(args)
 
     if args.state not in PACKAGE_STATES:
         print(f"Invalid state: {args.state}")
@@ -215,19 +287,160 @@ def set_package_state(args):
             print("Repository not found")
             return
 
-        old_state, new_state = repo.transition_state(args.state, args.reason, db)
+        # Check if this is a status change from GitHub issue (has issue number)
+        changed_by = None
+        issue_number = None
+        if hasattr(args, "issue_number") and args.issue_number:
+            issue_number = str(args.issue_number)
+            changed_by = getattr(args, "changed_by", "cli")
+            print(f"Creating status change transaction from issue #{args.issue_number}")
+
+        old_state, new_state = repo.transition_state(
+            args.state,
+            reason=args.reason,
+            changed_by=changed_by,
+            issue_number=issue_number,
+            session=db,
+        )
         db.commit()
 
         print(f"Updated {repo.owner}/{repo.name}")
         print(f"  State: {old_state} → {new_state}")
         if args.reason:
             print(f"  Reason: {args.reason}")
+        if hasattr(args, "issue_number") and args.issue_number:
+            print(f"  Source: GitHub issue #{args.issue_number}")
 
     except Exception as e:
         db.rollback()
         print(f"Error updating state: {e}")
     finally:
         db.close()
+
+
+def process_github_issues(args):
+    """Process GitHub issues for repository status updates."""
+    from src.community_input import TransactionProcessor
+
+    processor = TransactionProcessor()
+    try:
+        if args.dry_run:
+            print("Running in dry-run mode - no changes will be made")
+
+        results = processor.process_status_update_issues(
+            repo_name=getattr(args, "repo", None), dry_run=args.dry_run
+        )
+
+        print(f"\nStatus Update Processing Results:")
+        print(f"  Total issues processed: {results['processed']}")
+        print(f"  Successful transactions: {results['successful']}")
+        print(f"  Failed transactions: {results['failed']}")
+
+        if results["details"]:
+            print("\nDetailed Results:")
+            for detail in results["details"]:
+                status_icon = (
+                    "✅"
+                    if detail["status"] == "success"
+                    else "❌" if detail["status"] == "failed" else "🔍"
+                )
+                print(
+                    f"  {status_icon} Issue #{detail['issue_number']} - {detail['repository']}: {detail['message']}"
+                )
+
+        # Show transactions summary
+        if not args.dry_run and results["successful"] > 0:
+            print("\nUpdated Transaction Summary:")
+            summary = processor.get_transactions_summary()
+            if "error" not in summary:
+                print(f"  Total transactions: {summary['total_transactions']}")
+                print(
+                    f"  GitHub issue transactions: {summary['github_issue_transactions']}"
+                )
+                for status, repos in summary["status_breakdown"].items():
+                    print(f"  {status.capitalize()}: {len(repos)} transitions")
+
+    except Exception as e:
+        print(f"Error processing status updates: {e}")
+    finally:
+        processor.close()
+
+
+def process_single_github_issue(args):
+    """Process a single GitHub issue for repository status update."""
+    from src.community_input import GitHubIssueParser, TransactionProcessor
+
+    issue_number = args.process_issue
+    repo_name = getattr(args, "repo", None)
+
+    print(f"Processing GitHub issue #{issue_number}...")
+
+    parser = GitHubIssueParser()
+    processor = TransactionProcessor()
+
+    try:
+        # Get the specific issue
+        if not repo_name:
+            repo_name = config.github_repo
+
+        github_repo = parser.github.get_repo(repo_name)
+        issue = github_repo.get_issue(issue_number)
+
+        print(f"Found issue: {issue.title}")
+
+        # Parse the issue body
+        parsed_data = parser.parse_issue_body(issue.body)
+        if not parsed_data:
+            print(f"❌ Could not parse issue #{issue_number} - invalid format")
+            return False
+
+        # Add issue metadata
+        parsed_data["issue_number"] = issue.number
+        parsed_data["issue_title"] = issue.title
+        parsed_data["issue_url"] = issue.html_url
+        parsed_data["created_at"] = issue.created_at
+        parsed_data["author"] = issue.user.login
+
+        # Validate repository exists in dataset
+        if not parser.validate_repository_exists(
+            parsed_data["repository_owner"], parsed_data["repository_name"]
+        ):
+            print(
+                f"❌ Repository {parsed_data['repository_owner']}/{parsed_data['repository_name']} not found in dataset"
+            )
+            return False
+
+        # Create the transaction
+        success, message = processor.create_status_transaction(parsed_data)
+
+        if success:
+            print(f"✅ Successfully processed issue #{issue_number}")
+            print(
+                f"   Repository: {parsed_data['repository_owner']}/{parsed_data['repository_name']}"
+            )
+            print(f"   Status: {parsed_data['new_status']}")
+            print(f"   Reason: {parsed_data['status_reason']}")
+
+            # Export the updated data
+            import argparse
+
+            export_args = argparse.Namespace(
+                format="json", output="docs/swift_packages.json"
+            )
+            export_data(export_args)
+            print("✅ Updated JSON export")
+
+        else:
+            print(f"❌ Failed to process issue #{issue_number}: {message}")
+            return False
+
+    except Exception as e:
+        print(f"❌ Error processing issue #{issue_number}: {e}")
+        return False
+    finally:
+        processor.close()
+
+    return success
 
 
 def list_states(args):
@@ -265,6 +478,28 @@ def list_states(args):
                     (count / completed_repos) * 100 if completed_repos > 0 else 0
                 )
                 print(f"  {state:<12} : {count:4d} repos ({percentage:5.1f}%)")
+
+            # Show status change transactions summary
+            from src.models import StateTransition
+
+            all_transitions = db.query(StateTransition).all()
+            github_transitions = [t for t in all_transitions if t.issue_number]
+
+            if all_transitions:
+                print(f"\nStatus Change Transactions:")
+                print(f"  Total transactions: {len(all_transitions)}")
+                print(f"  GitHub issue transactions: {len(github_transitions)}")
+
+                # Show breakdown by new status
+                status_breakdown = {}
+                for transition in all_transitions:
+                    status = transition.to_state
+                    if status not in status_breakdown:
+                        status_breakdown[status] = 0
+                    status_breakdown[status] += 1
+
+                for status, count in status_breakdown.items():
+                    print(f"    {status.capitalize()}: {count} transactions")
         else:
             print("  No completed repositories found")
 

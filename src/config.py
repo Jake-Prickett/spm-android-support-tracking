@@ -34,6 +34,9 @@ class Config:
     # Data processing settings
     csv_file_path: str = "data/linux-compatible-android-incompatible.csv"
 
+    # GitHub repository settings
+    github_repo: str = "Jake-Prickett/spm-android-support-tracking"
+
     # Logging settings
     log_level: str = "INFO"
     log_file: str = "swift_package_processor.log"

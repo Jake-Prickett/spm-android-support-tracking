@@ -9,17 +9,24 @@ interface StatusTagProps {
 export default function StatusTag({ repository }: StatusTagProps) {
   const getStatusColor = (state: string) => {
     switch (state.toLowerCase()) {
-      case 'ready':
-      case 'complete':
+      case 'android_supported':
       case 'supported':
+      case 'complete':
         return 'var(--success)';
+      case 'in_progress':
       case 'in-progress':
+      case 'tracking':
       case 'pending':
         return 'var(--warning)';
       case 'blocked':
+      case 'archived':
+      case 'irrelevant':
       case 'unsupported':
       case 'failed':
         return 'var(--error)';
+      case 'dependency':
+        return 'var(--info, #3b82f6)';
+      case 'unknown':
       default:
         return 'var(--text-tertiary)';
     }

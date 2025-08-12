@@ -826,9 +826,11 @@ class DataProcessor:
             "error_count": self.error_count,
             "success_rate": (self.success_count / max(self.processed_count, 1)) * 100,
             "elapsed_time": elapsed_time,
-            "repos_per_minute": (self.processed_count / max(elapsed_time / 60, 1))
-            if elapsed_time > 0
-            else 0,
+            "repos_per_minute": (
+                (self.processed_count / max(elapsed_time / 60, 1))
+                if elapsed_time > 0
+                else 0
+            ),
             "fetcher_stats": {
                 "success_count": self.fetcher.success_count,
                 "error_count": self.fetcher.error_count,
