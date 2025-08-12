@@ -2,18 +2,6 @@
 
 A data analysis tool for the [Swift Android Working Group](https://www.swift.org/android-workgroup/) that analyzes **1065 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
 
-## Quick Start
-
-```bash
-# Setup environment file
-echo "GITHUB_TOKEN=your_token_here" > .env
-
-# Setup and usage
-./scripts/setup.sh && python swift_analyzer.py --setup
-python swift_analyzer.py --collect
-python swift_analyzer.py --analyze
-```
-
 ## Features
 
 - **Analyzes 1065 Swift packages** that support Linux but not Android
@@ -22,6 +10,20 @@ python swift_analyzer.py --analyze
 - **Automated nightly analysis** via GitHub Actions
 - **Exports data** in HTML, JSON, and CSV formats for community use
 - **Community-driven status updates** through simplified GitHub issue workflow
+
+## Community Status Updates
+
+The project supports **community-driven status updates** through a simplified GitHub issue workflow:
+
+### How It Works
+
+1. **Submit Status Update**: Use the [Update Repository Status](https://github.com/Jake-Prickett/spm-android-support-tracking/issues/new?template=update-repository-status.yml) template
+2. **Maintainer Review**: A maintainer reviews and adds the `approved` label
+3. **Automatic Processing**: The workflow automatically:
+   - Updates the persistent store (database + JSON export)  
+   - Comments on the issue with the outcome
+   - Closes the issue if successful
+   - Triggers website redeploy
 
 ## Data Flow Overview
 
@@ -43,6 +45,18 @@ flowchart TD
     style C fill:#0f172a,stroke:#f59e0b,stroke-width:2px,color:#f9fafb
     style D fill:#334155,stroke:#ef4444,stroke-width:2px,color:#f9fafb
     style F fill:#0f172a,stroke:#06b6d4,stroke-width:2px,color:#f9fafb
+```
+
+## Quick Start
+
+```bash
+# Setup environment file
+echo "GITHUB_TOKEN=your_token_here" > .env
+
+# Setup and usage
+./scripts/setup.sh && python swift_analyzer.py --setup
+python swift_analyzer.py --collect
+python swift_analyzer.py --analyze
 ```
 
 ## Installation
@@ -143,82 +157,6 @@ The frontend automatically loads data from the Python analysis tool and provides
 └── docs/                          # Generated analysis outputs
 ```
 
-## Community Status Updates
-
-The project supports **community-driven status updates** through a simplified GitHub issue workflow:
-
-### How It Works
-
-1. **Submit Status Update**: Use the [Update Repository Status](https://github.com/Jake-Prickett/spm-android-support-tracking/issues/new?template=update-repository-status.yml) template
-2. **Maintainer Review**: A maintainer reviews and adds the `approved` label
-3. **Automatic Processing**: The workflow automatically:
-   - Updates the persistent store (database + JSON export)  
-   - Comments on the issue with the outcome
-   - Closes the issue if successful
-   - Triggers website redeploy
-
-### Issue Template Fields
-
-- **Repository Owner/Name**: The package to update
-- **New Status**: Target migration state (see available states with `--list-states`)
-- **Reason**: Why the status should change
-- **Additional Context**: Supporting evidence or links
-
-### Workflow Trigger
-
-```yaml
-# Triggered when an issue is labeled with 'approved'
-on:
-  issues:
-    types: [labeled]
-# Only processes if: approved label + status-update label present
-```
-
-### Workflow Benefits
-
-- **🔒 Quality Control**: Only approved updates are processed automatically
-- **📋 Complete Audit Trail**: All status changes tracked with GitHub issue references
-- **⚡ Instant Updates**: Changes appear on the website within minutes
-- **👥 Community Driven**: Anyone can contribute status updates
-- **🔄 Zero Maintenance**: Fully automated after approval
-
-## Database Management
-
-This project uses a **database-as-derived-artifact** approach for easier development:
-
-- **Database files** (`*.db`) are not tracked in git
-- **JSON exports** (`docs/swift_packages.json`) serve as the canonical data source
-- **Database recreation** script handles schema evolution and data import
-
-### Common Database Operations
-
-```bash
-# Recreate database from JSON export (preserves state transitions)
-./scripts/recreate-db.sh
-
-# Fresh start (loses state transitions)  
-rm swift_packages.db && ./scripts/recreate-db.sh
-
-# After schema changes in models.py
-./scripts/recreate-db.sh
-```
-
-## Troubleshooting
-
-### Common Issues
-- **Rate limits:** Add GitHub token to `.env`
-- **Import errors:** Activate venv: `source .venv/bin/activate`  
-- **Database errors:** Recreate: `./scripts/recreate-db.sh`
-- **Schema changes:** Automatically handled by recreation script
-- **Debug:** Use `--status` and `--test` flags
-- **Frontend build issues:** Update status mappings in `StatusTag.tsx`
-
-### Community Workflow Issues
-- **Issue not processing:** Ensure the issue uses the correct template format
-- **Approval not working:** Check that both `status-update` and `approved` labels are present
-- **Repository not found:** Verify the repository exists in the dataset with `--status`
-- **Workflow failure:** Check GitHub Actions logs for detailed error messages
-
 ## Example Output
 
 ```bash
@@ -238,7 +176,3 @@ Chunked collection completed:
   Errors: 2
   Success rate: 99.2%
 ```
-
----
-
-*Supporting Swift's expansion to Android through data-driven migration prioritization.*
