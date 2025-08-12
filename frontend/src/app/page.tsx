@@ -9,11 +9,13 @@ async function getRepositories(): Promise<Repository[]> {
     const fileContents = await fs.readFile(jsonPath, 'utf8');
     const data = JSON.parse(fileContents);
     
-    // Extract repositories from the new data structure
+    // Extract repositories from the data structure
     if (data.all_repositories && Array.isArray(data.all_repositories)) {
       return data.all_repositories;
     } else if (data.priority_repositories && Array.isArray(data.priority_repositories)) {
       return data.priority_repositories;
+    } else if (data.repositories && Array.isArray(data.repositories)) {
+      return data.repositories;
     } else if (Array.isArray(data)) {
       return data;
     }
@@ -29,9 +31,9 @@ async function getRepositories(): Promise<Repository[]> {
 export default async function Home() {
   try {
     const repositories = await getRepositories();
-    const originalPackageCount = 1065;
-    const packagesWithAndroidSupport = originalPackageCount - repositories.length;
-    const supportPercentage = ((packagesWithAndroidSupport / originalPackageCount) * 100).toFixed(1);
+    const totalPackages = repositories.length;
+    const packagesWithAndroidSupport = repositories.filter(repo => repo.android_compatible === true).length;
+    const supportPercentage = totalPackages > 0 ? ((packagesWithAndroidSupport / totalPackages) * 100).toFixed(1) : '0.0';
 
     return (
       <div className="min-h-screen" style={{ backgroundColor: 'var(--surface-secondary)' }}>
@@ -50,7 +52,7 @@ export default async function Home() {
               Android Support Tracking
             </h2>
             <p style={{ color: 'var(--text-secondary)' }} className="text-sm">
-              1,065 identified packages. • {supportPercentage}% now support Android
+              {totalPackages.toLocaleString()} identified packages. • {supportPercentage}% now support Android
             </p>
           </div>
         </header>

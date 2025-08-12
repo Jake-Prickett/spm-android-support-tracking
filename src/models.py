@@ -2,13 +2,16 @@
 Database models for Swift Package support data.
 """
 
+import re
 from datetime import datetime
+from enum import Enum
 
 from sqlalchemy import (
     Boolean,
     Column,
     DateTime,
     Float,
+    Index,
     Integer,
     String,
     Text,
@@ -21,19 +24,48 @@ from src.config import config
 
 Base = declarative_base()
 
-# Package state constants
-PACKAGE_STATES = {
-    "unknown": "State not yet determined",
-    "tracking": "Currently being tracked for migration",
-    "in_progress": "Migration work in progress",
-    "android_supported": "Successfully supports Android platform",
-    "archived": "Repository archived/no longer maintained",
-    "irrelevant": "Not relevant for Android migration",
-    "blocked": "Migration blocked by dependencies or issues",
-    "dependency": "Second-tier dependency not in original CSV",
-}
 
-DEFAULT_STATE = "tracking"
+class PackageState(Enum):
+    """Package state enumeration with descriptions."""
+
+    UNKNOWN = "unknown"
+    TRACKING = "tracking"
+    IN_PROGRESS = "in_progress"
+    ANDROID_SUPPORTED = "android_supported"
+    ARCHIVED = "archived"
+    IRRELEVANT = "irrelevant"
+    BLOCKED = "blocked"
+    DEPENDENCY = "dependency"
+
+    @classmethod
+    def values(cls):
+        """Return list of valid state values."""
+        return [state.value for state in cls]
+
+    @classmethod
+    def descriptions(cls):
+        """Return dict mapping values to descriptions."""
+        return {
+            "unknown": "State not yet determined",
+            "tracking": "Currently being tracked for migration",
+            "in_progress": "Migration work in progress",
+            "android_supported": "Successfully supports Android platform",
+            "archived": "Repository archived/no longer maintained",
+            "irrelevant": "Not relevant for Android migration",
+            "blocked": "Migration blocked by dependencies or issues",
+            "dependency": "Second-tier dependency not in original CSV",
+        }
+
+
+# Backward compatibility
+PACKAGE_STATES = PackageState.descriptions()
+DEFAULT_STATE = PackageState.TRACKING.value
+
+
+class ValidationError(Exception):
+    """Raised when model validation fails."""
+
+    pass
 
 
 class Repository(Base):
@@ -96,11 +128,32 @@ class Repository(Base):
     def __repr__(self):
         return f"<Repository(name='{self.owner}/{self.name}', stars={self.stars})>"
 
-    def transition_state(self, new_state, reason=None, session=None):
+    def validate_url(self):
+        """Validate repository URL format."""
+        if not self.url:
+            raise ValidationError("Repository URL is required")
+
+        url_pattern = r"^https://github\.com/[\w\-\.]+/[\w\-\.]+/?$"
+        if not re.match(url_pattern, self.url.rstrip("/")):
+            raise ValidationError(f"Invalid GitHub repository URL format: {self.url}")
+
+    def validate(self):
+        """Validate all repository fields."""
+        self.validate_url()
+
+        if not self.owner or not self.owner.strip():
+            raise ValidationError("Repository owner is required")
+
+        if not self.name or not self.name.strip():
+            raise ValidationError("Repository name is required")
+
+    def transition_state(
+        self, new_state, reason=None, changed_by=None, issue_number=None, session=None
+    ):
         """Transition to a new state and log the change."""
-        if new_state not in PACKAGE_STATES:
-            raise ValueError(
-                f"Invalid state: {new_state}. Valid states: {list(PACKAGE_STATES.keys())}"
+        if new_state not in PackageState.values():
+            raise ValidationError(
+                f"Invalid state: {new_state}. Valid states: {PackageState.values()}"
             )
 
         old_state = self.current_state
@@ -114,6 +167,8 @@ class Repository(Base):
                 from_state=old_state,
                 to_state=new_state,
                 reason=reason,
+                changed_by=changed_by,
+                issue_number=issue_number,
             )
             session.add(transition)
 
@@ -148,8 +203,18 @@ class StateTransition(Base):
     from_state = Column(String(20))
     to_state = Column(String(20), nullable=False)
     reason = Column(Text)
+    changed_by = Column(String(100))  # Who made the change (e.g., GitHub username)
+    issue_number = Column(String(20))  # GitHub issue number if applicable
     created_at = Column(DateTime, default=datetime.utcnow)
 
+
+# Database indexes for performance
+Index("idx_repo_owner_name", Repository.owner, Repository.name)
+Index("idx_repo_state", Repository.current_state)
+Index("idx_repo_stars", Repository.stars)
+Index("idx_repo_last_fetched", Repository.last_fetched)
+Index("idx_transition_repo_id", StateTransition.repository_id)
+Index("idx_transition_date", StateTransition.created_at)
 
 # Database setup
 engine = create_engine(config.database_url, echo=False)

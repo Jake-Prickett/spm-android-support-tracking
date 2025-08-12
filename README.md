@@ -1,32 +1,35 @@
 # Swift Package Android Migration Analysis
 
-A data analysis tool for the [Swift Android Working Group](https://www.swift.org/android-workgroup/) that analyzes **1064 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
-
-## Quick Start
-
-```bash
-# Setup environment file
-echo "GITHUB_TOKEN=your_token_here" > .env
-
-# Setup and usage
-./scripts/setup.sh && python swift_analyzer.py --setup
-python swift_analyzer.py --collect
-python swift_analyzer.py --analyze
-```
+A data analysis tool for the [Swift Android Working Group](https://www.swift.org/android-workgroup/) that analyzes **1065 Swift packages** to prioritize Android migration efforts. Identifies Linux-compatible packages that lack Android support and provides data-driven migration recommendations.
 
 ## Features
 
-- **Analyzes 1064 Swift packages** that support Linux but not Android
+- **Analyzes 1065 Swift packages** that support Linux but not Android
 - **Prioritizes migration targets** using GitHub stars, forks, and dependency impact
 - **Generates comprehensive reports** with data exports and migration recommendations
 - **Automated nightly analysis** via GitHub Actions
 - **Exports data** in HTML, JSON, and CSV formats for community use
+- **Community-driven status updates** through simplified GitHub issue workflow
+
+## Community Status Updates
+
+The project supports **community-driven status updates** through a simplified GitHub issue workflow:
+
+### How It Works
+
+1. **Submit Status Update**: Use the [Update Repository Status](https://github.com/Jake-Prickett/spm-android-support-tracking/issues/new?template=update-repository-status.yml) template
+2. **Maintainer Review**: A maintainer reviews and adds the `approved` label
+3. **Automatic Processing**: The workflow automatically:
+   - Updates the persistent store (database + JSON export)  
+   - Comments on the issue with the outcome
+   - Closes the issue if successful
+   - Triggers website redeploy
 
 ## Data Flow Overview
 
 ```mermaid
 flowchart TD
-    A[CSV Input<br/>1064 Packages] --> B[GitHub API<br/>Repository Metadata]
+    A[CSV Input<br/>1065 Packages] --> B[GitHub API<br/>Repository Metadata]
     B --> C[SQLite Database<br/>Structured Storage]
     C --> D[Analysis Engine<br/>Priority Scoring]
     D --> F[Multi-Format Reports<br/>HTML, JSON, CSV]
@@ -44,6 +47,18 @@ flowchart TD
     style F fill:#0f172a,stroke:#06b6d4,stroke-width:2px,color:#f9fafb
 ```
 
+## Quick Start
+
+```bash
+# Setup environment file
+echo "GITHUB_TOKEN=your_token_here" > .env
+
+# Setup and usage
+./scripts/setup.sh && python swift_analyzer.py --setup
+python swift_analyzer.py --collect
+python swift_analyzer.py --analyze
+```
+
 ## Installation
 
 **Requirements:** Python 3.11+
@@ -53,9 +68,13 @@ git clone https://github.com/Jake-Prickett/spm-android-support-tracking.git
 cd spm-android-support-tracking
 echo "GITHUB_TOKEN=your_token_here" > .env
 
-# Setup
-./scripts/setup.sh
-# OR: python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+# Setup environment
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+
+# Initialize database from existing data
+./scripts/recreate-db.sh
 ```
 
 ## Usage
@@ -67,12 +86,16 @@ echo "GITHUB_TOKEN=your_token_here" > .env
 | `--collect --test` | Test run with 3 repositories |
 | `--analyze` | Generate comprehensive analysis and reports |
 | `--status` | Show processing status and repository freshness |
+| `--set-state --process-issue <num>` | Process a single approved GitHub issue |
 
 ```bash
 python swift_analyzer.py --setup
 python swift_analyzer.py --collect --test          # Test with 3 repos
 python swift_analyzer.py --collect --batch-size 250 # Large batch refresh
 python swift_analyzer.py --analyze
+
+# Process approved community issue (used by GitHub Actions)
+python swift_analyzer.py --set-state --process-issue 42 --repo owner/repo
 ```
 
 ## Output
@@ -134,20 +157,13 @@ The frontend automatically loads data from the Python analysis tool and provides
 └── docs/                          # Generated analysis outputs
 ```
 
-## Troubleshooting
-
-- **Rate limits:** Add GitHub token to `.env`
-- **Import errors:** Activate venv: `source .venv/bin/activate`  
-- **Database errors:** Reinitialize: `python swift_analyzer.py --setup`
-- **Debug:** Use `--status` and `--test` flags
-
 ## Example Output
 
 ```bash
 $ python swift_analyzer.py --status
 Repository Processing Status:
-  Total repositories: 1064
-  Completed: 1064
+  Total repositories: 1065
+  Completed: 1065
   Errors: 0
   Pending: 0
 
@@ -160,7 +176,3 @@ Chunked collection completed:
   Errors: 2
   Success rate: 99.2%
 ```
-
----
-
-*Supporting Swift's expansion to Android through data-driven migration prioritization.*
