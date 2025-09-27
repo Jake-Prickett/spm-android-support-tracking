@@ -19,7 +19,7 @@
       "created_at": "2021-03-31T09:30:55",
       "updated_at": "2023-10-18T21:20:22",
       "pushed_at": "2023-04-04T11:40:01",
-      "last_fetched": "2025-09-22T02:52:59.599223"
+      "last_fetched": "2025-09-27T02:32:08.743681"
     },
     {
       "url": "https://swiftpackageindex.com/faberNovel/xcresource-cli.git",
@@ -40,7 +40,7 @@
       "created_at": "2020-05-20T13:40:04",
       "updated_at": "2025-04-29T09:30:44",
       "pushed_at": "2021-09-06T15:40:10",
-      "last_fetched": "2025-09-22T02:53:09.272231"
+      "last_fetched": "2025-09-27T02:32:18.421574"
     },
     {
       "url": "https://swiftpackageindex.com/mongodb/mongo-swift-driver.git",
@@ -59,9 +59,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2018-01-18T19:55:11",
-      "updated_at": "2025-08-28T18:47:09",
+      "updated_at": "2025-09-23T08:14:57",
       "pushed_at": "2023-08-28T23:54:19",
-      "last_fetched": "2025-09-22T02:53:19.062417"
+      "last_fetched": "2025-09-27T02:32:28.062731"
     },
     {
       "url": "https://swiftpackageindex.com/brightdigit/NPMPublishPlugin.git",
@@ -82,7 +82,7 @@
       "created_at": "2023-05-31T17:59:50",
       "updated_at": "2023-06-13T14:35:50",
       "pushed_at": "2023-07-27T15:44:15",
-      "last_fetched": "2025-09-22T02:52:54.701812"
+      "last_fetched": "2025-09-27T02:32:03.883659"
     },
     {
       "url": "https://swiftpackageindex.com/DiscordBM/DiscordBM.git",
@@ -103,7 +103,7 @@
       "created_at": "2022-09-06T20:31:41",
       "updated_at": "2025-09-21T07:18:45",
       "pushed_at": "2025-09-19T07:09:30",
-      "last_fetched": "2025-09-22T02:53:33.523443"
+      "last_fetched": "2025-09-27T02:32:43.014926"
     },
     {
       "url": "https://swiftpackageindex.com/agisboye/swiftlmdb.git",
@@ -124,7 +124,7 @@
       "created_at": "2016-10-04T19:55:21",
       "updated_at": "2025-09-10T21:55:39",
       "pushed_at": "2025-09-05T13:01:00",
-      "last_fetched": "2025-09-22T02:53:04.424179"
+      "last_fetched": "2025-09-27T02:32:13.579007"
     },
     {
       "url": "https://swiftpackageindex.com/tuist/XcodeGraph.git",
@@ -143,9 +143,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2024-06-05T10:08:48",
-      "updated_at": "2025-09-20T17:36:13",
-      "pushed_at": "2025-09-20T17:36:09",
-      "last_fetched": "2025-09-22T02:53:28.667249"
+      "updated_at": "2025-09-26T20:25:36",
+      "pushed_at": "2025-09-27T00:37:10",
+      "last_fetched": "2025-09-27T02:32:37.729917"
     },
     {
       "url": "https://swiftpackageindex.com/typelift/Swiftz.git",
@@ -166,7 +166,7 @@
       "created_at": "2014-06-02T23:42:15",
       "updated_at": "2025-09-16T06:01:57",
       "pushed_at": "2022-06-30T07:38:54",
-      "last_fetched": "2025-09-22T02:53:23.850751"
+      "last_fetched": "2025-09-27T02:32:32.891780"
     },
     {
       "url": "https://swiftpackageindex.com/seznam/swift-unisocket.git",
@@ -187,7 +187,7 @@
       "created_at": "2018-05-24T08:06:24",
       "updated_at": "2020-05-20T05:51:07",
       "pushed_at": "2020-05-20T05:51:37",
-      "last_fetched": "2025-09-22T02:52:49.922251"
+      "last_fetched": "2025-09-27T02:31:59.107224"
     },
     {
       "url": "https://swiftpackageindex.com/MFB-Technologies-Inc/SwiftyBeaver.git",
@@ -208,16 +208,16 @@
       "created_at": "2025-02-27T03:22:24",
       "updated_at": "2025-05-07T15:35:53",
       "pushed_at": "2025-05-07T15:38:04",
-      "last_fetched": "2025-09-22T02:53:14.165974"
+      "last_fetched": "2025-09-27T02:32:23.289478"
     },
     {
       "url": "https://swiftpackageindex.com/valkey-io/valkey-swift.git",
       "owner": "valkey-io",
       "name": "valkey-swift",
       "description": "Valkey client written in Swift",
-      "stars": 83,
+      "stars": 86,
       "forks": 11,
-      "watchers": 83,
+      "watchers": 86,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -227,9 +227,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2025-03-21T10:44:29",
-      "updated_at": "2025-09-20T05:55:04",
-      "pushed_at": "2025-09-20T09:51:14",
-      "last_fetched": "2025-09-22T02:52:11.439058"
+      "updated_at": "2025-09-26T11:14:42",
+      "pushed_at": "2025-09-26T11:58:36",
+      "last_fetched": "2025-09-27T02:31:19.759214"
     },
     {
       "url": "https://swiftpackageindex.com/ordo-one/package-latency-tools.git",
@@ -250,7 +250,7 @@
       "created_at": "2022-04-15T10:18:39",
       "updated_at": "2023-11-22T08:20:08",
       "pushed_at": "2023-11-24T11:06:05",
-      "last_fetched": "2025-09-22T02:51:18.510907"
+      "last_fetched": "2025-09-27T02:30:26.733249"
     },
     {
       "url": "https://swiftpackageindex.com/shackley/swift-blade.git",
@@ -271,7 +271,7 @@
       "created_at": "2023-09-20T05:57:51",
       "updated_at": "2025-07-31T07:09:12",
       "pushed_at": "2025-03-31T00:40:39",
-      "last_fetched": "2025-09-22T02:52:01.768481"
+      "last_fetched": "2025-09-27T02:31:10.180684"
     },
     {
       "url": "https://swiftpackageindex.com/jkolb/FranticApparatus.git",
@@ -292,16 +292,16 @@
       "created_at": "2013-02-17T22:03:55",
       "updated_at": "2020-11-17T21:39:45",
       "pushed_at": "2019-06-02T19:31:16",
-      "last_fetched": "2025-09-22T02:51:03.855490"
+      "last_fetched": "2025-09-27T02:30:12.265096"
     },
     {
       "url": "https://swiftpackageindex.com/ChimeHQ/LanguageClient.git",
       "owner": "ChimeHQ",
       "name": "LanguageClient",
       "description": "Language Server Protocol (LSP) client for Swift",
-      "stars": 125,
+      "stars": 126,
       "forks": 12,
-      "watchers": 125,
+      "watchers": 126,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -311,18 +311,18 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2021-11-23T18:17:20",
-      "updated_at": "2025-09-18T11:05:04",
+      "updated_at": "2025-09-22T18:39:35",
       "pushed_at": "2025-06-04T10:52:36",
-      "last_fetched": "2025-09-22T02:51:52.162512"
+      "last_fetched": "2025-09-27T02:31:00.493771"
     },
     {
       "url": "https://swiftpackageindex.com/apple/pkl-swift.git",
       "owner": "apple",
       "name": "pkl-swift",
       "description": "Pkl bindings for the Swift programming language",
-      "stars": 181,
+      "stars": 182,
       "forks": 29,
-      "watchers": 181,
+      "watchers": 182,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -332,9 +332,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2024-01-19T17:28:59",
-      "updated_at": "2025-09-20T11:57:07",
-      "pushed_at": "2025-09-10T08:48:24",
-      "last_fetched": "2025-09-22T02:52:06.631258"
+      "updated_at": "2025-09-24T19:15:19",
+      "pushed_at": "2025-09-24T19:15:15",
+      "last_fetched": "2025-09-27T02:31:14.973993"
     },
     {
       "url": "https://swiftpackageindex.com/bow-swift/Swiftline.git",
@@ -355,7 +355,7 @@
       "created_at": "2019-08-14T10:57:41",
       "updated_at": "2022-10-23T14:03:10",
       "pushed_at": "2021-11-02T07:30:12",
-      "last_fetched": "2025-09-22T02:51:13.666177"
+      "last_fetched": "2025-09-27T02:30:21.898739"
     },
     {
       "url": "https://swiftpackageindex.com/loopwerk/SagaSwimRenderer.git",
@@ -376,7 +376,7 @@
       "created_at": "2021-02-10T19:35:17",
       "updated_at": "2025-06-23T19:46:25",
       "pushed_at": "2025-06-23T19:46:30",
-      "last_fetched": "2025-09-22T02:51:42.580868"
+      "last_fetched": "2025-09-27T02:30:50.864788"
     },
     {
       "url": "https://swiftpackageindex.com/perfectlysoft/perfect-thread.git",
@@ -397,7 +397,7 @@
       "created_at": "2016-06-02T17:16:25",
       "updated_at": "2022-07-29T12:27:08",
       "pushed_at": "2019-07-18T16:17:23",
-      "last_fetched": "2025-09-22T02:51:08.782645"
+      "last_fetched": "2025-09-27T02:30:17.088827"
     },
     {
       "url": "https://swiftpackageindex.com/GetAutomaApp/SwiftWebDriver.git",
@@ -418,7 +418,7 @@
       "created_at": "2025-03-15T19:05:25",
       "updated_at": "2025-08-15T19:37:15",
       "pushed_at": "2025-08-15T19:37:13",
-      "last_fetched": "2025-09-22T02:51:37.771830"
+      "last_fetched": "2025-09-27T02:30:46.092971"
     },
     {
       "url": "https://swiftpackageindex.com/stackotter/swift-arg-parser.git",
@@ -439,7 +439,7 @@
       "created_at": "2022-04-01T22:43:49",
       "updated_at": "2024-07-11T11:35:46",
       "pushed_at": "2024-01-18T13:12:22",
-      "last_fetched": "2025-09-22T02:51:23.377691"
+      "last_fetched": "2025-09-27T02:30:31.666093"
     },
     {
       "url": "https://swiftpackageindex.com/swifweb/webber.git",
@@ -460,7 +460,7 @@
       "created_at": "2021-02-15T14:24:53",
       "updated_at": "2025-08-27T17:30:39",
       "pushed_at": "2024-10-20T02:19:39",
-      "last_fetched": "2025-09-22T02:51:32.878473"
+      "last_fetched": "2025-09-27T02:30:41.187105"
     },
     {
       "url": "https://swiftpackageindex.com/RxSwiftCommunity/RxDataSources.git",
@@ -481,7 +481,7 @@
       "created_at": "2016-01-01T18:03:22",
       "updated_at": "2025-09-13T22:01:35",
       "pushed_at": "2024-07-10T15:57:11",
-      "last_fetched": "2025-09-22T02:51:56.996707"
+      "last_fetched": "2025-09-27T02:31:05.378455"
     },
     {
       "url": "https://swiftpackageindex.com/Fleuronic/Ergo.git",
@@ -502,7 +502,7 @@
       "created_at": "2022-08-26T03:51:52",
       "updated_at": "2024-10-28T22:35:59",
       "pushed_at": "2024-10-28T22:35:55",
-      "last_fetched": "2025-09-22T02:51:28.143404"
+      "last_fetched": "2025-09-27T02:30:36.368777"
     },
     {
       "url": "https://swiftpackageindex.com/Decybel07/L10n-swift.git",
@@ -523,7 +523,7 @@
       "created_at": "2017-05-11T15:35:52",
       "updated_at": "2025-09-18T12:09:33",
       "pushed_at": "2024-07-13T10:29:12",
-      "last_fetched": "2025-09-22T02:51:47.362825"
+      "last_fetched": "2025-09-27T02:30:55.665521"
     },
     {
       "url": "https://swiftpackageindex.com/flx/lsm303.git",
@@ -1972,7 +1972,7 @@
       "created_at": "2024-03-20T22:43:18",
       "updated_at": "2024-04-04T07:15:30",
       "pushed_at": "2024-04-04T07:15:26",
-      "last_fetched": "2025-09-22T02:50:40.085773"
+      "last_fetched": "2025-09-27T02:29:48.504873"
     },
     {
       "url": "https://swiftpackageindex.com/nikola-mladenovic/AwsSwiftDynamoDBsdk.git",
@@ -1993,7 +1993,7 @@
       "created_at": "2017-07-17T08:47:50",
       "updated_at": "2022-11-15T04:29:55",
       "pushed_at": "2020-07-09T18:12:23",
-      "last_fetched": "2025-09-22T02:50:44.873634"
+      "last_fetched": "2025-09-27T02:29:53.244166"
     },
     {
       "url": "https://swiftpackageindex.com/bdrelling/GoatHerb.git",
@@ -2014,7 +2014,7 @@
       "created_at": "2022-08-24T02:08:04",
       "updated_at": "2024-01-07T20:45:16",
       "pushed_at": "2023-03-29T18:53:23",
-      "last_fetched": "2025-09-22T02:50:49.591045"
+      "last_fetched": "2025-09-27T02:29:57.945187"
     },
     {
       "url": "https://swiftpackageindex.com/mxcl/chalk.git",
@@ -2035,7 +2035,7 @@
       "created_at": "2019-02-20T21:47:00",
       "updated_at": "2025-07-13T16:25:51",
       "pushed_at": "2024-02-22T11:50:45",
-      "last_fetched": "2025-09-22T02:50:54.332347"
+      "last_fetched": "2025-09-27T02:30:02.770936"
     },
     {
       "url": "https://swiftpackageindex.com/thepotatoking55/CGLFW3.git",
@@ -2056,7 +2056,7 @@
       "created_at": "2021-04-28T19:19:26",
       "updated_at": "2024-08-19T16:50:46",
       "pushed_at": "2024-06-02T17:24:16",
-      "last_fetched": "2025-09-22T02:50:59.083751"
+      "last_fetched": "2025-09-27T02:30:07.513279"
     },
     {
       "url": "https://swiftpackageindex.com/KeanuPang/fugle-realtime-swift.git",
@@ -2077,7 +2077,7 @@
       "created_at": "2022-05-10T09:50:05",
       "updated_at": "2022-10-25T13:48:48",
       "pushed_at": "2022-05-25T09:15:16",
-      "last_fetched": "2025-09-22T02:52:16.199253"
+      "last_fetched": "2025-09-27T02:31:24.534993"
     },
     {
       "url": "https://swiftpackageindex.com/slashmo/swift-otel-xray.git",
@@ -2098,7 +2098,7 @@
       "created_at": "2021-03-31T20:02:24",
       "updated_at": "2025-06-14T09:01:03",
       "pushed_at": "2024-12-09T13:34:28",
-      "last_fetched": "2025-09-22T02:52:21.057290"
+      "last_fetched": "2025-09-27T02:31:29.302570"
     },
     {
       "url": "https://swiftpackageindex.com/davdroman/PeriodDuration.git",
@@ -2119,7 +2119,7 @@
       "created_at": "2021-09-20T19:40:14",
       "updated_at": "2025-02-12T21:42:21",
       "pushed_at": "2023-09-24T17:47:22",
-      "last_fetched": "2025-09-22T02:52:26.005996"
+      "last_fetched": "2025-09-27T02:31:34.038894"
     },
     {
       "url": "https://swiftpackageindex.com/elegantchaos/CommandShell.git",
@@ -2140,7 +2140,7 @@
       "created_at": "2019-04-25T12:00:47",
       "updated_at": "2022-08-01T12:58:07",
       "pushed_at": "2023-04-21T18:03:38",
-      "last_fetched": "2025-09-22T02:52:30.762117"
+      "last_fetched": "2025-09-27T02:31:39.831959"
     },
     {
       "url": "https://swiftpackageindex.com/llvm-swift/symbolic.git",
@@ -2161,7 +2161,7 @@
       "created_at": "2017-11-26T02:38:00",
       "updated_at": "2025-03-09T20:28:18",
       "pushed_at": "2017-11-26T20:33:57",
-      "last_fetched": "2025-09-22T02:52:35.587009"
+      "last_fetched": "2025-09-27T02:31:44.637597"
     },
     {
       "url": "https://swiftpackageindex.com/RxSwiftCommunity/RxSwiftExt.git",
@@ -2182,7 +2182,7 @@
       "created_at": "2016-04-07T11:12:37",
       "updated_at": "2025-09-12T05:36:09",
       "pushed_at": "2023-09-20T03:20:20",
-      "last_fetched": "2025-09-22T02:52:40.365603"
+      "last_fetched": "2025-09-27T02:31:49.445029"
     },
     {
       "url": "https://swiftpackageindex.com/SalehAlbuga/azure-functions-swift.git",
@@ -2203,7 +2203,7 @@
       "created_at": "2019-11-22T17:36:39",
       "updated_at": "2025-06-02T23:07:26",
       "pushed_at": "2020-09-22T23:01:18",
-      "last_fetched": "2025-09-22T02:52:45.177165"
+      "last_fetched": "2025-09-27T02:31:54.278251"
     },
     {
       "url": "https://swiftpackageindex.com/tannerdsilva/SwiftBCrypt.git",
@@ -2224,7 +2224,7 @@
       "created_at": "2021-11-17T05:08:22",
       "updated_at": "2025-01-30T09:40:42",
       "pushed_at": "2021-11-19T04:44:18",
-      "last_fetched": "2025-09-22T02:53:38.296950"
+      "last_fetched": "2025-09-27T02:32:47.708396"
     },
     {
       "url": "https://swiftpackageindex.com/AlwaysRightInstitute/mustache.git",
@@ -2245,7 +2245,7 @@
       "created_at": "2017-03-07T15:54:47",
       "updated_at": "2025-04-09T07:49:46",
       "pushed_at": "2024-10-09T17:50:44",
-      "last_fetched": "2025-09-22T02:53:43.168198"
+      "last_fetched": "2025-09-27T02:32:52.485536"
     },
     {
       "url": "https://swiftpackageindex.com/loudmouth/Interstellar.git",
@@ -2266,16 +2266,16 @@
       "created_at": "2017-01-03T14:50:56",
       "updated_at": "2018-05-03T13:23:03",
       "pushed_at": "2018-05-03T13:23:02",
-      "last_fetched": "2025-09-22T02:53:47.979922"
+      "last_fetched": "2025-09-27T02:32:57.302433"
     },
     {
       "url": "https://swiftpackageindex.com/peripheryapp/periphery.git",
       "owner": "peripheryapp",
       "name": "periphery",
       "description": "A tool to identify unused code in Swift projects.",
-      "stars": 5839,
-      "forks": 211,
-      "watchers": 5839,
+      "stars": 5846,
+      "forks": 212,
+      "watchers": 5846,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -2285,9 +2285,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2019-02-10T11:53:24",
-      "updated_at": "2025-09-21T08:40:59",
+      "updated_at": "2025-09-27T00:43:17",
       "pushed_at": "2025-09-21T07:45:28",
-      "last_fetched": "2025-09-22T02:53:52.772793"
+      "last_fetched": "2025-09-27T02:33:02.085160"
     },
     {
       "url": "https://swiftpackageindex.com/mapbox/mapbox-core-maps-ios.git",
@@ -2295,7 +2295,7 @@
       "name": "mapbox-core-maps-ios",
       "description": null,
       "stars": 17,
-      "forks": 8,
+      "forks": 9,
       "watchers": 17,
       "language": "Swift",
       "license_name": null,
@@ -2307,8 +2307,8 @@
       "current_state": "tracking",
       "created_at": "2021-01-08T18:05:48",
       "updated_at": "2025-07-17T11:04:36",
-      "pushed_at": "2025-09-20T08:04:07",
-      "last_fetched": "2025-09-22T02:53:57.752117"
+      "pushed_at": "2025-09-26T12:45:53",
+      "last_fetched": "2025-09-27T02:33:06.915241"
     },
     {
       "url": "https://swiftpackageindex.com/nsomar/Guaka.git",
@@ -2329,7 +2329,7 @@
       "created_at": "2016-10-30T15:47:29",
       "updated_at": "2025-09-21T14:48:49",
       "pushed_at": "2019-10-07T09:08:51",
-      "last_fetched": "2025-09-22T02:54:02.509179"
+      "last_fetched": "2025-09-27T02:33:11.716161"
     },
     {
       "url": "https://swiftpackageindex.com/swift-server/swift-backtrace.git",
@@ -2350,7 +2350,7 @@
       "created_at": "2019-04-19T10:49:22",
       "updated_at": "2025-08-22T14:48:30",
       "pushed_at": "2024-10-28T14:16:40",
-      "last_fetched": "2025-09-22T02:54:07.310949"
+      "last_fetched": "2025-09-27T02:33:16.536184"
     },
     {
       "url": "https://swiftpackageindex.com/toshi0383/hackscode.git",
@@ -2371,7 +2371,7 @@
       "created_at": "2018-07-06T07:26:14",
       "updated_at": "2020-01-23T08:21:43",
       "pushed_at": "2020-01-23T08:21:41",
-      "last_fetched": "2025-09-22T02:54:12.101631"
+      "last_fetched": "2025-09-27T02:33:21.259033"
     },
     {
       "url": "https://swiftpackageindex.com/Neo4j-Swift/bolt-swift.git",
@@ -2379,7 +2379,7 @@
       "name": "bolt-swift",
       "description": "Bolt implementation in Swift",
       "stars": 9,
-      "forks": 10,
+      "forks": 9,
       "watchers": 9,
       "language": "Swift",
       "license_name": null,
@@ -2392,7 +2392,7 @@
       "created_at": "2017-11-26T10:45:27",
       "updated_at": "2024-04-19T13:12:27",
       "pushed_at": "2022-05-04T06:58:51",
-      "last_fetched": "2025-09-22T02:54:16.928554"
+      "last_fetched": "2025-09-27T02:33:26.100481"
     },
     {
       "url": "https://swiftpackageindex.com/RxSwiftCommunity/RxGRDB.git",
@@ -2413,7 +2413,7 @@
       "created_at": "2017-04-03T18:24:45",
       "updated_at": "2025-08-07T09:50:23",
       "pushed_at": "2025-03-15T10:12:52",
-      "last_fetched": "2025-09-22T02:54:21.826406"
+      "last_fetched": "2025-09-27T02:33:30.919593"
     },
     {
       "url": "https://swiftpackageindex.com/hectr/swift-elementary-cycles.git",
@@ -2434,7 +2434,7 @@
       "created_at": "2018-09-24T01:12:52",
       "updated_at": "2022-12-27T22:18:32",
       "pushed_at": "2019-08-11T17:45:44",
-      "last_fetched": "2025-09-22T02:54:26.601112"
+      "last_fetched": "2025-09-27T02:33:35.619577"
     },
     {
       "url": "https://swiftpackageindex.com/mrackwitz/Version.git",
@@ -2455,7 +2455,7 @@
       "created_at": "2014-09-08T13:16:52",
       "updated_at": "2025-07-14T19:32:31",
       "pushed_at": "2023-08-15T15:19:17",
-      "last_fetched": "2025-09-22T02:54:31.346550"
+      "last_fetched": "2025-09-27T02:33:40.321604"
     },
     {
       "url": "https://swiftpackageindex.com/millertechnologyperu/hcitool.git",
@@ -2476,28 +2476,28 @@
       "created_at": "2018-03-26T14:10:08",
       "updated_at": "2025-09-12T00:38:39",
       "pushed_at": "2022-05-28T19:30:26",
-      "last_fetched": "2025-09-22T02:54:36.135842"
+      "last_fetched": "2025-09-27T02:33:45.273723"
     },
     {
       "url": "https://swiftpackageindex.com/swift-server/swift-aws-lambda-runtime.git",
       "owner": "swift-server",
       "name": "swift-aws-lambda-runtime",
       "description": "Swift implementation of AWS Lambda Runtime",
-      "stars": 1182,
-      "forks": 117,
-      "watchers": 1182,
+      "stars": 1183,
+      "forks": 118,
+      "watchers": 1183,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
-      "swift_tools_version": "6.1",
+      "swift_tools_version": "6.2",
       "dependencies_count": 4,
       "linux_compatible": true,
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2020-03-03T19:55:32",
-      "updated_at": "2025-09-16T09:05:50",
-      "pushed_at": "2025-09-16T09:05:45",
-      "last_fetched": "2025-09-22T02:54:41.065594"
+      "updated_at": "2025-09-26T12:32:38",
+      "pushed_at": "2025-09-26T12:13:48",
+      "last_fetched": "2025-09-27T02:33:50.056961"
     },
     {
       "url": "https://swiftpackageindex.com/ukitaka/XCTAssertUnrecoverable.git",
@@ -2518,7 +2518,7 @@
       "created_at": "2018-05-02T05:32:58",
       "updated_at": "2021-09-03T06:20:27",
       "pushed_at": "2018-05-05T05:29:28",
-      "last_fetched": "2025-09-22T02:54:45.768003"
+      "last_fetched": "2025-09-27T02:33:54.816584"
     },
     {
       "url": "https://swiftpackageindex.com/yonaskolb/Stringly.git",
@@ -2539,7 +2539,7 @@
       "created_at": "2019-10-17T05:33:29",
       "updated_at": "2023-12-06T07:17:59",
       "pushed_at": "2021-10-26T15:08:19",
-      "last_fetched": "2025-09-22T02:54:50.576723"
+      "last_fetched": "2025-09-27T02:33:59.603164"
     },
     {
       "url": "https://swiftpackageindex.com/david-livadaru/DLAngle.git",
@@ -2560,7 +2560,7 @@
       "created_at": "2017-02-18T12:16:05",
       "updated_at": "2018-03-25T10:22:21",
       "pushed_at": "2018-03-25T10:22:19",
-      "last_fetched": "2025-09-22T02:54:55.349465"
+      "last_fetched": "2025-09-27T02:34:04.383510"
     },
     {
       "url": "https://swiftpackageindex.com/devxoul/RxJSON.git",
@@ -2581,7 +2581,7 @@
       "created_at": "2017-05-27T20:47:31",
       "updated_at": "2024-04-11T11:14:13",
       "pushed_at": "2019-06-14T11:47:37",
-      "last_fetched": "2025-09-22T02:55:00.151544"
+      "last_fetched": "2025-09-27T02:34:09.100357"
     },
     {
       "url": "https://swiftpackageindex.com/brightdigit/GampKit.git",
@@ -2602,7 +2602,7 @@
       "created_at": "2020-03-05T23:03:49",
       "updated_at": "2025-01-20T07:30:38",
       "pushed_at": "2022-01-12T19:00:42",
-      "last_fetched": "2025-09-22T02:55:05.039179"
+      "last_fetched": "2025-09-27T02:34:13.990403"
     },
     {
       "url": "https://swiftpackageindex.com/Jomy10/SimpleGraph.git",
@@ -2623,7 +2623,7 @@
       "created_at": "2025-02-12T20:05:25",
       "updated_at": "2025-07-10T04:19:07",
       "pushed_at": "2025-02-17T17:39:28",
-      "last_fetched": "2025-09-22T02:55:09.748663"
+      "last_fetched": "2025-09-27T02:34:18.656894"
     },
     {
       "url": "https://swiftpackageindex.com/ZeeQL/ZeeQL3Freddy.git",
@@ -2644,7 +2644,7 @@
       "created_at": "2017-05-29T20:06:03",
       "updated_at": "2021-01-28T17:32:09",
       "pushed_at": "2021-01-28T17:39:28",
-      "last_fetched": "2025-09-22T02:55:14.624990"
+      "last_fetched": "2025-09-27T02:34:23.426043"
     },
     {
       "url": "https://swiftpackageindex.com/apple/pir-service-example.git",
@@ -2665,7 +2665,7 @@
       "created_at": "2024-06-26T05:47:30",
       "updated_at": "2025-09-20T11:54:40",
       "pushed_at": "2025-09-18T16:52:05",
-      "last_fetched": "2025-09-22T02:55:19.483184"
+      "last_fetched": "2025-09-27T02:34:28.206919"
     },
     {
       "url": "https://swiftpackageindex.com/Balancingrock/SwifterLog.git",
@@ -2686,7 +2686,7 @@
       "created_at": "2015-03-20T15:14:43",
       "updated_at": "2020-08-19T17:05:33",
       "pushed_at": "2020-07-08T08:27:46",
-      "last_fetched": "2025-09-22T02:55:24.233240"
+      "last_fetched": "2025-09-27T02:34:32.930749"
     },
     {
       "url": "https://swiftpackageindex.com/CombineCommunity/RxCombine.git",
@@ -2707,16 +2707,16 @@
       "created_at": "2019-06-11T19:25:48",
       "updated_at": "2025-09-13T08:07:30",
       "pushed_at": "2024-04-21T15:21:37",
-      "last_fetched": "2025-09-22T02:55:29.060271"
+      "last_fetched": "2025-09-27T02:34:37.718780"
     },
     {
       "url": "https://swiftpackageindex.com/pointfreeco/swift-url-routing.git",
       "owner": "pointfreeco",
       "name": "swift-url-routing",
       "description": "A bidirectional router with more type safety and less fuss.",
-      "stars": 389,
+      "stars": 390,
       "forks": 29,
-      "watchers": 389,
+      "watchers": 390,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -2726,9 +2726,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2022-05-01T18:39:21",
-      "updated_at": "2025-09-05T17:29:56",
+      "updated_at": "2025-09-22T13:07:45",
       "pushed_at": "2025-02-24T18:19:05",
-      "last_fetched": "2025-09-22T02:55:33.842949"
+      "last_fetched": "2025-09-27T02:34:42.478618"
     },
     {
       "url": "https://swiftpackageindex.com/ChimeHQ/JSONRPC.git",
@@ -2749,7 +2749,7 @@
       "created_at": "2021-07-20T14:53:35",
       "updated_at": "2025-09-16T21:03:36",
       "pushed_at": "2025-05-08T14:30:17",
-      "last_fetched": "2025-09-22T02:55:38.655167"
+      "last_fetched": "2025-09-27T02:34:47.427716"
     },
     {
       "url": "https://swiftpackageindex.com/devxoul/ReusableKit.git",
@@ -2770,7 +2770,7 @@
       "created_at": "2016-05-25T15:53:42",
       "updated_at": "2025-08-28T18:31:32",
       "pushed_at": "2023-07-04T13:42:26",
-      "last_fetched": "2025-09-22T02:55:43.404968"
+      "last_fetched": "2025-09-27T02:34:52.194291"
     },
     {
       "url": "https://swiftpackageindex.com/KazaKago/StoreFlowable.swift.git",
@@ -2791,7 +2791,7 @@
       "created_at": "2020-12-12T01:49:27",
       "updated_at": "2025-02-25T12:27:52",
       "pushed_at": "2025-08-11T17:48:54",
-      "last_fetched": "2025-09-22T02:55:48.270123"
+      "last_fetched": "2025-09-27T02:34:56.924596"
     },
     {
       "url": "https://swiftpackageindex.com/devedbox/commander.git",
@@ -2812,7 +2812,7 @@
       "created_at": "2018-07-04T13:38:17",
       "updated_at": "2024-04-19T01:59:52",
       "pushed_at": "2020-11-21T05:05:42",
-      "last_fetched": "2025-09-22T02:55:53.028834"
+      "last_fetched": "2025-09-27T02:35:01.680446"
     },
     {
       "url": "https://swiftpackageindex.com/NozeIO/redi-s.git",
@@ -2833,7 +2833,7 @@
       "created_at": "2018-04-12T13:36:54",
       "updated_at": "2025-08-05T03:55:59",
       "pushed_at": "2024-01-29T23:27:17",
-      "last_fetched": "2025-09-22T02:55:57.856972"
+      "last_fetched": "2025-09-27T02:35:06.506167"
     },
     {
       "url": "https://swiftpackageindex.com/SomeRandomiOSDev/CBORCoding.git",
@@ -2854,7 +2854,7 @@
       "created_at": "2019-06-05T02:02:17",
       "updated_at": "2025-04-02T13:12:22",
       "pushed_at": "2025-04-02T13:12:17",
-      "last_fetched": "2025-09-22T02:56:02.682609"
+      "last_fetched": "2025-09-27T02:35:11.309051"
     },
     {
       "url": "https://swiftpackageindex.com/mikhailmaslo/macro-codable-kit.git",
@@ -2875,7 +2875,7 @@
       "created_at": "2023-09-21T20:04:05",
       "updated_at": "2025-07-04T07:28:21",
       "pushed_at": "2024-12-15T20:39:07",
-      "last_fetched": "2025-09-23T02:32:00.796756"
+      "last_fetched": "2025-09-27T02:35:16.107016"
     },
     {
       "url": "https://swiftpackageindex.com/p-x9/swift-edf.git",
@@ -2896,7 +2896,7 @@
       "created_at": "2025-02-08T20:14:00",
       "updated_at": "2025-02-25T16:55:10",
       "pushed_at": "2025-02-25T16:59:20",
-      "last_fetched": "2025-09-23T02:32:05.729463"
+      "last_fetched": "2025-09-27T02:35:20.881226"
     },
     {
       "url": "https://swiftpackageindex.com/polac24/XCBuildAnalyzer.git",
@@ -2917,16 +2917,16 @@
       "created_at": "2023-06-18T18:25:05",
       "updated_at": "2025-09-02T09:14:56",
       "pushed_at": "2024-02-09T01:36:01",
-      "last_fetched": "2025-09-23T02:32:10.548153"
+      "last_fetched": "2025-09-27T02:35:25.646948"
     },
     {
       "url": "https://swiftpackageindex.com/mac-cain13/R.swift.git",
       "owner": "mac-cain13",
       "name": "R.swift",
       "description": "Strong typed, autocompleted resources like images, fonts and segues in Swift projects",
-      "stars": 9588,
-      "forks": 782,
-      "watchers": 9588,
+      "stars": 9593,
+      "forks": 780,
+      "watchers": 9593,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -2936,9 +2936,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2014-12-11T21:36:17",
-      "updated_at": "2025-09-19T08:20:24",
+      "updated_at": "2025-09-26T09:30:45",
       "pushed_at": "2025-04-01T13:18:36",
-      "last_fetched": "2025-09-23T02:32:15.333581"
+      "last_fetched": "2025-09-27T02:35:30.384360"
     },
     {
       "url": "https://swiftpackageindex.com/rosecoder/google-cloud-pubsub-swift.git",
@@ -2959,7 +2959,7 @@
       "created_at": "2025-01-30T07:23:16",
       "updated_at": "2025-08-31T18:35:06",
       "pushed_at": "2025-08-31T18:35:03",
-      "last_fetched": "2025-09-23T02:32:20.119273"
+      "last_fetched": "2025-09-27T02:35:35.097933"
     },
     {
       "url": "https://swiftpackageindex.com/Neo4j-Swift/Neo4j-Swift.git",
@@ -2980,16 +2980,16 @@
       "created_at": "2017-11-26T10:44:27",
       "updated_at": "2025-09-01T02:38:25",
       "pushed_at": "2022-03-26T17:32:24",
-      "last_fetched": "2025-09-23T02:32:25.088173"
+      "last_fetched": "2025-09-27T02:35:39.924837"
     },
     {
       "url": "https://swiftpackageindex.com/onevcat/Rainbow.git",
       "owner": "onevcat",
       "name": "Rainbow",
       "description": "Delightful console output for Swift developers.",
-      "stars": 1901,
+      "stars": 1902,
       "forks": 112,
-      "watchers": 1901,
+      "watchers": 1902,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -2999,9 +2999,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2015-12-23T00:40:29",
-      "updated_at": "2025-09-18T01:35:03",
+      "updated_at": "2025-09-26T23:09:34",
       "pushed_at": "2025-09-18T01:35:07",
-      "last_fetched": "2025-09-23T02:32:29.951245"
+      "last_fetched": "2025-09-27T02:35:44.636376"
     },
     {
       "url": "https://swiftpackageindex.com/nixzhu/Ananda.git",
@@ -3020,9 +3020,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2023-01-11T11:38:59",
-      "updated_at": "2025-09-21T08:32:21",
+      "updated_at": "2025-09-26T08:31:30",
       "pushed_at": "2025-08-21T07:59:22",
-      "last_fetched": "2025-09-23T02:32:34.719292"
+      "last_fetched": "2025-09-27T02:35:49.373415"
     },
     {
       "url": "https://swiftpackageindex.com/mapbox/mapbox-common-ios.git",
@@ -3042,8 +3042,8 @@
       "current_state": "tracking",
       "created_at": "2021-01-23T01:04:47",
       "updated_at": "2025-07-16T17:45:50",
-      "pushed_at": "2025-09-22T08:30:01",
-      "last_fetched": "2025-09-23T02:32:39.540035"
+      "pushed_at": "2025-09-26T12:45:50",
+      "last_fetched": "2025-09-27T02:35:54.173069"
     },
     {
       "url": "https://swiftpackageindex.com/tannerdsilva/RapidLMDB.git",
@@ -3064,7 +3064,7 @@
       "created_at": "2021-02-15T06:47:17",
       "updated_at": "2022-11-29T18:55:34",
       "pushed_at": "2022-11-29T18:54:58",
-      "last_fetched": "2025-09-23T02:32:44.282964"
+      "last_fetched": "2025-09-27T02:35:59.165175"
     },
     {
       "url": "https://swiftpackageindex.com/shield-ai-technology/shieldcredit-spm.git",
@@ -3085,7 +3085,7 @@
       "created_at": "2023-07-26T11:05:02",
       "updated_at": "2024-05-09T10:42:47",
       "pushed_at": "2024-05-09T10:42:43",
-      "last_fetched": "2025-09-23T02:32:49.075446"
+      "last_fetched": "2025-09-27T02:36:03.937471"
     },
     {
       "url": "https://swiftpackageindex.com/CmST0us/PeripheryKit.git",
@@ -3106,7 +3106,7 @@
       "created_at": "2024-01-27T18:09:49",
       "updated_at": "2025-09-14T01:37:33",
       "pushed_at": "2024-07-01T17:55:26",
-      "last_fetched": "2025-09-23T02:32:53.823848"
+      "last_fetched": "2025-09-27T02:36:08.671060"
     },
     {
       "url": "https://swiftpackageindex.com/gregcotten/ZIPFoundationModern.git",
@@ -3127,7 +3127,7 @@
       "created_at": "2022-12-15T15:13:05",
       "updated_at": "2025-05-15T13:49:36",
       "pushed_at": "2025-04-06T23:36:47",
-      "last_fetched": "2025-09-23T02:32:58.702076"
+      "last_fetched": "2025-09-27T02:36:13.535565"
     },
     {
       "url": "https://swiftpackageindex.com/wolfmcnally/WolfStrings.git",
@@ -3148,7 +3148,7 @@
       "created_at": "2018-09-16T00:40:11",
       "updated_at": "2019-12-15T00:34:06",
       "pushed_at": "2019-12-15T00:34:17",
-      "last_fetched": "2025-09-23T02:33:03.422289"
+      "last_fetched": "2025-09-27T02:36:18.238106"
     },
     {
       "url": "https://swiftpackageindex.com/mredig/SwiftSerial.git",
@@ -3169,7 +3169,7 @@
       "created_at": "2024-01-24T21:37:47",
       "updated_at": "2025-07-26T16:30:22",
       "pushed_at": "2025-03-12T22:04:38",
-      "last_fetched": "2025-09-23T02:33:08.354234"
+      "last_fetched": "2025-09-27T02:36:23.123476"
     },
     {
       "url": "https://swiftpackageindex.com/SwiftGL/Math.git",
@@ -3190,7 +3190,7 @@
       "created_at": "2016-02-20T23:17:58",
       "updated_at": "2025-03-03T18:28:21",
       "pushed_at": "2020-10-05T16:58:36",
-      "last_fetched": "2025-09-23T02:33:13.173768"
+      "last_fetched": "2025-09-27T02:36:27.948136"
     },
     {
       "url": "https://swiftpackageindex.com/pvzig/SlackKit.git",
@@ -3211,7 +3211,7 @@
       "created_at": "2015-09-30T23:28:39",
       "updated_at": "2025-08-27T18:23:30",
       "pushed_at": "2022-12-02T13:54:50",
-      "last_fetched": "2025-09-23T02:33:17.970114"
+      "last_fetched": "2025-09-27T02:36:32.748893"
     },
     {
       "url": "https://swiftpackageindex.com/dastrobu/argtree.git",
@@ -3232,7 +3232,7 @@
       "created_at": "2018-04-26T18:11:57",
       "updated_at": "2023-01-22T17:53:29",
       "pushed_at": "2022-12-08T11:30:34",
-      "last_fetched": "2025-09-23T02:33:22.794192"
+      "last_fetched": "2025-09-27T02:36:37.555481"
     },
     {
       "url": "https://swiftpackageindex.com/my-mail-ru/swift-benchmark.git",
@@ -3253,7 +3253,7 @@
       "created_at": "2016-09-02T18:54:18",
       "updated_at": "2019-03-17T13:33:45",
       "pushed_at": "2017-12-08T19:52:55",
-      "last_fetched": "2025-09-23T02:33:27.596590"
+      "last_fetched": "2025-09-27T02:36:42.319457"
     },
     {
       "url": "https://swiftpackageindex.com/aydenp/passencoder.git",
@@ -3274,7 +3274,7 @@
       "created_at": "2018-05-06T21:20:50",
       "updated_at": "2025-09-12T05:41:11",
       "pushed_at": "2023-06-05T12:51:59",
-      "last_fetched": "2025-09-23T02:33:32.617343"
+      "last_fetched": "2025-09-27T02:36:47.112518"
     },
     {
       "url": "https://swiftpackageindex.com/frizlab/bsonserialization.git",
@@ -3295,7 +3295,7 @@
       "created_at": "2016-02-16T22:14:43",
       "updated_at": "2025-07-22T03:10:10",
       "pushed_at": "2024-02-01T18:23:31",
-      "last_fetched": "2025-09-23T02:33:37.478046"
+      "last_fetched": "2025-09-27T02:36:51.843512"
     },
     {
       "url": "https://swiftpackageindex.com/tayloraswift/archer.git",
@@ -3316,7 +3316,7 @@
       "created_at": "2025-01-27T01:41:40",
       "updated_at": "2025-03-30T21:56:53",
       "pushed_at": "2025-03-30T21:56:49",
-      "last_fetched": "2025-09-23T02:33:42.355458"
+      "last_fetched": "2025-09-27T02:36:56.530367"
     },
     {
       "url": "https://swiftpackageindex.com/ctreffs/SwiftImGui.git",
@@ -3324,7 +3324,7 @@
       "name": "SwiftImGui",
       "description": "Swift wrapper around Dear imgui for macOS, iOS, Linux and Windows",
       "stars": 169,
-      "forks": 19,
+      "forks": 18,
       "watchers": 169,
       "language": "C++",
       "license_name": null,
@@ -3336,8 +3336,8 @@
       "current_state": "tracking",
       "created_at": "2019-10-27T05:20:57",
       "updated_at": "2025-09-12T09:25:33",
-      "pushed_at": "2025-09-07T23:51:41",
-      "last_fetched": "2025-09-23T02:33:47.208949"
+      "pushed_at": "2025-09-24T18:26:29",
+      "last_fetched": "2025-09-27T02:37:01.236570"
     },
     {
       "url": "https://swiftpackageindex.com/swift-libp2p/swift-multihash.git",
@@ -3358,7 +3358,7 @@
       "created_at": "2022-05-02T00:52:31",
       "updated_at": "2025-02-28T19:21:17",
       "pushed_at": "2025-02-28T19:26:16",
-      "last_fetched": "2025-09-23T02:33:52.076320"
+      "last_fetched": "2025-09-27T02:37:06.100216"
     },
     {
       "url": "https://swiftpackageindex.com/uraimo/nunchuck.swift.git",
@@ -3379,7 +3379,7 @@
       "created_at": "2017-05-14T09:19:05",
       "updated_at": "2024-04-18T06:31:35",
       "pushed_at": "2019-09-26T16:44:34",
-      "last_fetched": "2025-09-23T02:33:56.791480"
+      "last_fetched": "2025-09-27T02:37:10.748615"
     },
     {
       "url": "https://swiftpackageindex.com/furby-tm/TOMLKit.git",
@@ -3400,7 +3400,7 @@
       "created_at": "2023-12-09T15:45:55",
       "updated_at": "2023-12-09T15:49:38",
       "pushed_at": "2023-12-10T17:41:41",
-      "last_fetched": "2025-09-23T02:34:01.639353"
+      "last_fetched": "2025-09-27T02:37:15.568633"
     },
     {
       "url": "https://swiftpackageindex.com/susandoggie/doggie.git",
@@ -3421,7 +3421,7 @@
       "created_at": "2015-11-25T02:02:38",
       "updated_at": "2025-08-11T22:50:17",
       "pushed_at": "2025-01-02T09:54:26",
-      "last_fetched": "2025-09-23T02:34:06.431076"
+      "last_fetched": "2025-09-27T02:37:20.492868"
     },
     {
       "url": "https://swiftpackageindex.com/FlineDev/AnyLint.git",
@@ -3442,7 +3442,7 @@
       "created_at": "2020-03-07T09:53:32",
       "updated_at": "2025-09-19T11:10:43",
       "pushed_at": "2023-04-09T22:14:02",
-      "last_fetched": "2025-09-23T02:34:11.550787"
+      "last_fetched": "2025-09-27T02:37:25.256359"
     },
     {
       "url": "https://swiftpackageindex.com/ihejunqiu/UserCaches.git",
@@ -3463,7 +3463,7 @@
       "created_at": "2018-06-05T12:15:35",
       "updated_at": "2019-09-03T04:21:39",
       "pushed_at": "2018-06-11T08:47:57",
-      "last_fetched": "2025-09-23T02:34:16.301440"
+      "last_fetched": "2025-09-27T02:37:29.953700"
     },
     {
       "url": "https://swiftpackageindex.com/iankoex/steampress-core.git",
@@ -3484,7 +3484,7 @@
       "created_at": "2023-06-12T10:22:30",
       "updated_at": "2023-06-12T10:24:48",
       "pushed_at": "2023-08-16T08:59:57",
-      "last_fetched": "2025-09-23T02:34:21.070972"
+      "last_fetched": "2025-09-27T02:37:34.628330"
     },
     {
       "url": "https://swiftpackageindex.com/kenmaz/swiftoutline.git",
@@ -3505,7 +3505,7 @@
       "created_at": "2019-05-28T08:36:22",
       "updated_at": "2023-11-25T09:25:45",
       "pushed_at": "2019-06-26T03:41:37",
-      "last_fetched": "2025-09-23T02:34:25.877085"
+      "last_fetched": "2025-09-27T02:37:39.363020"
     },
     {
       "url": "https://swiftpackageindex.com/markbattistella/relative-urls-publish-plugin.git",
@@ -3526,7 +3526,7 @@
       "created_at": "2022-11-11T11:43:08",
       "updated_at": "2022-12-11T06:55:58",
       "pushed_at": "2022-11-11T11:45:29",
-      "last_fetched": "2025-09-23T02:34:30.608792"
+      "last_fetched": "2025-09-27T02:37:44.019808"
     },
     {
       "url": "https://swiftpackageindex.com/dagronf/PPMKit.git",
@@ -3547,7 +3547,7 @@
       "created_at": "2022-12-19T08:47:15",
       "updated_at": "2024-08-25T19:12:49",
       "pushed_at": "2023-10-22T01:01:05",
-      "last_fetched": "2025-09-23T02:34:35.361961"
+      "last_fetched": "2025-09-27T02:37:48.660838"
     },
     {
       "url": "https://swiftpackageindex.com/yutailang0119/progressspinnerkit.git",
@@ -3568,7 +3568,7 @@
       "created_at": "2018-07-28T08:05:53",
       "updated_at": "2025-03-17T08:23:25",
       "pushed_at": "2025-08-12T09:36:23",
-      "last_fetched": "2025-09-23T02:34:40.188455"
+      "last_fetched": "2025-09-27T02:37:53.429413"
     },
     {
       "url": "https://swiftpackageindex.com/pointfreeco/sharing-grdb.git",
@@ -3589,16 +3589,16 @@
       "created_at": "2025-09-04T20:56:42",
       "updated_at": "2025-09-21T10:21:14",
       "pushed_at": "2025-09-18T20:57:09",
-      "last_fetched": "2025-09-23T02:34:45.022773"
+      "last_fetched": "2025-09-27T02:37:58.270101"
     },
     {
       "url": "https://swiftpackageindex.com/Kitura/Kitura.git",
       "owner": "Kitura",
       "name": "Kitura",
       "description": "A Swift web framework and HTTP server.",
-      "stars": 7621,
+      "stars": 7620,
       "forks": 498,
-      "watchers": 7621,
+      "watchers": 7620,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -3608,9 +3608,9 @@
       "android_compatible": false,
       "current_state": "archived",
       "created_at": "2016-02-08T16:12:21",
-      "updated_at": "2025-09-21T12:37:51",
+      "updated_at": "2025-09-24T05:59:39",
       "pushed_at": "2022-10-07T05:43:45",
-      "last_fetched": "2025-09-23T02:34:49.860978"
+      "last_fetched": "2025-09-27T02:38:03.021236"
     },
     {
       "url": "https://swiftpackageindex.com/Samasaur1/UtilityKit.git",
@@ -3631,7 +3631,7 @@
       "created_at": "2018-08-08T20:14:20",
       "updated_at": "2018-10-19T14:25:26",
       "pushed_at": "2018-10-19T14:26:35",
-      "last_fetched": "2025-09-23T02:34:54.603859"
+      "last_fetched": "2025-09-27T02:38:07.736675"
     },
     {
       "url": "https://swiftpackageindex.com/scaraux/Swift-Porter-Stemmer-2.git",
@@ -3652,7 +3652,7 @@
       "created_at": "2018-10-16T04:42:31",
       "updated_at": "2025-06-13T00:42:50",
       "pushed_at": "2023-02-16T17:40:03",
-      "last_fetched": "2025-09-23T02:34:59.433309"
+      "last_fetched": "2025-09-27T02:38:12.504535"
     },
     {
       "url": "https://swiftpackageindex.com/MichK1/SwiftExecutionTimer.git",
@@ -3673,7 +3673,7 @@
       "created_at": "2024-12-17T17:17:28",
       "updated_at": "2025-05-22T20:09:33",
       "pushed_at": "2025-05-22T20:16:20",
-      "last_fetched": "2025-09-23T02:35:04.193713"
+      "last_fetched": "2025-09-27T02:38:17.224554"
     },
     {
       "url": "https://swiftpackageindex.com/elegantchaos/Octoid.git",
@@ -3694,7 +3694,7 @@
       "created_at": "2020-05-27T11:38:17",
       "updated_at": "2022-08-01T13:01:59",
       "pushed_at": "2022-11-21T16:58:53",
-      "last_fetched": "2025-09-23T02:35:09.002779"
+      "last_fetched": "2025-09-27T02:38:21.970265"
     },
     {
       "url": "https://swiftpackageindex.com/objcio/md5.git",
@@ -3715,7 +3715,7 @@
       "created_at": "2019-07-17T07:57:19",
       "updated_at": "2019-08-06T14:42:20",
       "pushed_at": "2019-07-17T08:13:23",
-      "last_fetched": "2025-09-23T02:35:13.802036"
+      "last_fetched": "2025-09-27T02:38:26.658402"
     },
     {
       "url": "https://swiftpackageindex.com/Apodini/swift-log-elk.git",
@@ -3736,7 +3736,7 @@
       "created_at": "2021-07-01T13:03:07",
       "updated_at": "2024-08-09T05:42:31",
       "pushed_at": "2022-11-12T16:00:16",
-      "last_fetched": "2025-09-23T02:35:18.679027"
+      "last_fetched": "2025-09-27T02:38:31.512971"
     },
     {
       "url": "https://swiftpackageindex.com/liuliu/dflat.git",
@@ -3757,7 +3757,7 @@
       "created_at": "2020-06-25T02:53:38",
       "updated_at": "2025-09-11T21:27:11",
       "pushed_at": "2025-09-11T21:27:08",
-      "last_fetched": "2025-09-23T02:35:23.472517"
+      "last_fetched": "2025-09-27T02:38:36.243348"
     },
     {
       "url": "https://swiftpackageindex.com/natinusala/swift-cutelog.git",
@@ -3778,7 +3778,7 @@
       "created_at": "2022-10-08T20:59:22",
       "updated_at": "2022-10-08T21:52:46",
       "pushed_at": "2022-10-10T18:56:01",
-      "last_fetched": "2025-09-23T02:35:28.248448"
+      "last_fetched": "2025-09-27T02:38:41.007392"
     },
     {
       "url": "https://swiftpackageindex.com/phisakel/gtfs-db-swift.git",
@@ -3799,7 +3799,7 @@
       "created_at": "2024-12-21T22:53:03",
       "updated_at": "2025-02-24T12:27:45",
       "pushed_at": "2024-12-23T20:00:40",
-      "last_fetched": "2025-09-23T02:35:33.008093"
+      "last_fetched": "2025-09-27T02:38:45.710505"
     },
     {
       "url": "https://swiftpackageindex.com/gavrilaf/seagull.git",
@@ -3820,7 +3820,7 @@
       "created_at": "2018-04-29T05:39:59",
       "updated_at": "2018-10-31T03:09:26",
       "pushed_at": "2022-12-08T02:07:25",
-      "last_fetched": "2025-09-23T02:35:37.847085"
+      "last_fetched": "2025-09-27T02:38:50.482431"
     },
     {
       "url": "https://swiftpackageindex.com/vapor-community/soto-cognito-authentication.git",
@@ -3841,7 +3841,7 @@
       "created_at": "2019-11-01T08:40:34",
       "updated_at": "2025-07-17T21:36:52",
       "pushed_at": "2024-10-18T07:51:08",
-      "last_fetched": "2025-09-23T02:35:42.772792"
+      "last_fetched": "2025-09-27T02:38:55.322349"
     },
     {
       "url": "https://swiftpackageindex.com/suransea/mpris-swift.git",
@@ -3862,7 +3862,7 @@
       "created_at": "2024-10-08T12:06:51",
       "updated_at": "2024-10-20T13:49:03",
       "pushed_at": "2024-10-20T13:49:30",
-      "last_fetched": "2025-09-23T02:35:47.508347"
+      "last_fetched": "2025-09-27T02:39:00.019198"
     },
     {
       "url": "https://swiftpackageindex.com/dirtyhenry/swift-blocks.git",
@@ -3883,7 +3883,7 @@
       "created_at": "2022-01-19T18:57:35",
       "updated_at": "2025-08-18T11:49:40",
       "pushed_at": "2025-08-18T11:49:39",
-      "last_fetched": "2025-09-23T02:35:52.395936"
+      "last_fetched": "2025-09-27T02:39:04.775056"
     },
     {
       "url": "https://swiftpackageindex.com/sobotics/swiftstack.git",
@@ -3904,7 +3904,7 @@
       "created_at": "2016-12-02T19:38:02",
       "updated_at": "2020-10-06T19:23:33",
       "pushed_at": "2020-08-03T02:05:12",
-      "last_fetched": "2025-09-23T02:35:57.286499"
+      "last_fetched": "2025-09-27T02:39:09.534378"
     },
     {
       "url": "https://swiftpackageindex.com/basvankuijck/CommandLine.git",
@@ -3925,7 +3925,7 @@
       "created_at": "2019-04-05T08:10:44",
       "updated_at": "2024-01-08T11:55:13",
       "pushed_at": "2020-05-15T12:23:04",
-      "last_fetched": "2025-09-23T02:36:02.094959"
+      "last_fetched": "2025-09-27T02:39:14.311908"
     },
     {
       "url": "https://swiftpackageindex.com/bow-swift/SwiftCheck.git",
@@ -3946,7 +3946,7 @@
       "created_at": "2020-04-03T10:33:43",
       "updated_at": "2020-04-28T17:22:08",
       "pushed_at": "2020-04-28T17:22:06",
-      "last_fetched": "2025-09-23T02:36:06.952852"
+      "last_fetched": "2025-09-27T02:39:19.110438"
     },
     {
       "url": "https://swiftpackageindex.com/bdrelling/KipplePlugins.git",
@@ -3967,7 +3967,7 @@
       "created_at": "2022-07-09T02:16:04",
       "updated_at": "2024-02-29T00:30:51",
       "pushed_at": "2024-03-01T21:46:47",
-      "last_fetched": "2025-09-23T02:36:11.699826"
+      "last_fetched": "2025-09-27T02:39:23.872943"
     },
     {
       "url": "https://swiftpackageindex.com/mkrd/Swift-BigInt.git",
@@ -3988,7 +3988,7 @@
       "created_at": "2016-02-05T10:23:37",
       "updated_at": "2025-08-02T17:43:30",
       "pushed_at": "2024-07-27T11:19:55",
-      "last_fetched": "2025-09-23T02:36:16.549952"
+      "last_fetched": "2025-09-27T02:39:28.555234"
     },
     {
       "url": "https://swiftpackageindex.com/Maxim-Lanskoy/SRM.git",
@@ -4009,7 +4009,7 @@
       "created_at": "2024-09-10T19:32:33",
       "updated_at": "2025-01-23T21:41:06",
       "pushed_at": "2025-01-23T21:44:41",
-      "last_fetched": "2025-09-23T02:36:21.241416"
+      "last_fetched": "2025-09-27T02:39:33.227615"
     },
     {
       "url": "https://swiftpackageindex.com/netreconlab/parse-server-swift.git",
@@ -4030,7 +4030,7 @@
       "created_at": "2022-06-20T21:03:29",
       "updated_at": "2025-03-13T00:19:03",
       "pushed_at": "2025-07-31T18:40:12",
-      "last_fetched": "2025-09-23T02:36:26.116266"
+      "last_fetched": "2025-09-27T02:39:37.985726"
     },
     {
       "url": "https://swiftpackageindex.com/Kaiede/PCA9685.git",
@@ -4051,7 +4051,7 @@
       "created_at": "2018-08-14T15:02:09",
       "updated_at": "2021-03-05T11:16:49",
       "pushed_at": "2019-11-07T22:23:52",
-      "last_fetched": "2025-09-23T02:36:30.864376"
+      "last_fetched": "2025-09-27T02:39:42.735569"
     },
     {
       "url": "https://swiftpackageindex.com/bow-swift/bow.git",
@@ -4072,7 +4072,7 @@
       "created_at": "2018-03-07T15:01:09",
       "updated_at": "2025-09-21T20:36:39",
       "pushed_at": "2022-10-09T21:51:49",
-      "last_fetched": "2025-09-23T02:36:35.780347"
+      "last_fetched": "2025-09-27T02:39:47.736219"
     },
     {
       "url": "https://swiftpackageindex.com/Molbie/Outlaw.git",
@@ -4093,7 +4093,7 @@
       "created_at": "2016-11-26T23:23:55",
       "updated_at": "2021-07-29T21:32:45",
       "pushed_at": "2020-04-01T22:41:46",
-      "last_fetched": "2025-09-23T02:36:40.704837"
+      "last_fetched": "2025-09-27T02:39:52.593504"
     },
     {
       "url": "https://swiftpackageindex.com/xcode-actions/loki-logger.git",
@@ -4114,7 +4114,7 @@
       "created_at": "2024-05-01T19:34:18",
       "updated_at": "2024-11-29T21:02:33",
       "pushed_at": "2024-11-29T21:02:29",
-      "last_fetched": "2025-09-23T02:36:45.464607"
+      "last_fetched": "2025-09-27T02:39:57.368223"
     },
     {
       "url": "https://swiftpackageindex.com/stackotter/jpeg.git",
@@ -4135,7 +4135,7 @@
       "created_at": "2024-09-01T09:33:52",
       "updated_at": "2024-09-09T08:48:10",
       "pushed_at": "2024-09-09T08:48:06",
-      "last_fetched": "2025-09-23T02:36:50.337744"
+      "last_fetched": "2025-09-27T02:40:02.072685"
     },
     {
       "url": "https://swiftpackageindex.com/Bersaelor/SwiftyHYGDB.git",
@@ -4156,7 +4156,7 @@
       "created_at": "2017-09-10T22:48:09",
       "updated_at": "2023-08-22T16:07:12",
       "pushed_at": "2020-07-12T21:12:25",
-      "last_fetched": "2025-09-23T02:36:55.113910"
+      "last_fetched": "2025-09-27T02:40:06.793909"
     },
     {
       "url": "https://swiftpackageindex.com/realtime-sanitizer/RTSanStandaloneSwift.git",
@@ -4177,16 +4177,16 @@
       "created_at": "2025-02-11T21:48:02",
       "updated_at": "2025-08-22T10:19:28",
       "pushed_at": "2025-08-22T10:23:19",
-      "last_fetched": "2025-09-23T02:37:00.100640"
+      "last_fetched": "2025-09-27T02:40:11.550369"
     },
     {
       "url": "https://swiftpackageindex.com/edgeengineer/cbor.git",
       "owner": "edgeengineer",
       "name": "cbor",
       "description": "A CBOR library for Cross Platform Swift Projects",
-      "stars": 2,
+      "stars": 3,
       "forks": 1,
-      "watchers": 2,
+      "watchers": 3,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -4196,18 +4196,18 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2025-03-24T21:25:22",
-      "updated_at": "2025-06-05T02:54:12",
+      "updated_at": "2025-09-23T13:04:46",
       "pushed_at": "2025-06-30T05:25:58",
-      "last_fetched": "2025-09-23T02:37:04.902950"
+      "last_fetched": "2025-09-27T02:40:16.333121"
     },
     {
       "url": "https://swiftpackageindex.com/MobileNativeFoundation/XCLogParser.git",
       "owner": "MobileNativeFoundation",
       "name": "XCLogParser",
       "description": "Tool to parse Xcode and xcodebuild logs stored in the xcactivitylog format",
-      "stars": 1798,
+      "stars": 1800,
       "forks": 134,
-      "watchers": 1798,
+      "watchers": 1800,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -4217,9 +4217,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2019-05-22T20:40:32",
-      "updated_at": "2025-09-17T06:49:52",
+      "updated_at": "2025-09-26T09:47:57",
       "pushed_at": "2025-09-16T07:14:28",
-      "last_fetched": "2025-09-23T02:37:09.760669"
+      "last_fetched": "2025-09-27T02:40:21.147004"
     },
     {
       "url": "https://swiftpackageindex.com/Boilertalk/telegrambot.swift.git",
@@ -4240,7 +4240,7 @@
       "created_at": "2017-08-10T02:07:14",
       "updated_at": "2020-10-24T02:51:22",
       "pushed_at": "2020-09-24T21:00:11",
-      "last_fetched": "2025-09-23T02:37:14.575927"
+      "last_fetched": "2025-09-27T02:40:25.891461"
     },
     {
       "url": "https://swiftpackageindex.com/jpmhouston/RenameCommand.git",
@@ -4261,7 +4261,7 @@
       "created_at": "2020-03-20T21:47:47",
       "updated_at": "2025-04-30T08:47:14",
       "pushed_at": "2021-01-04T09:09:12",
-      "last_fetched": "2025-09-23T02:37:19.456343"
+      "last_fetched": "2025-09-27T02:40:30.771099"
     },
     {
       "url": "https://swiftpackageindex.com/envoy/Ambassador.git",
@@ -4282,7 +4282,7 @@
       "created_at": "2016-06-10T20:46:44",
       "updated_at": "2025-09-10T22:41:10",
       "pushed_at": "2022-12-05T08:13:27",
-      "last_fetched": "2025-09-23T02:37:24.342939"
+      "last_fetched": "2025-09-27T02:40:35.583666"
     },
     {
       "url": "https://swiftpackageindex.com/sdggiesbrecht/sdgswift.git",
@@ -4303,7 +4303,7 @@
       "created_at": "2018-04-23T03:02:05",
       "updated_at": "2025-01-01T03:24:42",
       "pushed_at": "2024-09-08T19:19:16",
-      "last_fetched": "2025-09-23T02:37:29.148577"
+      "last_fetched": "2025-09-27T02:40:40.368535"
     },
     {
       "url": "https://swiftpackageindex.com/swifweb/webber-tools.git",
@@ -4324,7 +4324,7 @@
       "created_at": "2021-06-28T12:13:34",
       "updated_at": "2022-01-29T23:52:15",
       "pushed_at": "2023-12-15T00:30:59",
-      "last_fetched": "2025-09-23T02:37:33.980359"
+      "last_fetched": "2025-09-27T02:40:45.086387"
     },
     {
       "url": "https://swiftpackageindex.com/wolfmcnally/WolfCore.git",
@@ -4345,7 +4345,7 @@
       "created_at": "2017-07-02T08:35:50",
       "updated_at": "2019-12-15T00:44:33",
       "pushed_at": "2019-12-15T00:44:52",
-      "last_fetched": "2025-09-23T02:37:38.746534"
+      "last_fetched": "2025-09-27T02:40:49.797847"
     },
     {
       "url": "https://swiftpackageindex.com/0xLeif/Cache.git",
@@ -4366,7 +4366,7 @@
       "created_at": "2023-06-09T18:22:18",
       "updated_at": "2025-09-20T20:56:27",
       "pushed_at": "2025-09-20T21:05:51",
-      "last_fetched": "2025-09-23T02:37:43.545769"
+      "last_fetched": "2025-09-27T02:40:54.574487"
     },
     {
       "url": "https://swiftpackageindex.com/tomasf/Nodal.git",
@@ -4387,7 +4387,7 @@
       "created_at": "2025-01-20T10:46:58",
       "updated_at": "2025-09-11T09:15:58",
       "pushed_at": "2025-09-11T09:17:12",
-      "last_fetched": "2025-09-23T02:37:48.286047"
+      "last_fetched": "2025-09-27T02:40:59.229095"
     },
     {
       "url": "https://swiftpackageindex.com/Frizlab/URLRequestOperation.git",
@@ -4408,7 +4408,7 @@
       "created_at": "2023-11-15T14:51:33",
       "updated_at": "2024-12-29T13:13:04",
       "pushed_at": "2025-04-09T08:07:35",
-      "last_fetched": "2025-09-23T02:37:53.183248"
+      "last_fetched": "2025-09-27T02:41:04.078025"
     },
     {
       "url": "https://swiftpackageindex.com/uraimo/SwiftyGPIO.git",
@@ -4429,7 +4429,7 @@
       "created_at": "2016-01-10T17:05:48",
       "updated_at": "2025-09-22T14:11:15",
       "pushed_at": "2024-05-02T07:50:51",
-      "last_fetched": "2025-09-23T02:37:57.985467"
+      "last_fetched": "2025-09-27T02:41:08.795000"
     },
     {
       "url": "https://swiftpackageindex.com/Nef10/Releases.git",
@@ -4450,7 +4450,7 @@
       "created_at": "2021-05-16T21:19:28",
       "updated_at": "2021-05-16T21:31:49",
       "pushed_at": "2021-05-16T22:15:29",
-      "last_fetched": "2025-09-23T02:38:02.797240"
+      "last_fetched": "2025-09-27T02:41:13.576089"
     },
     {
       "url": "https://swiftpackageindex.com/SoftwareEngineerChris/MonetaryAmount.git",
@@ -4471,7 +4471,7 @@
       "created_at": "2019-09-11T21:35:35",
       "updated_at": "2024-08-06T20:55:48",
       "pushed_at": "2019-10-07T14:26:19",
-      "last_fetched": "2025-09-23T02:38:07.561207"
+      "last_fetched": "2025-09-27T02:41:18.272076"
     },
     {
       "url": "https://swiftpackageindex.com/davidskrundz/commandline.git",
@@ -4492,16 +4492,16 @@
       "created_at": "2018-10-08T03:21:36",
       "updated_at": "2021-03-11T05:42:20",
       "pushed_at": "2021-03-11T05:42:18",
-      "last_fetched": "2025-09-23T02:38:12.307005"
+      "last_fetched": "2025-09-27T02:41:22.945344"
     },
     {
       "url": "https://swiftpackageindex.com/CoreOffice/CoreXLSX.git",
       "owner": "CoreOffice",
       "name": "CoreXLSX",
       "description": "Excel spreadsheet (XLSX) format parser written in pure Swift",
-      "stars": 874,
+      "stars": 876,
       "forks": 102,
-      "watchers": 874,
+      "watchers": 876,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -4511,9 +4511,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2018-10-27T20:55:43",
-      "updated_at": "2025-09-21T22:16:21",
+      "updated_at": "2025-09-26T07:49:46",
       "pushed_at": "2024-03-25T09:25:21",
-      "last_fetched": "2025-09-23T02:38:17.124365"
+      "last_fetched": "2025-09-27T02:41:27.774263"
     },
     {
       "url": "https://swiftpackageindex.com/Wei18/github-rest-api-swift-openapi.git",
@@ -4534,7 +4534,7 @@
       "created_at": "2023-12-29T19:33:57",
       "updated_at": "2025-09-22T22:30:18",
       "pushed_at": "2025-09-22T22:30:15",
-      "last_fetched": "2025-09-23T02:38:21.963907"
+      "last_fetched": "2025-09-27T02:41:32.597215"
     },
     {
       "url": "https://swiftpackageindex.com/avito-tech/CommandLineToolkit.git",
@@ -4555,7 +4555,7 @@
       "created_at": "2020-12-15T10:53:30",
       "updated_at": "2025-04-23T15:23:36",
       "pushed_at": "2025-04-23T15:23:33",
-      "last_fetched": "2025-09-23T02:38:26.825395"
+      "last_fetched": "2025-09-27T02:41:37.402982"
     },
     {
       "url": "https://swiftpackageindex.com/dimakura/sspec.git",
@@ -4576,7 +4576,7 @@
       "created_at": "2017-10-18T20:38:38",
       "updated_at": "2023-09-09T09:44:02",
       "pushed_at": "2017-11-07T08:43:51",
-      "last_fetched": "2025-09-23T02:38:31.628810"
+      "last_fetched": "2025-09-27T02:41:42.123869"
     },
     {
       "url": "https://swiftpackageindex.com/kiliankoe/CLISpinner.git",
@@ -4597,16 +4597,16 @@
       "created_at": "2017-08-01T16:03:33",
       "updated_at": "2025-03-10T14:47:18",
       "pushed_at": "2021-01-24T21:46:43",
-      "last_fetched": "2025-09-23T02:38:36.395430"
+      "last_fetched": "2025-09-27T02:41:47.012418"
     },
     {
       "url": "https://swiftpackageindex.com/valeriyvan/RaspberryPiSenseHat.git",
       "owner": "valeriyvan",
       "name": "RaspberryPiSenseHat",
       "description": "Swift package for Raspberry Pi Sense Hat",
-      "stars": 3,
+      "stars": 4,
       "forks": 0,
-      "watchers": 3,
+      "watchers": 4,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -4616,9 +4616,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2020-10-30T22:43:27",
-      "updated_at": "2022-05-01T20:45:50",
+      "updated_at": "2025-09-25T13:36:09",
       "pushed_at": "2023-04-19T17:10:18",
-      "last_fetched": "2025-09-23T02:38:41.206459"
+      "last_fetched": "2025-09-27T02:41:51.799349"
     },
     {
       "url": "https://swiftpackageindex.com/CuriositySoftware/XcodeTargetGraphGen.git",
@@ -4639,7 +4639,7 @@
       "created_at": "2023-06-11T10:10:21",
       "updated_at": "2025-08-18T18:04:12",
       "pushed_at": "2023-11-05T09:09:11",
-      "last_fetched": "2025-09-23T02:38:46.158046"
+      "last_fetched": "2025-09-27T02:41:56.637984"
     },
     {
       "url": "https://swiftpackageindex.com/ordo-one/package-concurrency-helpers.git",
@@ -4660,7 +4660,7 @@
       "created_at": "2022-05-05T08:19:37",
       "updated_at": "2025-07-04T11:56:53",
       "pushed_at": "2025-07-04T11:56:49",
-      "last_fetched": "2025-09-23T02:38:51.050281"
+      "last_fetched": "2025-09-27T02:42:01.429560"
     },
     {
       "url": "https://swiftpackageindex.com/a2/swift-shortcuts.git",
@@ -4681,7 +4681,7 @@
       "created_at": "2020-06-29T02:26:58",
       "updated_at": "2025-09-02T14:36:36",
       "pushed_at": "2023-04-24T03:44:34",
-      "last_fetched": "2025-09-23T02:38:55.806025"
+      "last_fetched": "2025-09-27T02:42:06.269959"
     },
     {
       "url": "https://swiftpackageindex.com/tuist/ZIPFoundation.git",
@@ -4702,7 +4702,7 @@
       "created_at": "2025-02-04T18:18:16",
       "updated_at": "2025-05-06T23:07:04",
       "pushed_at": "2025-02-04T18:21:01",
-      "last_fetched": "2025-09-23T02:39:00.620364"
+      "last_fetched": "2025-09-27T02:42:10.997190"
     },
     {
       "url": "https://swiftpackageindex.com/SourceDocs/SourceDocs.git",
@@ -4723,7 +4723,7 @@
       "created_at": "2017-10-04T23:23:11",
       "updated_at": "2025-09-10T22:13:54",
       "pushed_at": "2024-07-31T15:44:47",
-      "last_fetched": "2025-09-23T02:39:05.521315"
+      "last_fetched": "2025-09-27T02:42:15.860563"
     },
     {
       "url": "https://swiftpackageindex.com/rosecoder/google-cloud-tracing-swift.git",
@@ -4744,7 +4744,7 @@
       "created_at": "2024-10-27T19:06:20",
       "updated_at": "2025-08-16T14:00:25",
       "pushed_at": "2025-08-16T14:00:46",
-      "last_fetched": "2025-09-23T02:39:10.344070"
+      "last_fetched": "2025-09-27T02:42:20.608037"
     },
     {
       "url": "https://swiftpackageindex.com/Tinder/CollectionBuilders.git",
@@ -4765,7 +4765,7 @@
       "created_at": "2023-09-05T23:11:39",
       "updated_at": "2025-01-31T15:09:53",
       "pushed_at": "2025-01-26T18:27:30",
-      "last_fetched": "2025-09-23T02:39:15.152718"
+      "last_fetched": "2025-09-27T02:42:25.489550"
     },
     {
       "url": "https://swiftpackageindex.com/CmST0us/RxShell.git",
@@ -4786,7 +4786,7 @@
       "created_at": "2023-11-26T03:47:40",
       "updated_at": "2023-11-26T09:08:28",
       "pushed_at": "2023-11-27T09:57:58",
-      "last_fetched": "2025-09-23T02:39:19.898363"
+      "last_fetched": "2025-09-27T02:42:30.249947"
     },
     {
       "url": "https://swiftpackageindex.com/hjianbo/mqtt.git",
@@ -4807,7 +4807,7 @@
       "created_at": "2016-01-18T10:08:11",
       "updated_at": "2025-06-22T13:17:34",
       "pushed_at": "2018-02-10T11:35:16",
-      "last_fetched": "2025-09-23T02:39:24.763305"
+      "last_fetched": "2025-09-27T02:42:35.002610"
     },
     {
       "url": "https://swiftpackageindex.com/jayadamsmorgan/SwiftMsgPack.git",
@@ -4828,7 +4828,7 @@
       "created_at": "2024-05-31T15:26:06",
       "updated_at": "2025-09-07T15:11:02",
       "pushed_at": "2024-06-12T22:36:55",
-      "last_fetched": "2025-09-23T02:39:29.477936"
+      "last_fetched": "2025-09-27T02:42:39.701907"
     },
     {
       "url": "https://swiftpackageindex.com/buhe/openai-kit.git",
@@ -4849,7 +4849,7 @@
       "created_at": "2024-01-27T03:45:34",
       "updated_at": "2024-01-29T03:13:03",
       "pushed_at": "2024-02-11T11:10:50",
-      "last_fetched": "2025-09-23T02:39:34.289074"
+      "last_fetched": "2025-09-27T02:42:44.438600"
     },
     {
       "url": "https://swiftpackageindex.com/kaiede/rpilight.git",
@@ -4870,7 +4870,7 @@
       "created_at": "2018-07-24T21:05:12",
       "updated_at": "2022-07-28T22:40:39",
       "pushed_at": "2022-01-10T22:12:59",
-      "last_fetched": "2025-09-23T02:39:39.084704"
+      "last_fetched": "2025-09-27T02:42:49.216752"
     },
     {
       "url": "https://swiftpackageindex.com/nixzhu/AnandaMacros.git",
@@ -4891,7 +4891,7 @@
       "created_at": "2024-06-14T03:57:12",
       "updated_at": "2025-08-11T11:02:29",
       "pushed_at": "2025-08-11T11:02:54",
-      "last_fetched": "2025-09-23T02:39:43.781958"
+      "last_fetched": "2025-09-27T02:42:53.877778"
     },
     {
       "url": "https://swiftpackageindex.com/drewag/SwiftDate.git",
@@ -4912,7 +4912,7 @@
       "created_at": "2019-10-30T20:56:26",
       "updated_at": "2019-10-30T21:01:21",
       "pushed_at": "2019-10-30T21:01:41",
-      "last_fetched": "2025-09-23T02:39:48.593249"
+      "last_fetched": "2025-09-27T02:42:58.657118"
     },
     {
       "url": "https://swiftpackageindex.com/keithpitsui/paversfrp.git",
@@ -4933,7 +4933,7 @@
       "created_at": "2018-07-20T09:00:28",
       "updated_at": "2020-05-16T02:38:59",
       "pushed_at": "2018-08-04T13:27:06",
-      "last_fetched": "2025-09-23T02:39:53.400079"
+      "last_fetched": "2025-09-27T02:43:03.399209"
     },
     {
       "url": "https://swiftpackageindex.com/Appsaurus/VaporTestUtils.git",
@@ -4954,7 +4954,7 @@
       "created_at": "2018-05-21T18:44:49",
       "updated_at": "2025-01-17T22:59:46",
       "pushed_at": "2025-01-17T23:00:10",
-      "last_fetched": "2025-09-23T02:39:58.359597"
+      "last_fetched": "2025-09-27T02:43:08.237205"
     },
     {
       "url": "https://swiftpackageindex.com/handya/TwitterVapor.git",
@@ -4975,7 +4975,7 @@
       "created_at": "2020-05-07T06:06:45",
       "updated_at": "2024-01-30T01:01:39",
       "pushed_at": "2020-08-05T03:53:00",
-      "last_fetched": "2025-09-23T02:40:03.160220"
+      "last_fetched": "2025-09-27T02:43:12.920193"
     },
     {
       "url": "https://swiftpackageindex.com/bdrelling/Structure.git",
@@ -4996,7 +4996,7 @@
       "created_at": "2022-07-30T19:17:02",
       "updated_at": "2022-09-15T00:47:48",
       "pushed_at": "2023-03-12T03:46:19",
-      "last_fetched": "2025-09-23T02:40:07.976124"
+      "last_fetched": "2025-09-27T02:43:17.594343"
     },
     {
       "url": "https://swiftpackageindex.com/Appsaurus/Fakery.git",
@@ -5017,7 +5017,7 @@
       "created_at": "2018-05-21T19:43:41",
       "updated_at": "2019-05-30T19:13:08",
       "pushed_at": "2019-05-30T19:13:10",
-      "last_fetched": "2025-09-23T02:40:12.780817"
+      "last_fetched": "2025-09-27T02:43:22.467359"
     },
     {
       "url": "https://swiftpackageindex.com/swiftwasm/WasmTransformer.git",
@@ -5038,7 +5038,7 @@
       "created_at": "2020-10-14T17:52:00",
       "updated_at": "2025-02-28T08:05:07",
       "pushed_at": "2023-03-30T13:02:45",
-      "last_fetched": "2025-09-23T02:40:17.656812"
+      "last_fetched": "2025-09-27T02:43:27.309075"
     },
     {
       "url": "https://swiftpackageindex.com/johnfairh/steamworks-swift.git",
@@ -5059,7 +5059,7 @@
       "created_at": "2021-10-18T11:59:49",
       "updated_at": "2025-05-03T16:02:26",
       "pushed_at": "2025-05-03T16:02:29",
-      "last_fetched": "2025-09-23T02:40:22.449450"
+      "last_fetched": "2025-09-27T02:43:32.083460"
     },
     {
       "url": "https://swiftpackageindex.com/LuizZak/TargetDependencyChecker.git",
@@ -5080,7 +5080,7 @@
       "created_at": "2019-06-10T23:35:12",
       "updated_at": "2025-05-20T08:47:22",
       "pushed_at": "2024-06-29T23:20:43",
-      "last_fetched": "2025-09-23T02:40:27.178965"
+      "last_fetched": "2025-09-27T02:43:36.811181"
     },
     {
       "url": "https://swiftpackageindex.com/StanfordBDHG/XCTRuntimeAssertions.git",
@@ -5101,7 +5101,7 @@
       "created_at": "2023-03-08T01:11:00",
       "updated_at": "2025-08-30T20:19:53",
       "pushed_at": "2025-08-30T20:27:10",
-      "last_fetched": "2025-09-23T02:40:32.133157"
+      "last_fetched": "2025-09-27T02:43:41.709480"
     },
     {
       "url": "https://swiftpackageindex.com/melonamin/SwiftKEF.git",
@@ -5122,7 +5122,7 @@
       "created_at": "2025-06-02T23:21:10",
       "updated_at": "2025-07-12T19:45:09",
       "pushed_at": "2025-07-12T19:45:05",
-      "last_fetched": "2025-09-23T02:40:36.837459"
+      "last_fetched": "2025-09-27T02:43:46.453947"
     },
     {
       "url": "https://swiftpackageindex.com/runway-org/xcode-cloud-kit.git",
@@ -5143,7 +5143,7 @@
       "created_at": "2024-02-23T16:17:20",
       "updated_at": "2024-03-29T18:49:19",
       "pushed_at": "2024-03-27T20:25:59",
-      "last_fetched": "2025-09-23T02:40:41.616362"
+      "last_fetched": "2025-09-27T02:43:51.146943"
     },
     {
       "url": "https://swiftpackageindex.com/reswifq/reswifq.git",
@@ -5164,7 +5164,7 @@
       "created_at": "2017-02-26T15:05:14",
       "updated_at": "2024-01-30T10:09:31",
       "pushed_at": "2017-12-07T17:42:42",
-      "last_fetched": "2025-09-23T02:40:46.487853"
+      "last_fetched": "2025-09-27T02:43:55.918349"
     },
     {
       "url": "https://swiftpackageindex.com/ole/Echo.git",
@@ -5185,7 +5185,7 @@
       "created_at": "2022-05-23T15:16:08",
       "updated_at": "2022-05-23T15:36:14",
       "pushed_at": "2022-05-23T20:14:39",
-      "last_fetched": "2025-09-23T02:40:51.309141"
+      "last_fetched": "2025-09-27T02:44:00.661899"
     },
     {
       "url": "https://swiftpackageindex.com/drewag/SwiftlierCLI.git",
@@ -5206,7 +5206,7 @@
       "created_at": "2019-08-03T03:38:05",
       "updated_at": "2019-10-30T21:02:49",
       "pushed_at": "2019-10-30T21:03:01",
-      "last_fetched": "2025-09-23T02:40:56.072864"
+      "last_fetched": "2025-09-27T02:44:05.333730"
     },
     {
       "url": "https://swiftpackageindex.com/nikstar/spm-argument-parser.git",
@@ -5227,7 +5227,7 @@
       "created_at": "2019-08-16T21:36:26",
       "updated_at": "2024-06-24T23:15:26",
       "pushed_at": "2019-08-16T22:52:25",
-      "last_fetched": "2025-09-23T02:41:00.917216"
+      "last_fetched": "2025-09-27T02:44:10.190874"
     },
     {
       "url": "https://swiftpackageindex.com/e-sites/Francium.git",
@@ -5248,7 +5248,7 @@
       "created_at": "2018-07-13T12:44:38",
       "updated_at": "2025-08-05T13:34:29",
       "pushed_at": "2021-10-20T13:43:18",
-      "last_fetched": "2025-09-23T02:41:05.861324"
+      "last_fetched": "2025-09-27T02:44:15.058463"
     },
     {
       "url": "https://swiftpackageindex.com/toffaletti/swiftksuid.git",
@@ -5269,7 +5269,7 @@
       "created_at": "2022-03-02T08:07:48",
       "updated_at": "2025-01-31T16:13:27",
       "pushed_at": "2025-09-16T12:24:15",
-      "last_fetched": "2025-09-23T02:41:10.680469"
+      "last_fetched": "2025-09-27T02:44:19.813240"
     },
     {
       "url": "https://swiftpackageindex.com/iamjono/SwiftRandom.git",
@@ -5290,7 +5290,7 @@
       "created_at": "2016-09-17T18:41:14",
       "updated_at": "2023-10-05T03:37:48",
       "pushed_at": "2018-07-24T20:21:16",
-      "last_fetched": "2025-09-23T02:41:15.602846"
+      "last_fetched": "2025-09-27T02:44:24.692720"
     },
     {
       "url": "https://swiftpackageindex.com/tgu/rosswift.git",
@@ -5311,7 +5311,7 @@
       "created_at": "2018-11-12T13:21:09",
       "updated_at": "2025-09-15T04:32:29",
       "pushed_at": "2024-03-26T12:29:19",
-      "last_fetched": "2025-09-23T02:41:20.424951"
+      "last_fetched": "2025-09-27T02:44:29.444438"
     },
     {
       "url": "https://swiftpackageindex.com/Peter-Schorn/SpotifyAPI.git",
@@ -5332,7 +5332,7 @@
       "created_at": "2020-08-14T19:22:23",
       "updated_at": "2025-09-07T16:58:25",
       "pushed_at": "2025-05-08T20:12:00",
-      "last_fetched": "2025-09-23T02:41:25.169090"
+      "last_fetched": "2025-09-27T02:44:34.190581"
     },
     {
       "url": "https://swiftpackageindex.com/Local-Connectivity-Lab/websocket-kit.git",
@@ -5353,16 +5353,16 @@
       "created_at": "2024-03-05T07:22:41",
       "updated_at": "2024-10-02T06:38:39",
       "pushed_at": "2024-10-02T06:39:27",
-      "last_fetched": "2025-09-23T02:41:30.088503"
+      "last_fetched": "2025-09-27T02:44:39.057778"
     },
     {
       "url": "https://swiftpackageindex.com/p-x9/MachOKit.git",
       "owner": "p-x9",
       "name": "MachOKit",
       "description": "\ud83d\udd2c A Swift library for parsing mach-o files to obtain various information.",
-      "stars": 185,
+      "stars": 186,
       "forks": 16,
-      "watchers": 185,
+      "watchers": 186,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -5372,18 +5372,18 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2023-11-28T08:15:31",
-      "updated_at": "2025-09-16T10:28:37",
+      "updated_at": "2025-09-25T10:55:01",
       "pushed_at": "2025-09-18T16:00:32",
-      "last_fetched": "2025-09-23T02:41:34.921597"
+      "last_fetched": "2025-09-27T02:44:43.829232"
     },
     {
       "url": "https://swiftpackageindex.com/swift-server/swift-prometheus.git",
       "owner": "swift-server",
       "name": "swift-prometheus",
       "description": "Prometheus client library for Swift",
-      "stars": 167,
-      "forks": 38,
-      "watchers": 167,
+      "stars": 169,
+      "forks": 39,
+      "watchers": 169,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -5393,9 +5393,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2018-11-17T17:29:02",
-      "updated_at": "2025-09-17T03:54:58",
+      "updated_at": "2025-09-26T11:15:38",
       "pushed_at": "2025-09-17T03:56:05",
-      "last_fetched": "2025-09-23T02:41:39.862562"
+      "last_fetched": "2025-09-27T02:44:48.900834"
     },
     {
       "url": "https://swiftpackageindex.com/jamesrochabrun/SwiftAnthropic.git",
@@ -5403,7 +5403,7 @@
       "name": "SwiftAnthropic",
       "description": "An open-source Swift package for interacting with Anthropic's public API.",
       "stars": 199,
-      "forks": 54,
+      "forks": 55,
       "watchers": 199,
       "language": "Swift",
       "license_name": null,
@@ -5416,7 +5416,7 @@
       "created_at": "2024-01-29T07:43:03",
       "updated_at": "2025-09-04T06:35:49",
       "pushed_at": "2025-08-05T03:07:12",
-      "last_fetched": "2025-09-23T02:41:44.726907"
+      "last_fetched": "2025-09-27T02:44:53.651256"
     },
     {
       "url": "https://swiftpackageindex.com/sinoru/swift-sodium.git",
@@ -5437,16 +5437,16 @@
       "created_at": "2024-08-13T11:27:26",
       "updated_at": "2024-08-17T07:29:35",
       "pushed_at": "2024-08-17T07:29:32",
-      "last_fetched": "2025-09-23T02:41:49.468264"
+      "last_fetched": "2025-09-27T02:44:58.372941"
     },
     {
       "url": "https://swiftpackageindex.com/mozilla-mobile/firefox-ios.git",
       "owner": "mozilla-mobile",
       "name": "firefox-ios",
       "description": "Firefox for iOS",
-      "stars": 12694,
-      "forks": 3086,
-      "watchers": 12694,
+      "stars": 12695,
+      "forks": 3088,
+      "watchers": 12695,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -5456,18 +5456,18 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2014-11-03T19:07:02",
-      "updated_at": "2025-09-22T20:22:27",
-      "pushed_at": "2025-09-23T00:27:20",
-      "last_fetched": "2025-09-23T02:41:54.475482"
+      "updated_at": "2025-09-26T23:02:20",
+      "pushed_at": "2025-09-27T00:27:28",
+      "last_fetched": "2025-09-27T02:45:03.244191"
     },
     {
       "url": "https://swiftpackageindex.com/jpsim/SourceKitten.git",
       "owner": "jpsim",
       "name": "SourceKitten",
       "description": "An adorable little framework and command line tool for interacting with SourceKit.",
-      "stars": 2389,
+      "stars": 2390,
       "forks": 234,
-      "watchers": 2389,
+      "watchers": 2390,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -5477,9 +5477,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2014-08-17T20:07:25",
-      "updated_at": "2025-09-21T08:03:32",
+      "updated_at": "2025-09-25T06:27:22",
       "pushed_at": "2025-09-17T18:44:34",
-      "last_fetched": "2025-09-23T02:41:59.422050"
+      "last_fetched": "2025-09-27T02:45:08.014447"
     },
     {
       "url": "https://swiftpackageindex.com/xtool-org/zsign.git",
@@ -5500,7 +5500,7 @@
       "created_at": "2022-08-20T19:06:41",
       "updated_at": "2025-09-22T19:30:16",
       "pushed_at": "2025-06-10T00:01:56",
-      "last_fetched": "2025-09-23T02:42:04.199731"
+      "last_fetched": "2025-09-27T02:45:12.827913"
     },
     {
       "url": "https://swiftpackageindex.com/TheCoderMerlin/Curses.git",
@@ -5521,7 +5521,7 @@
       "created_at": "2018-11-23T02:04:48",
       "updated_at": "2025-07-19T16:31:34",
       "pushed_at": "2021-10-31T03:23:29",
-      "last_fetched": "2025-09-23T02:42:09.050011"
+      "last_fetched": "2025-09-27T02:45:17.627989"
     },
     {
       "url": "https://swiftpackageindex.com/kattouf/ProgressLine.git",
@@ -5542,7 +5542,7 @@
       "created_at": "2024-07-02T11:43:36",
       "updated_at": "2025-09-02T16:09:01",
       "pushed_at": "2025-01-09T12:31:40",
-      "last_fetched": "2025-09-23T02:42:13.890482"
+      "last_fetched": "2025-09-27T02:45:22.386314"
     },
     {
       "url": "https://swiftpackageindex.com/uraimo/mcp3008.swift.git",
@@ -5563,7 +5563,7 @@
       "created_at": "2017-04-02T18:30:04",
       "updated_at": "2025-09-12T05:41:24",
       "pushed_at": "2019-09-26T16:39:05",
-      "last_fetched": "2025-09-23T02:42:18.684618"
+      "last_fetched": "2025-09-27T02:45:27.146369"
     },
     {
       "url": "https://swiftpackageindex.com/jordanbaird/Prism.git",
@@ -5584,7 +5584,7 @@
       "created_at": "2022-02-16T00:24:32",
       "updated_at": "2025-04-15T06:44:20",
       "pushed_at": "2023-05-30T10:07:43",
-      "last_fetched": "2025-09-23T02:42:23.548001"
+      "last_fetched": "2025-09-27T02:45:31.868164"
     },
     {
       "url": "https://swiftpackageindex.com/art-divin/swift-driver.git",
@@ -5605,7 +5605,7 @@
       "created_at": "2024-03-02T13:12:57",
       "updated_at": "2024-07-01T22:41:08",
       "pushed_at": "2024-03-02T13:20:37",
-      "last_fetched": "2025-09-23T02:42:28.383259"
+      "last_fetched": "2025-09-27T02:45:36.595241"
     },
     {
       "url": "https://swiftpackageindex.com/p-x9/swift-fileio.git",
@@ -5626,7 +5626,7 @@
       "created_at": "2025-02-14T01:06:14",
       "updated_at": "2025-09-16T09:38:27",
       "pushed_at": "2025-08-16T16:39:07",
-      "last_fetched": "2025-09-23T02:42:33.187661"
+      "last_fetched": "2025-09-27T02:45:41.408755"
     },
     {
       "url": "https://swiftpackageindex.com/danielsincere/ShXcrun.git",
@@ -5647,7 +5647,7 @@
       "created_at": "2022-04-19T23:04:04",
       "updated_at": "2025-05-12T07:59:43",
       "pushed_at": "2024-04-24T00:57:05",
-      "last_fetched": "2025-09-23T02:42:37.988105"
+      "last_fetched": "2025-09-27T02:45:46.414689"
     },
     {
       "url": "https://swiftpackageindex.com/jagreenwood/open-weather-kit.git",
@@ -5668,7 +5668,7 @@
       "created_at": "2022-09-06T13:06:02",
       "updated_at": "2025-05-11T09:42:07",
       "pushed_at": "2025-02-20T17:41:00",
-      "last_fetched": "2025-09-23T02:42:42.821253"
+      "last_fetched": "2025-09-27T02:45:51.258766"
     },
     {
       "url": "https://swiftpackageindex.com/space-code/cqrs.git",
@@ -5689,7 +5689,7 @@
       "created_at": "2023-01-24T06:50:17",
       "updated_at": "2025-05-24T07:57:01",
       "pushed_at": "2024-12-25T17:54:31",
-      "last_fetched": "2025-09-23T02:42:47.663801"
+      "last_fetched": "2025-09-27T02:45:56.099954"
     },
     {
       "url": "https://swiftpackageindex.com/safx/Cron-Swift.git",
@@ -5710,7 +5710,7 @@
       "created_at": "2015-12-01T16:37:26",
       "updated_at": "2024-11-02T18:00:10",
       "pushed_at": "2021-10-14T01:55:13",
-      "last_fetched": "2025-09-23T02:42:52.455065"
+      "last_fetched": "2025-09-27T02:46:00.911867"
     },
     {
       "url": "https://swiftpackageindex.com/tayloraswift/swift-ip.git",
@@ -5731,7 +5731,7 @@
       "created_at": "2024-10-16T23:40:15",
       "updated_at": "2025-09-14T15:44:45",
       "pushed_at": "2025-01-16T00:42:48",
-      "last_fetched": "2025-09-23T02:42:57.229811"
+      "last_fetched": "2025-09-27T02:46:05.663374"
     },
     {
       "url": "https://swiftpackageindex.com/bitflying/SwiftKeccak.git",
@@ -5752,7 +5752,7 @@
       "created_at": "2020-05-03T08:05:57",
       "updated_at": "2024-02-17T10:47:34",
       "pushed_at": "2020-05-03T08:22:07",
-      "last_fetched": "2025-09-23T02:43:01.997416"
+      "last_fetched": "2025-09-27T02:46:10.382656"
     },
     {
       "url": "https://swiftpackageindex.com/kkla320/Trigonometry.git",
@@ -5773,7 +5773,7 @@
       "created_at": "2022-03-19T09:30:34",
       "updated_at": "2022-09-12T12:57:07",
       "pushed_at": "2022-07-26T08:23:59",
-      "last_fetched": "2025-09-23T02:43:06.885327"
+      "last_fetched": "2025-09-27T02:46:15.133721"
     },
     {
       "url": "https://swiftpackageindex.com/ABridoux/lux.git",
@@ -5794,7 +5794,7 @@
       "created_at": "2020-04-10T10:43:53",
       "updated_at": "2025-06-30T05:31:08",
       "pushed_at": "2021-03-07T18:15:56",
-      "last_fetched": "2025-09-23T02:43:11.814194"
+      "last_fetched": "2025-09-27T02:46:20.003850"
     },
     {
       "url": "https://swiftpackageindex.com/Digipolitan/localization-toolkit-object-mapper.git",
@@ -5815,7 +5815,7 @@
       "created_at": "2017-11-13T10:42:02",
       "updated_at": "2018-12-13T14:39:11",
       "pushed_at": "2018-12-13T14:39:22",
-      "last_fetched": "2025-09-23T02:43:16.586913"
+      "last_fetched": "2025-09-27T02:46:24.719285"
     },
     {
       "url": "https://swiftpackageindex.com/mRs-/RxNimble.git",
@@ -5836,7 +5836,7 @@
       "created_at": "2021-01-13T07:26:27",
       "updated_at": "2021-07-12T14:10:50",
       "pushed_at": "2021-07-12T14:22:57",
-      "last_fetched": "2025-09-23T02:43:21.413146"
+      "last_fetched": "2025-09-27T02:46:29.426664"
     },
     {
       "url": "https://swiftpackageindex.com/L1MeN9Yu/Senna.git",
@@ -5857,16 +5857,16 @@
       "created_at": "2019-09-29T10:41:12",
       "updated_at": "2025-07-31T02:21:26",
       "pushed_at": "2023-10-13T08:27:04",
-      "last_fetched": "2025-09-23T02:43:26.219775"
+      "last_fetched": "2025-09-27T02:46:34.191381"
     },
     {
       "url": "https://swiftpackageindex.com/tuist/Rosalind.git",
       "owner": "tuist",
       "name": "Rosalind",
       "description": "\ud83d\udce6 A Swift Package to analyze artifacts generated by Apple's tools",
-      "stars": 82,
+      "stars": 83,
       "forks": 3,
-      "watchers": 82,
+      "watchers": 83,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -5876,9 +5876,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2024-07-21T11:36:52",
-      "updated_at": "2025-08-25T06:06:58",
-      "pushed_at": "2025-09-23T02:25:31",
-      "last_fetched": "2025-09-23T02:43:31.011837"
+      "updated_at": "2025-09-27T01:55:01",
+      "pushed_at": "2025-09-27T01:32:16",
+      "last_fetched": "2025-09-27T02:46:38.972819"
     },
     {
       "url": "https://swiftpackageindex.com/MihaelIsaev/SwiftSystemd.git",
@@ -5899,16 +5899,16 @@
       "created_at": "2024-10-12T16:42:02",
       "updated_at": "2024-10-30T20:36:40",
       "pushed_at": "2024-10-12T20:05:51",
-      "last_fetched": "2025-09-23T02:43:35.739015"
+      "last_fetched": "2025-09-27T02:46:43.683297"
     },
     {
       "url": "https://swiftpackageindex.com/kean/Get.git",
       "owner": "kean",
       "name": "Get",
       "description": "Web API client built using async/await",
-      "stars": 984,
+      "stars": 983,
       "forks": 79,
-      "watchers": 984,
+      "watchers": 983,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -5918,9 +5918,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2021-11-19T19:35:32",
-      "updated_at": "2025-09-12T13:58:11",
+      "updated_at": "2025-09-24T01:31:25",
       "pushed_at": "2024-10-15T23:31:30",
-      "last_fetched": "2025-09-23T02:43:40.530118"
+      "last_fetched": "2025-09-27T02:46:48.556009"
     },
     {
       "url": "https://swiftpackageindex.com/swiftlang/swift-package-collection-generator.git",
@@ -5941,7 +5941,7 @@
       "created_at": "2020-10-23T20:40:02",
       "updated_at": "2025-09-20T11:49:59",
       "pushed_at": "2025-03-21T20:45:59",
-      "last_fetched": "2025-09-23T02:43:45.365450"
+      "last_fetched": "2025-09-27T02:46:53.343988"
     },
     {
       "url": "https://swiftpackageindex.com/ajevans99/swift-openai.git",
@@ -5962,7 +5962,7 @@
       "created_at": "2025-05-15T06:51:32",
       "updated_at": "2025-09-22T03:26:20",
       "pushed_at": "2025-09-22T03:26:23",
-      "last_fetched": "2025-09-23T02:43:50.254668"
+      "last_fetched": "2025-09-27T02:46:58.170863"
     },
     {
       "url": "https://swiftpackageindex.com/OperatorFoundation/swift-netutils.git",
@@ -5983,7 +5983,7 @@
       "created_at": "2021-06-01T23:59:18",
       "updated_at": "2022-02-23T17:40:13",
       "pushed_at": "2022-07-25T23:11:02",
-      "last_fetched": "2025-09-23T02:43:55.103293"
+      "last_fetched": "2025-09-27T02:47:02.923827"
     },
     {
       "url": "https://swiftpackageindex.com/xcode-actions/swift-process-invocation.git",
@@ -6004,7 +6004,7 @@
       "created_at": "2024-01-23T14:14:00",
       "updated_at": "2024-12-27T22:47:21",
       "pushed_at": "2025-09-01T13:46:26",
-      "last_fetched": "2025-09-23T02:43:59.982395"
+      "last_fetched": "2025-09-27T02:47:07.767338"
     },
     {
       "url": "https://swiftpackageindex.com/Outdooractive/mvt-tools.git",
@@ -6012,7 +6012,7 @@
       "name": "mvt-tools",
       "description": "MapLibre/Mapbox/Mapnik vector tiles (mvt) reader/writer for Swift",
       "stars": 12,
-      "forks": 4,
+      "forks": 5,
       "watchers": 12,
       "language": "Swift",
       "license_name": null,
@@ -6025,7 +6025,7 @@
       "created_at": "2021-06-21T14:22:39",
       "updated_at": "2025-09-16T17:03:48",
       "pushed_at": "2025-08-01T07:12:31",
-      "last_fetched": "2025-09-23T02:44:04.794315"
+      "last_fetched": "2025-09-27T02:47:12.600328"
     },
     {
       "url": "https://swiftpackageindex.com/dagronf/ColorPaletteCodable.git",
@@ -6046,7 +6046,7 @@
       "created_at": "2022-05-16T11:32:32",
       "updated_at": "2025-09-07T03:43:06",
       "pushed_at": "2025-07-29T06:13:48",
-      "last_fetched": "2025-09-23T02:44:09.548056"
+      "last_fetched": "2025-09-27T02:47:17.409482"
     },
     {
       "url": "https://swiftpackageindex.com/sersoft-gmbh/swift-inotify.git",
@@ -6059,15 +6059,15 @@
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
-      "swift_tools_version": "6.1",
+      "swift_tools_version": "6.2",
       "dependencies_count": 3,
       "linux_compatible": true,
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2021-05-26T09:21:13",
-      "updated_at": "2025-09-16T21:38:15",
-      "pushed_at": "2025-09-16T21:41:01",
-      "last_fetched": "2025-09-23T02:44:14.467680"
+      "updated_at": "2025-09-23T18:04:55",
+      "pushed_at": "2025-09-23T18:11:11",
+      "last_fetched": "2025-09-27T02:47:22.124499"
     },
     {
       "url": "https://swiftpackageindex.com/vkill/SwiftIPAddress.git",
@@ -6088,7 +6088,7 @@
       "created_at": "2018-09-06T06:36:00",
       "updated_at": "2023-11-15T16:40:35",
       "pushed_at": "2022-04-01T14:46:13",
-      "last_fetched": "2025-09-23T02:44:19.344517"
+      "last_fetched": "2025-09-27T02:47:27.014016"
     },
     {
       "url": "https://swiftpackageindex.com/DoccZz/servedocc.git",
@@ -6109,7 +6109,7 @@
       "created_at": "2021-06-30T20:39:59",
       "updated_at": "2023-04-07T15:19:34",
       "pushed_at": "2021-07-02T13:15:57",
-      "last_fetched": "2025-09-23T02:44:24.119968"
+      "last_fetched": "2025-09-27T02:47:31.669007"
     },
     {
       "url": "https://swiftpackageindex.com/pedantix/levellogger.git",
@@ -6130,7 +6130,7 @@
       "created_at": "2018-07-03T18:54:06",
       "updated_at": "2021-01-03T03:39:57",
       "pushed_at": "2018-07-03T18:55:42",
-      "last_fetched": "2025-09-23T02:44:29.130772"
+      "last_fetched": "2025-09-27T02:47:36.432785"
     },
     {
       "url": "https://swiftpackageindex.com/SDGGiesbrecht/swift-crypto.git",
@@ -6151,7 +6151,7 @@
       "created_at": "2021-09-21T20:57:14",
       "updated_at": "2022-03-17T00:28:51",
       "pushed_at": "2023-04-04T03:50:18",
-      "last_fetched": "2025-09-23T02:44:33.912968"
+      "last_fetched": "2025-09-27T02:47:41.296136"
     },
     {
       "url": "https://swiftpackageindex.com/lyricalsoul/Plug.git",
@@ -6172,7 +6172,7 @@
       "created_at": "2024-01-06T05:23:05",
       "updated_at": "2025-07-17T08:45:20",
       "pushed_at": "2024-01-07T20:29:55",
-      "last_fetched": "2025-09-23T02:44:38.653677"
+      "last_fetched": "2025-09-27T02:47:45.990416"
     },
     {
       "url": "https://swiftpackageindex.com/NoTests/RxFeedback.swift.git",
@@ -6193,7 +6193,7 @@
       "created_at": "2017-04-20T08:44:22",
       "updated_at": "2025-09-19T11:11:52",
       "pushed_at": "2023-09-21T08:37:09",
-      "last_fetched": "2025-09-23T02:44:43.541680"
+      "last_fetched": "2025-09-27T02:47:50.788972"
     },
     {
       "url": "https://swiftpackageindex.com/SwiftGL/OpenGL.git",
@@ -6214,7 +6214,7 @@
       "created_at": "2016-02-20T21:13:25",
       "updated_at": "2025-08-13T04:24:29",
       "pushed_at": "2025-05-14T12:48:22",
-      "last_fetched": "2025-09-23T02:44:48.366109"
+      "last_fetched": "2025-09-27T02:47:55.612506"
     },
     {
       "url": "https://swiftpackageindex.com/terhechte/swift-x11-example.git",
@@ -6235,7 +6235,7 @@
       "created_at": "2015-12-08T14:42:30",
       "updated_at": "2023-02-27T10:17:04",
       "pushed_at": "2017-10-05T05:41:59",
-      "last_fetched": "2025-09-23T02:44:53.209632"
+      "last_fetched": "2025-09-27T02:48:00.394939"
     },
     {
       "url": "https://swiftpackageindex.com/Macro-swift/MacroLambda.git",
@@ -6256,7 +6256,7 @@
       "created_at": "2020-07-31T16:03:15",
       "updated_at": "2024-09-19T11:19:03",
       "pushed_at": "2024-09-19T11:18:59",
-      "last_fetched": "2025-09-23T02:44:57.991388"
+      "last_fetched": "2025-09-27T02:48:05.226263"
     },
     {
       "url": "https://swiftpackageindex.com/mrwerdo/geometry.git",
@@ -6277,7 +6277,7 @@
       "created_at": "2016-05-15T00:57:39",
       "updated_at": "2023-03-25T14:46:17",
       "pushed_at": "2023-03-25T07:15:12",
-      "last_fetched": "2025-09-23T02:45:02.760566"
+      "last_fetched": "2025-09-27T02:48:09.993703"
     },
     {
       "url": "https://swiftpackageindex.com/Jomy10/TaskProgress.git",
@@ -6298,16 +6298,16 @@
       "created_at": "2024-12-31T13:02:59",
       "updated_at": "2025-01-02T02:26:01",
       "pushed_at": "2025-01-01T14:33:10",
-      "last_fetched": "2025-09-23T02:45:07.812255"
+      "last_fetched": "2025-09-27T02:48:14.987981"
     },
     {
       "url": "https://swiftpackageindex.com/aaronsky/asc-swift.git",
       "owner": "aaronsky",
       "name": "asc-swift",
       "description": "App Store Connect API client for Swift, supported on Apple platforms and Linux",
-      "stars": 58,
+      "stars": 59,
       "forks": 5,
-      "watchers": 58,
+      "watchers": 59,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -6317,9 +6317,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2022-11-19T22:21:16",
-      "updated_at": "2025-08-09T04:12:56",
+      "updated_at": "2025-09-25T08:34:39",
       "pushed_at": "2025-07-05T01:11:14",
-      "last_fetched": "2025-09-23T02:45:12.624831"
+      "last_fetched": "2025-09-27T02:48:19.784054"
     },
     {
       "url": "https://swiftpackageindex.com/Appsaurus/FluentTestUtils.git",
@@ -6340,16 +6340,16 @@
       "created_at": "2018-05-29T20:43:53",
       "updated_at": "2025-01-18T17:40:27",
       "pushed_at": "2025-01-18T17:40:25",
-      "last_fetched": "2025-09-23T02:45:17.414893"
+      "last_fetched": "2025-09-27T02:48:24.500030"
     },
     {
       "url": "https://swiftpackageindex.com/swiftlang/swift-subprocess.git",
       "owner": "swiftlang",
       "name": "swift-subprocess",
       "description": "Subprocess is a cross-platform package for spawning processes in Swift.",
-      "stars": 518,
-      "forks": 36,
-      "watchers": 518,
+      "stars": 526,
+      "forks": 37,
+      "watchers": 526,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -6359,9 +6359,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2025-03-31T22:40:16",
-      "updated_at": "2025-09-22T05:32:15",
+      "updated_at": "2025-09-26T20:05:52",
       "pushed_at": "2025-09-12T23:25:06",
-      "last_fetched": "2025-09-23T02:45:22.203870"
+      "last_fetched": "2025-09-27T02:48:29.290847"
     },
     {
       "url": "https://swiftpackageindex.com/dagronf/ZIPFoundation.git",
@@ -6382,7 +6382,7 @@
       "created_at": "2025-03-30T00:37:07",
       "updated_at": "2025-03-30T00:37:07",
       "pushed_at": "2025-01-06T12:38:19",
-      "last_fetched": "2025-09-23T02:45:26.949958"
+      "last_fetched": "2025-09-27T02:48:34.001507"
     },
     {
       "url": "https://swiftpackageindex.com/swiftengine/swiftengine.git",
@@ -6403,7 +6403,7 @@
       "created_at": "2018-08-01T15:40:24",
       "updated_at": "2025-08-21T09:12:22",
       "pushed_at": "2018-10-25T23:26:05",
-      "last_fetched": "2025-09-23T02:45:31.874372"
+      "last_fetched": "2025-09-27T02:48:38.784294"
     },
     {
       "url": "https://swiftpackageindex.com/tattn/MoreCodable.git",
@@ -6424,7 +6424,7 @@
       "created_at": "2018-02-11T12:22:08",
       "updated_at": "2025-06-05T06:44:17",
       "pushed_at": "2023-12-01T18:25:55",
-      "last_fetched": "2025-09-23T02:45:36.658501"
+      "last_fetched": "2025-09-27T02:48:43.547393"
     },
     {
       "url": "https://swiftpackageindex.com/mihai8804858/swift-snapshot-testing.git",
@@ -6445,7 +6445,7 @@
       "created_at": "2024-03-26T19:52:35",
       "updated_at": "2025-01-24T07:27:44",
       "pushed_at": "2025-01-24T07:27:38",
-      "last_fetched": "2025-09-23T02:45:41.446808"
+      "last_fetched": "2025-09-27T02:48:48.281789"
     },
     {
       "url": "https://swiftpackageindex.com/SD10/GitDiffSwift.git",
@@ -6466,7 +6466,7 @@
       "created_at": "2018-04-01T07:35:40",
       "updated_at": "2025-03-13T17:20:59",
       "pushed_at": "2018-04-02T07:44:09",
-      "last_fetched": "2025-09-23T02:45:46.223305"
+      "last_fetched": "2025-09-27T02:48:53.039620"
     },
     {
       "url": "https://swiftpackageindex.com/mvolpato/magickpublishplugin.git",
@@ -6487,7 +6487,7 @@
       "created_at": "2020-07-07T20:15:05",
       "updated_at": "2025-02-03T03:55:40",
       "pushed_at": "2024-03-22T14:07:17",
-      "last_fetched": "2025-09-23T02:45:51.091094"
+      "last_fetched": "2025-09-27T02:48:57.787808"
     },
     {
       "url": "https://swiftpackageindex.com/danielsincere/Sh.git",
@@ -6508,7 +6508,7 @@
       "created_at": "2022-04-19T01:22:49",
       "updated_at": "2025-05-12T07:58:58",
       "pushed_at": "2023-10-29T20:08:51",
-      "last_fetched": "2025-09-23T02:45:55.852478"
+      "last_fetched": "2025-09-27T02:49:02.621026"
     },
     {
       "url": "https://swiftpackageindex.com/techinpark/ios_privacy_manifest_scanner.git",
@@ -6529,7 +6529,7 @@
       "created_at": "2024-04-03T16:37:42",
       "updated_at": "2025-05-20T20:23:26",
       "pushed_at": "2024-04-05T08:00:02",
-      "last_fetched": "2025-09-23T02:46:00.623536"
+      "last_fetched": "2025-09-27T02:49:07.265417"
     },
     {
       "url": "https://swiftpackageindex.com/elegantchaos/ActionsKit.git",
@@ -6550,7 +6550,7 @@
       "created_at": "2019-07-26T13:35:58",
       "updated_at": "2025-09-07T11:37:51",
       "pushed_at": "2022-08-01T13:00:05",
-      "last_fetched": "2025-09-23T02:46:05.403624"
+      "last_fetched": "2025-09-27T02:49:11.990545"
     },
     {
       "url": "https://swiftpackageindex.com/shadone/LemmyKit.git",
@@ -6571,7 +6571,7 @@
       "created_at": "2023-06-21T15:58:52",
       "updated_at": "2024-06-17T18:15:19",
       "pushed_at": "2024-06-17T18:15:16",
-      "last_fetched": "2025-09-23T02:46:10.191087"
+      "last_fetched": "2025-09-27T02:49:16.774131"
     },
     {
       "url": "https://swiftpackageindex.com/swhitty/awaiting.git",
@@ -6592,7 +6592,7 @@
       "created_at": "2022-01-28T21:54:21",
       "updated_at": "2025-08-20T05:45:53",
       "pushed_at": "2024-12-03T23:39:36",
-      "last_fetched": "2025-09-23T02:46:14.953900"
+      "last_fetched": "2025-09-27T02:49:21.473959"
     },
     {
       "url": "https://swiftpackageindex.com/bdrelling/KippleDiagnostics.git",
@@ -6613,16 +6613,16 @@
       "created_at": "2022-08-11T16:12:28",
       "updated_at": "2024-02-29T00:29:46",
       "pushed_at": "2024-02-28T22:25:47",
-      "last_fetched": "2025-09-23T02:46:19.744166"
+      "last_fetched": "2025-09-27T02:49:26.168738"
     },
     {
       "url": "https://swiftpackageindex.com/Local-Connectivity-Lab/lcl-speedtest.git",
       "owner": "Local-Connectivity-Lab",
       "name": "lcl-speedtest",
       "description": "Speedtest client for NDT7 Testing Protocol in Swift",
-      "stars": 11,
+      "stars": 12,
       "forks": 0,
-      "watchers": 11,
+      "watchers": 12,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -6632,18 +6632,18 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2024-02-23T07:21:00",
-      "updated_at": "2025-09-06T01:46:27",
+      "updated_at": "2025-09-23T11:10:08",
       "pushed_at": "2025-02-23T08:13:39",
-      "last_fetched": "2025-09-23T02:46:24.515596"
+      "last_fetched": "2025-09-27T02:49:30.959914"
     },
     {
       "url": "https://swiftpackageindex.com/devxoul/Then.git",
       "owner": "devxoul",
       "name": "Then",
       "description": "\u2728 Super sweet syntactic sugar for Swift initializers",
-      "stars": 4360,
+      "stars": 4362,
       "forks": 296,
-      "watchers": 4360,
+      "watchers": 4362,
       "language": "Swift",
       "license_name": null,
       "has_package_swift": true,
@@ -6653,9 +6653,9 @@
       "android_compatible": false,
       "current_state": "tracking",
       "created_at": "2015-12-24T08:29:37",
-      "updated_at": "2025-09-18T07:42:35",
+      "updated_at": "2025-09-26T06:56:20",
       "pushed_at": "2024-03-15T01:42:13",
-      "last_fetched": "2025-09-23T02:46:29.295799"
+      "last_fetched": "2025-09-27T02:49:35.758984"
     },
     {
       "url": "https://swiftpackageindex.com/hummingbird-project/hummingbird-lambda.git",
@@ -22304,7 +22304,7 @@
     }
   ],
   "metadata": {
-    "export_date": "2025-09-26T02:52:26.752409",
+    "export_date": "2025-09-27T02:49:38.586673",
     "total_repositories": 1062
   },
   "status_transactions": {
